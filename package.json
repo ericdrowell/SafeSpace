@@ -26,8 +26,8 @@
     "concat": "concat -o ./dist/game-concatenated.js ./src/*.js ./lib/*.js ./dist/shaders/*.js",
     "html": "html-minifier --collapse-whitespace ./dist/index-uncompressed.html -o ./dist/index.html",
     "watch": "npm-watch",
-    "minify-glsl": "glsl-minifier -sT vertex -i ./src/shaders/vertexShader.glsl -o ./dist/shaders/vertexShader.glsl && glsl-minifier -sT fragment -i ./src/shaders/fragmentShader.glsl -o ./dist/shaders/fragmentShader.glsl && glsl-minifier -sT vertex -i ./src/shaders/hitVertexShader.glsl -o ./dist/shaders/hitVertexShader.glsl && glsl-minifier -sT fragment -i ./src/shaders/hitFragmentShader.glsl -o ./dist/shaders/hitFragmentShader.glsl",
-    "zip": "mkdir ./dist/safe-space-eric-rowell-js13k-2019 && cp ./dist/index.html ./dist/safe-space-eric-rowell-js13k-2019/index.html && cp ./dist/alphabet-tiny.gif ./dist/safe-space-eric-rowell-js13k-2019 && cd ./dist && zip -9 -r ./safe-space-eric-rowell-js13k-2019 ./safe-space-eric-rowell-js13k-2019 && cd .. && echo ================== && ls -l ./dist/safe-space-eric-rowell-js13k-2019.zip && echo ==================",
+    "minify-glsl": "glsl-minifier -sT vertex -i ./src/shaders/vertexShader.glsl -o ./dist/shaders/vertexShader.glsl && glsl-minifier -sT fragment -i ./src/shaders/fragmentShader.glsl -o ./dist/shaders/fragmentShader.glsl",
+    "zip": "mkdir ./dist/safe-space-eric-rowell-js13k-2021 && cp ./dist/index.html ./dist/safe-space-eric-rowell-js13k-2021/index.html && cp ./dist/alphabet-tiny.gif ./dist/safe-space-eric-rowell-js13k-2021 && cd ./dist && zip -9 -r ./safe-space-eric-rowell-js13k-2021 ./safe-space-eric-rowell-js13k-2021 && cd .. && echo ================== && ls -l ./dist/safe-space-eric-rowell-js13k-2021.zip && echo ==================",
     "instrument": "nyc instrument dist/game-concatenated.js dist/nyc",
     "report": "nyc report --reporter=lcov --reporter=html --temp-dir ./coverage"
   },
