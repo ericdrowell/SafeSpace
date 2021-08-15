@@ -1,0 +1,44 @@
+{
+  "name": "safe-space",
+  "version": "0.0.1",
+  "author": "Eric Rowell",
+  "license": "MIT",
+  "description": "Safe Space js13k 2021 Entry",
+  "watch": {
+    "dev": {
+      "patterns": [
+        "src"
+      ],
+      "extensions": "js",
+      "legacyWatch": true,
+      "delay": 0
+    }
+  },
+  "scripts": {
+    "build": "node scripts/buildShaders && npm run concat && cp sprites/alphabet-tiny.gif dist",
+    "prod": "npm run create-dist && npm run minify-glsl && npm run build && node scripts/wrap.js && npm run uglify && node scripts/replace.js && npm run html && npm run zip",
+    "dev": "npm run create-dist && cp ./src/shaders/* ./dist/shaders && npm run build && cp ./dist/game-concatenated.js ./dist/safe-space.min.js && node scripts/replace.js && npm run html",
+    "coverage": "npm run create-dist && cp ./src/shaders/* ./dist/shaders && npm run build && npm run instrument && cp ./dist/nyc/dist/game-concatenated.js ./dist/safe-space.min.js && node scripts/replace.js && npm run html",
+    "jshint": "jshint ./src/*.js",
+    "create-dist": "rm -rf ./dist && mkdir ./dist && mkdir ./dist/shaders",
+    "closure": "google-closure-compiler --compilation_level=ADVANCED --js=./dist/game-wrapped.js --js_output_file=./dist/safe-space.min.js",
+    "uglify": "terser -c passes=3,toplevel=true,sequences=true,dead_code=true,conditionals=true,booleans=true,if_return=true,join_vars=true,drop_console=true ./dist/game-wrapped.js -m -o ./dist/safe-space.min.js",
+    "concat": "concat -o ./dist/game-concatenated.js ./src/*.js ./lib/*.js ./dist/shaders/*.js",
+    "html": "html-minifier --collapse-whitespace ./dist/index-uncompressed.html -o ./dist/index.html",
+    "watch": "npm-watch",
+    "minify-glsl": "glsl-minifier -sT vertex -i ./src/shaders/vertexShader.glsl -o ./dist/shaders/vertexShader.glsl && glsl-minifier -sT fragment -i ./src/shaders/fragmentShader.glsl -o ./dist/shaders/fragmentShader.glsl && glsl-minifier -sT vertex -i ./src/shaders/hitVertexShader.glsl -o ./dist/shaders/hitVertexShader.glsl && glsl-minifier -sT fragment -i ./src/shaders/hitFragmentShader.glsl -o ./dist/shaders/hitFragmentShader.glsl",
+    "zip": "mkdir ./dist/safe-space-eric-rowell-js13k-2019 && cp ./dist/index.html ./dist/safe-space-eric-rowell-js13k-2019/index.html && cp ./dist/alphabet-tiny.gif ./dist/safe-space-eric-rowell-js13k-2019 && cd ./dist && zip -9 -r ./safe-space-eric-rowell-js13k-2019 ./safe-space-eric-rowell-js13k-2019 && cd .. && echo ================== && ls -l ./dist/safe-space-eric-rowell-js13k-2019.zip && echo ==================",
+    "instrument": "nyc instrument dist/game-concatenated.js dist/nyc",
+    "report": "nyc report --reporter=lcov --reporter=html --temp-dir ./coverage"
+  },
+  "devDependencies": {
+    "concat": "^1.0.3",
+    "glsl-minifier": "0.0.13",
+    "google-closure-compiler": "^20190819.0.0",
+    "html-minifier": "^3.5.20",
+    "jshint": "^2.9.6",
+    "npm-watch": "^0.3.0",
+    "nyc": "^14.1.1",
+    "terser": "^4.2.1"
+  }
+}
