@@ -26,7 +26,7 @@ function game_init() {
   world_init();
   player_init();
 
-  gameState = GAME_STATE_PAUSED;
+  gameState = GAME_STATE_INTRO;
 
   textures_init(function() {
     texturesReady = true;
@@ -106,20 +106,23 @@ function game_render() {
 };
 
 function game_start() {
-  game_resume();
+  hudDirty = true;
+  gameState = GAME_STATE_PLAYING;
   soundEffects_play(SOUND_EFFECTS_START);
+  hudCanvas.requestPointerLock();
 }
 
 function game_pause() {
   hudDirty = true;
   gameState = GAME_STATE_PAUSED;
   soundEffects_play(SOUND_EFFECTS_DIALOG);
+  document.exitPointerLock();
 }
 
 function game_resume() {
   hudDirty = true;
   gameState = GAME_STATE_PLAYING;
-  //hudCanvas.requestPointerLock();
+  hudCanvas.requestPointerLock();
   soundEffects_play(SOUND_EFFECTS_DIALOG);
 }
 
@@ -166,8 +169,6 @@ function game_loop() {
   if (lastTime !== 0) {
     elapsedTime = now - lastTime;
   }
-
-  //console.log(elapsedTime)
 
   game_update();
   game_render();

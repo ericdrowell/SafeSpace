@@ -5,29 +5,10 @@ function world_init() {
 
 function world_buildModel() {
 
-  // -------------------- BACK ROOM --------------------
-  world_addRoom(-290, -241, 26, 36, -10, 50);
+  // -------------------- LEVEL 1 --------------------
+  world_addRoom(-290, -241, 26, 42, -10, 50);
+  world_addSafeSpace(-262, -251, 27, 36, 18, 27);
 
-
-  // z tables
-  world_addTable(-289, -285, 27, 28, -8, 12);
-  world_addTable(-289, -285, 29, 32, -8, 12);
-
-  world_addTable(-274, -270, 27, 28, -8, 12);
-  world_addTable(-274, -270, 29, 32, -8, 12);
-
-  world_addTable(-289, -285, 27, 28, 19, 45);
-  world_addTable(-289, -285, 29, 32, 19, 45);
-
-  world_addTable(-274, -270, 27, 28, 19, 45);
-  world_addTable(-274, -270, 29, 32, 19, 45);
-
-  // x tables
-  world_addTable(-262, -242, 27, 28, 3, 7);
-  world_addTable(-262, -242, 29, 32, 3, 7);
-
-  world_addTable(-262, -242, 27, 28, 18, 22);
-  world_addTable(-262, -242, 29, 32, 18, 22);
 
 }
 
@@ -65,6 +46,26 @@ function world_addTable(startX, endX, startY, endY, startZ, endZ) {
 
   // table top
   world_addPlane(startX, endX, endY, endY, startZ, endZ, TEXTURES_ROTTING_WOOD);
+}
+
+function world_addSafeSpace(startX, endX, startY, endY, startZ, endZ) {
+  // bottom
+  world_addPlane(startX, endX, startY, startY, startZ, endZ, TEXTURES_ROTTING_WOOD);
+
+  // side beams
+  world_addPlane(startX, startX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
+  world_addPlane(endX, endX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
+  world_addPlane(startX, startX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
+  world_addPlane(endX, endX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
+
+  // top beams
+  world_addPlane(startX, startX, endY, endY, startZ+1, endZ-1, TEXTURES_STONE);
+  world_addPlane(endX, endX, endY, endY, startZ+1, endZ-1, TEXTURES_STONE);
+  world_addPlane(startX+1, endX-1, endY, endY, startZ, startZ, TEXTURES_STONE);
+  world_addPlane(startX+1, endX-1, endY, endY, endZ, endZ, TEXTURES_STONE);
+
+
+
 }
 
 function world_addPole(x, y, z, height) {

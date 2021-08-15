@@ -109,13 +109,13 @@ function userInputs_handleMouseMove(evt) {
 
 function userInputs_handleMouseDown() {
   if (clickBlock === 0) {
-    if (gameState === GAME_STATE_PAUSED) {
-      hudCanvas.requestPointerLock();
-      hudDirty = true;
+    if (gameState === GAME_STATE_INTRO) {
+      game_start();
+    }
+    else if (gameState === GAME_STATE_PAUSED) {
       game_resume();
     }
     else if (gameState === GAME_STATE_DIED || gameState === GAME_STATE_WIN) {
-      hudDirty = true;
       game_restart()
     }
   }
