@@ -64,7 +64,14 @@ function world_addSafeSpace(startX, endX, startY, endY, startZ, endZ) {
   world_addPlane(startX+1, endX-1, endY, endY, startZ, startZ, TEXTURES_STONE);
   world_addPlane(startX+1, endX-1, endY, endY, endZ, endZ, TEXTURES_STONE);
 
-
+  worldPlanes.push({
+    texture: TEXTURES_BLOOD_STONE,
+    x: startX+1,
+    y: startY+1,
+    z: startZ+1,
+    width: 1,
+    height: 1
+  });
 
 }
 
@@ -134,6 +141,7 @@ function world_addRoom(startX, endX, startY, endY, startZ, endZ, floorTexture, w
 
   // ceiling
   world_addPlane(startX, endX, endY, endY, startZ, endZ, celingTexture);
+
 
 }
 
@@ -232,6 +240,51 @@ function world_buildBuffers() {
           lastBuffer.numBlocks++;
         }
       }
+    }
+  }
+
+  for (let p=0; p<worldPlanes.length; p++) {
+    let plane = worldPlanes[p];
+    let texture = plane.texture;
+
+    if (rawBuffers[texture] === undefined) {
+      rawBuffers[texture] = [
+        {
+          position: [],
+          texture: [],
+          index: [],
+          numBlocks: 0
+        }
+      ];
+    }
+
+    let lastBuffer = rawBuffers[texture][rawBuffers[texture].length-1];
+
+    // position buffer
+    for (let n = 0; n < PLANE_BUFFERS.position.length; n+=3) {
+      lastBuffer.position.push(PLANE_BUFFERS.position[n] + parseInt(plane.x)*2);
+      lastBuffer.position.push(PLANE_BUFFERS.position[n+1] + parseInt(plane.y)*2);
+      lastBuffer.position.push(PLANE_BUFFERS.position[n+2] + parseInt(plane.z)*2);
+    }
+
+    // texture buffer
+    utils_concat(lastBuffer.texture, PLANE_BUFFERS.texture);
+
+    // index buffer
+    for (let n = 0; n < PLANE_BUFFERS.index.length; n++) {
+      lastBuffer.index.push(PLANE_BUFFERS.index[n] + (24 * lastBuffer.numBlocks));
+    }
+
+    if (lastBuffer.numBlocks >= BLOCKS_PER_BUFFER) {
+      rawBuffers[texture].push({
+        position: [],
+        texture: [],
+        index: [],
+        numBlocks: 0
+      });
+    }
+    else {
+      lastBuffer.numBlocks++;
     }
   }
 

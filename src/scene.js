@@ -7,7 +7,11 @@ function scene_init() {
   shaderProgram = sceneContext.createProgram();
   webgl_setShaderProgram(shaderProgram, sceneContext, fragmentShader, vertexShader);
   
-  scene_initUniforms();
+  webgl_setAttribLocation(shaderProgram, sceneContext, 've'); // vertex vector
+  webgl_setAttribLocation(shaderProgram, sceneContext, 'tc'); // texture vector
+
+  webgl_setUniformLocation(shaderProgram, sceneContext, 'mv'); // move matrix
+  webgl_setUniformLocation(shaderProgram, sceneContext, 'pm'); // perspective matrix
 
   const blendingColor = [0.0, 1.0, 0.0];
   const blendingAlpha = 0.5;
@@ -30,24 +34,10 @@ function scene_init() {
   
 };
 
-function scene_initUniforms() {
-  webgl_setAttribLocation(shaderProgram, sceneContext, 've'); // vertex vector
-  webgl_setAttribLocation(shaderProgram, sceneContext, 'tc'); // texture vector
-
-  webgl_setUniformLocation(shaderProgram, sceneContext, 'mv'); // move matrix
-  webgl_setUniformLocation(shaderProgram, sceneContext, 'pm'); // perspective matrix
-};
-
 function scene_setUniforms() {
   sceneContext.uniform1i(shaderProgram.sa, 0);
   sceneContext.uniformMatrix4fv(shaderProgram.pm, false, pMatrix);
   sceneContext.uniformMatrix4fv(shaderProgram.mv, false, mvMatrix);
-  
-  // let normalMatrix = mat3.create();
-  // mat4.toInverseMat3(mvMatrix, normalMatrix);
-  // mat3.transpose(normalMatrix);
-  // sceneContext.uniformMatrix3fv(shaderProgram.nm, false, normalMatrix);
-  // sceneContext.uniform1i(shaderProgram.fl, flashTimeRemaining > 0);
 };
 
 function scene_render(buffers, texture) {

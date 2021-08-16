@@ -7,7 +7,6 @@ uniform mat4 pm; // uPMatrix
 varying vec2 vTextureCoord;
 varying vec3 vLightWeighting;
 
-
 void main(void) {
   vec4 worldVertexPos = mv * vec4(ve, 1.0);
   gl_Position = pm * worldVertexPos;
@@ -20,9 +19,4 @@ void main(void) {
   float pointLightWeight = 3.0 * pow(0.97, pointLightDist);
   vec3 pointLight = pointLightColor * pointLightWeight; 
   vLightWeighting = pointLight;
-
-
-
-  //vLightWeighting = ambientLight + directionalLight + pointLight;
-  //vLightWeighting = pointLight;
 }

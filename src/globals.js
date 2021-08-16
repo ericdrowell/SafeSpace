@@ -29,7 +29,8 @@ const OPTIMAL_VIEWPORT_WIDTH = 1300;
 const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
 const RAY_TRACE_INCREMENT = 0.3;
 
-let world = [];
+let world = []; // world blocks
+let worldPlanes = [];
 let worldBuffers = {};
 let hudCanvas;
 let hudContext;
