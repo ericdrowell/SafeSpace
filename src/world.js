@@ -50,13 +50,13 @@ function world_addTable(startX, endX, startY, endY, startZ, endZ) {
 
 function world_addSafeSpace(startX, endX, startY, endY, startZ, endZ) {
   // bottom
-  world_addPlane(startX, endX, startY, startY, startZ, endZ, TEXTURES_ROTTING_WOOD);
+  world_addPlane(startX, endX, startY, startY, startZ, endZ, TEXTURES_STONE);
 
   // side beams
-  world_addPlane(startX, startX, startY+1, endY, startZ, startZ, TEXTURES_PURPLE_STONE);
-  world_addPlane(endX, endX, startY+1, endY, startZ, startZ, TEXTURES_PURPLE_STONE);
-  world_addPlane(startX, startX, startY+1, endY, endZ, endZ, TEXTURES_PURPLE_STONE);
-  world_addPlane(endX, endX, startY+1, endY, endZ, endZ, TEXTURES_PURPLE_STONE);
+  world_addPlane(startX, startX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
+  world_addPlane(endX, endX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
+  world_addPlane(startX, startX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
+  world_addPlane(endX, endX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
 
   // top beams
   world_addPlane(startX, startX, endY, endY, startZ+1, endZ-1, TEXTURES_STONE);
@@ -193,8 +193,6 @@ function world_buildBuffers() {
           rawBuffers[texture] = [
             {
               position: [],
-              color: [],
-              normal: [],
               texture: [],
               index: [],
               numBlocks: 0
@@ -214,9 +212,6 @@ function world_buildBuffers() {
           lastBuffer.position.push(CUBE_BUFFERS.position[n+2] + parseInt(z)*2 + randomOffset);
         }
 
-        // normal buffer
-        utils_concat(lastBuffer.normal, CUBE_BUFFERS.normal);
-
         // texture buffer
         utils_concat(lastBuffer.texture, CUBE_BUFFERS.texture);
 
@@ -228,8 +223,6 @@ function world_buildBuffers() {
         if (lastBuffer.numBlocks >= BLOCKS_PER_BUFFER) {
           rawBuffers[texture].push({
             position: [],
-            color: [],
-            normal: [],
             texture: [],
             index: [],
             numBlocks: 0
@@ -249,7 +242,6 @@ function world_buildBuffers() {
     rawBuffers[texture].forEach(function(buffer) {
       worldBuffers[texture].push({
         position: webgl_createArrayBuffer(sceneContext, buffer.position),
-        normal: webgl_createArrayBuffer(sceneContext, buffer.normal),
         texture: webgl_createArrayBuffer(sceneContext, buffer.texture),
         index: webgl_createElementArrayBuffer(sceneContext, buffer.index)
       });

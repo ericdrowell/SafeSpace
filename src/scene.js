@@ -64,12 +64,6 @@ function scene_render(buffers, texture) {
   // index buffers
   sceneContext.bindBuffer(sceneContext.ELEMENT_ARRAY_BUFFER, buffers.index);
 
-  // normal buffers
-  //sceneContext.bindBuffer(sceneContext.ARRAY_BUFFER, buffers.normal);
-  //sceneContext.vertexAttribPointer(shaderProgram.no, 3, sceneContext.FLOAT, false, 0, 0);
-
-
-
   // set uniforms
   scene_setUniforms();
 
