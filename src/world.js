@@ -6,7 +6,7 @@ function world_init() {
 function world_buildModel() {
 
   // -------------------- LEVEL 1 --------------------
-  world_addRoom(-290, -241, 26, 42, -10, 50);
+  world_addRoom(-290, -241, 26, 42, -10, 50, TEXTURES_PURPLE_STONE, TEXTURES_BIO_PURPLE, TEXTURES_ROTTING_WOOD);
   world_addSafeSpace(-262, -251, 27, 36, 18, 27);
 
 
@@ -53,10 +53,10 @@ function world_addSafeSpace(startX, endX, startY, endY, startZ, endZ) {
   world_addPlane(startX, endX, startY, startY, startZ, endZ, TEXTURES_ROTTING_WOOD);
 
   // side beams
-  world_addPlane(startX, startX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
-  world_addPlane(endX, endX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
-  world_addPlane(startX, startX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
-  world_addPlane(endX, endX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
+  world_addPlane(startX, startX, startY+1, endY, startZ, startZ, TEXTURES_PURPLE_STONE);
+  world_addPlane(endX, endX, startY+1, endY, startZ, startZ, TEXTURES_PURPLE_STONE);
+  world_addPlane(startX, startX, startY+1, endY, endZ, endZ, TEXTURES_PURPLE_STONE);
+  world_addPlane(endX, endX, startY+1, endY, endZ, endZ, TEXTURES_PURPLE_STONE);
 
   // top beams
   world_addPlane(startX, startX, endY, endY, startZ+1, endZ-1, TEXTURES_STONE);
@@ -122,18 +122,19 @@ function world_addTunnel(startX, endX, startY, endY, startZ, endZ) {
   }
 }
 
-function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
+function world_addRoom(startX, endX, startY, endY, startZ, endZ, floorTexture, wallTexture, celingTexture) {
   // floor
-  world_addPlane(startX, endX, startY, startY, startZ, endZ, TEXTURES_MOSSY_STONE);
-
-  // ceiling
-  world_addPlane(startX, endX, endY, endY, startZ, endZ, TEXTURES_ROTTING_WOOD);
+  world_addPlane(startX, endX, startY, startY, startZ, endZ, floorTexture);
 
   // walls
-  world_addPlane(startX, endX, startY, endY, endZ, endZ, TEXTURES_MOSSY_BRICK);
-  world_addPlane(startX, endX, startY, endY, startZ, startZ, TEXTURES_MOSSY_BRICK);
-  world_addPlane(startX, startX, startY, endY, startZ, endZ, TEXTURES_MOSSY_BRICK);
-  world_addPlane(endX, endX, startY, endY, startZ, endZ, TEXTURES_MOSSY_BRICK);
+  world_addPlane(startX, endX, startY, endY, endZ, endZ, wallTexture);
+  world_addPlane(startX, endX, startY, endY, startZ, startZ, wallTexture);
+  world_addPlane(startX, startX, startY, endY, startZ, endZ, wallTexture);
+  world_addPlane(endX, endX, startY, endY, startZ, endZ, wallTexture);
+
+  // ceiling
+  world_addPlane(startX, endX, endY, endY, startZ, endZ, celingTexture);
+
 }
 
 function world_addPlane(startX, endX, startY, endY, startZ, endZ, texture) {

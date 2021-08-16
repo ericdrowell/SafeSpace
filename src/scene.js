@@ -9,8 +9,25 @@ function scene_init() {
   
   scene_initUniforms();
 
-  // init depth test
+  const blendingColor = [0.0, 1.0, 0.0];
+  const blendingAlpha = 0.5;
+
+  //Enables depth testing
   sceneContext.enable(sceneContext.DEPTH_TEST);
+  sceneContext.depthFunc(sceneContext.LESS);
+
+  //Enables blending
+  sceneContext.enable(sceneContext.BLEND);
+
+  //Blending function for transparencies
+  sceneContext.blendFunc(sceneContext.SRC_ALPHA, sceneContext.ONE_MINUS_SRC_ALPHA);   
+  sceneContext.blendColor(blendingColor[0], blendingColor[1], blendingColor[2], blendingAlpha);    
+  //Enable culling
+  sceneContext.enable(sceneContext.CULL_FACE);
+
+  sceneContext.pixelStorei(sceneContext.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+  sceneContext.pixelStorei(sceneContext.UNPACK_FLIP_Y_WEBGL, 1);
+  
 };
 
 function scene_initUniforms() {
@@ -55,26 +72,13 @@ function scene_render(buffers, texture) {
   sceneContext.bindBuffer(sceneContext.ARRAY_BUFFER, buffers.normal);
   sceneContext.vertexAttribPointer(shaderProgram.no, 3, sceneContext.FLOAT, false, 0, 0);
 
+
+
   // set uniforms
   scene_setUniforms();
 
   // draw elements
   sceneContext.drawElements(sceneContext.TRIANGLES, buffers.index.numElements, sceneContext.UNSIGNED_SHORT, 0);
-};
-
-function scene_initTexture(glTexture, image) {
-  sceneContext.pixelStorei(sceneContext.UNPACK_FLIP_Y_WEBGL, true);
-  sceneContext.bindTexture(sceneContext.TEXTURE_2D, glTexture);
-  sceneContext.texImage2D(sceneContext.TEXTURE_2D, 0, sceneContext.RGBA, sceneContext.RGBA, sceneContext.UNSIGNED_BYTE, image);
-  sceneContext.texParameteri(sceneContext.TEXTURE_2D, sceneContext.TEXTURE_MAG_FILTER, sceneContext.NEAREST);
-  
-  // WebGL1 has different requirements for power of 2 images
-  sceneContext.generateMipmap(sceneContext.TEXTURE_2D);
-
-  // sceneContext.texParameteri(sceneContext.TEXTURE_2D, sceneContext.TEXTURE_WRAP_S, sceneContext.CLAMP_TO_EDGE);
-  // sceneContext.texParameteri(sceneContext.TEXTURE_2D, sceneContext.TEXTURE_WRAP_T, sceneContext.CLAMP_TO_EDGE);
-  // sceneContext.texParameteri(sceneContext.TEXTURE_2D, sceneContext.TEXTURE_MIN_FILTER, sceneContext.LINEAR);
-
 };
 
 
