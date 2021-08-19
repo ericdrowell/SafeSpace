@@ -191,6 +191,14 @@ function world_removeBlock(x, y, z) {
 
 function world_buildBuffers() {
   let rawBuffers = {};
+  let perlinRawBuffers = [
+    {
+      position: [],
+      texture: [],
+      index: [],
+      numBlocks: 0
+    }
+  ];
 
   for (let x in world) {
     for (let y in world[x]) {
@@ -250,20 +258,7 @@ function world_buildBuffers() {
 
   for (let p=0; p<worldPlanes.length; p++) {
     let plane = worldPlanes[p];
-    let texture = plane.texture;
-
-    if (rawBuffers[texture] === undefined) {
-      rawBuffers[texture] = [
-        {
-          position: [],
-          texture: [],
-          index: [],
-          numBlocks: 0
-        }
-      ];
-    }
-
-    let lastBuffer = rawBuffers[texture][rawBuffers[texture].length-1];
+    let lastBuffer = perlinRawBuffers[perlinRawBuffers.length-1];
 
     // position buffer
     for (let n = 0; n < PLANE_BUFFERS.position.length; n+=3) {
@@ -281,7 +276,7 @@ function world_buildBuffers() {
     }
 
     if (lastBuffer.numBlocks >= BLOCKS_PER_BUFFER) {
-      rawBuffers[texture].push({
+      perlinRawBuffers.push({
         position: [],
         texture: [],
         index: [],
@@ -305,14 +300,26 @@ function world_buildBuffers() {
       });
     });
   }
+
+  perlinRawBuffers.forEach(function(buffer) {
+    perlinBuffers.push({
+      position: webgl_createArrayBuffer(sceneContext, buffer.position),
+      texture: webgl_createArrayBuffer(sceneContext, buffer.texture),
+      index: webgl_createElementArrayBuffer(sceneContext, buffer.index)
+    });
+  });
 }
 
 function world_render() {
   for (let texture in worldBuffers) {
     worldBuffers[texture].forEach(function(buffer) {
-      scene_render(buffer, textures[texture].glTexture);
+      webgl_renderTexturedElement(buffer, textures[texture].glTexture);
     });
-  }   
+  } 
+  
+  perlinBuffers.forEach(function(buffer) {
+    webgl_renderPerlinElement(buffer, textures[0].glTexture);
+  });
 }
 
 function world_getBlock(x, y, z) {

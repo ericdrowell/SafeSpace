@@ -33,6 +33,7 @@ const SAFE_SPACE_SIZE = 5;
 let world = []; // world blocks
 let worldPlanes = [];
 let worldBuffers = {};
+let perlinBuffers = [];
 let hudCanvas;
 let hudContext;
 let openMenuTime = 0;
@@ -52,7 +53,7 @@ let mvMatrix;
 let pMatrix;
 let mvMatrixStack = [];
 let shaderProgram;
-let hitShaderProgram;
+let planeShaderProgram;
 let bobble = 0;
 let bobbleCounter = 0;
 let hudRatio;
