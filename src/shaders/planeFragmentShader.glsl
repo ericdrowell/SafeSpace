@@ -36,12 +36,13 @@ float noise(vec3 P) {
             dot(g6, vec3(f0.x, f1.y, f1.z)), dot(g7, vec3(f1.x, f1.y, f1.z))), f.z);
     return 2.2 * mix(mix(nz.x,nz.z,f.y), mix(nz.y,nz.w,f.y), f.x);
 }
-float noise(vec2 P) { return noise(vec3(P, 0.0)); }
+float noise(vec2 P) { return noise(vec3(P, 1.0)); }
 
 void main(void) {
   vec3 color;
   float x = vTextureCoord.x;
   float y = vTextureCoord.y;
-  color = vec3(noise(vec2(x * 21., y * 15.)));
-  gl_FragColor = vec4(color.rgb * vLightWeighting, 0.5);
+  color = vec3(noise(vec2(x * 21., y * 15.))) * vLightWeighting;
+  vec3 inverseColor = vec3(color.r + 0.5, color.g + 0.0, color.b + 0.5);
+  gl_FragColor = vec4(inverseColor.rgb, 0.5);
 }
