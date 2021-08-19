@@ -7,7 +7,7 @@ function world_buildModel() {
 
   // -------------------- LEVEL 1 --------------------
   world_addRoom(-290, -241, 26, 42, -10, 50, TEXTURES_PURPLE_STONE, TEXTURES_BIO_PURPLE, TEXTURES_ROTTING_WOOD);
-  world_addSafeSpace(-262, -251, 27, 36, 18, 27);
+  world_addSafeSpace(-262, 32, 18);
 
 
 }
@@ -48,7 +48,14 @@ function world_addTable(startX, endX, startY, endY, startZ, endZ) {
   world_addPlane(startX, endX, endY, endY, startZ, endZ, TEXTURES_ROTTING_WOOD);
 }
 
-function world_addSafeSpace(startX, endX, startY, endY, startZ, endZ) {
+function world_addSafeSpace(x, y, z) {
+  const startX = x - SAFE_SPACE_SIZE;
+  const endX = x + SAFE_SPACE_SIZE;
+  const startY = y - SAFE_SPACE_SIZE;
+  const endY = y + SAFE_SPACE_SIZE;
+  const startZ = z - SAFE_SPACE_SIZE;
+  const endZ = z + SAFE_SPACE_SIZE;
+
   // bottom
   world_addPlane(startX, endX, startY, startY, startZ, endZ, TEXTURES_STONE);
 
@@ -66,11 +73,9 @@ function world_addSafeSpace(startX, endX, startY, endY, startZ, endZ) {
 
   worldPlanes.push({
     texture: TEXTURES_BLOOD_STONE,
-    x: startX+1,
-    y: startY+1,
-    z: startZ+1,
-    width: 1,
-    height: 1
+    x: x,
+    y: y,
+    z: z
   });
 
 }
@@ -262,9 +267,9 @@ function world_buildBuffers() {
 
     // position buffer
     for (let n = 0; n < PLANE_BUFFERS.position.length; n+=3) {
-      lastBuffer.position.push(PLANE_BUFFERS.position[n] + parseInt(plane.x)*2);
-      lastBuffer.position.push(PLANE_BUFFERS.position[n+1] + parseInt(plane.y)*2);
-      lastBuffer.position.push(PLANE_BUFFERS.position[n+2] + parseInt(plane.z)*2);
+      lastBuffer.position.push(PLANE_BUFFERS.position[n]*SAFE_SPACE_SIZE*2 + parseInt(plane.x)*2);
+      lastBuffer.position.push(PLANE_BUFFERS.position[n+1]*SAFE_SPACE_SIZE*2 + parseInt(plane.y)*2);
+      lastBuffer.position.push(PLANE_BUFFERS.position[n+2]*SAFE_SPACE_SIZE*2 + parseInt(plane.z)*2);
     }
 
     // texture buffer

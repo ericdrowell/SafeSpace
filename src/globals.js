@@ -28,6 +28,7 @@ const GAME_ASPECT_RATIO = 16/9; // width/height
 const OPTIMAL_VIEWPORT_WIDTH = 1300;
 const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
 const RAY_TRACE_INCREMENT = 0.3;
+const SAFE_SPACE_SIZE = 5;
 
 let world = []; // world blocks
 let worldPlanes = [];
