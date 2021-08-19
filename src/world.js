@@ -75,7 +75,14 @@ function world_addSafeSpace(x, y, z) {
     texture: TEXTURES_BLOOD_STONE,
     x: x,
     y: y,
-    z: z
+    z: startZ
+  });
+
+  worldPlanes.push({
+    texture: TEXTURES_BLOOD_STONE,
+    x: x,
+    y: y,
+    z: endZ
   });
 
 }
@@ -264,7 +271,7 @@ function world_buildBuffers() {
     for (let n = 0; n < PLANE_BUFFERS.position.length; n+=3) {
       lastBuffer.position.push(PLANE_BUFFERS.position[n]*SAFE_SPACE_SIZE*2 + parseInt(plane.x)*2);
       lastBuffer.position.push(PLANE_BUFFERS.position[n+1]*SAFE_SPACE_SIZE*2 + parseInt(plane.y)*2);
-      lastBuffer.position.push(PLANE_BUFFERS.position[n+2]*SAFE_SPACE_SIZE*2 + parseInt(plane.z)*2);
+      lastBuffer.position.push(PLANE_BUFFERS.position[n+2]*0 + parseInt(plane.z)*2);
     }
 
     // texture buffer
@@ -272,20 +279,10 @@ function world_buildBuffers() {
 
     // index buffer
     for (let n = 0; n < PLANE_BUFFERS.index.length; n++) {
-      lastBuffer.index.push(PLANE_BUFFERS.index[n] + (24 * lastBuffer.numBlocks));
+      lastBuffer.index.push(PLANE_BUFFERS.index[n] + (8 * lastBuffer.numBlocks));
     }
 
-    if (lastBuffer.numBlocks >= BLOCKS_PER_BUFFER) {
-      perlinRawBuffers.push({
-        position: [],
-        texture: [],
-        index: [],
-        numBlocks: 0
-      });
-    }
-    else {
-      lastBuffer.numBlocks++;
-    }
+    lastBuffer.numBlocks++;
   }
 
   // convert regular arrays to webgl buffers

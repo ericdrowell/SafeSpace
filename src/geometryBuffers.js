@@ -28,15 +28,18 @@ let CUBE_BUFFERS = {
 };
 
 let PLANE_BUFFERS = {
-  // 12 elements = 4 vertices
+  // 24 elements = 8 vertices
   position: [    
-    -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, 1, 1   
+    -1, -1, 1, 1, -1, 1, 1, 1, 1, -1, 1, 1, // Front face    
+    -1, -1, -1, -1, 1, -1, 1, 1, -1, 1, -1, -1, // Back face   
   ],
-  // 8 elements = 4 vertices
+  // 16 elements = 4 vertices
   texture: [    
-    0, 0, 1, 0, 1, 1, 0, 1
+    0, 0, 1, 0, 1, 1, 0, 1, // Front face   
+    1, 0, 1, 1, 0, 1, 0, 0, // Back face  
   ],
   index: [
-    0, 1, 2, 0, 2, 3
+    0, 1, 2, 0, 2, 3, // Front face
+    4, 5, 6, 4, 6, 7, // Back face
   ]
 };

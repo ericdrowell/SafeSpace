@@ -3,7 +3,7 @@ precision highp float;
 varying vec2 vTextureCoord;
 varying vec3 vLightWeighting;
 
-// Noise
+// // Noise
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
 vec4 permute(vec4 x) { return mod289(((x*34.0)+1.0)*x); }
@@ -38,11 +38,37 @@ float noise(vec3 P) {
 }
 float noise(vec2 P) { return noise(vec3(P, 1.0)); }
 
+
 void main(void) {
   vec3 color;
   float x = vTextureCoord.x;
   float y = vTextureCoord.y;
   color = vec3(noise(vec2(x * 21., y * 15.))) * vLightWeighting;
-  vec3 inverseColor = vec3(color.r + 0.5, color.g + 0.0, color.b + 0.5);
-  gl_FragColor = vec4(inverseColor.rgb, 0.5);
+  vec3 inverseColor = vec3(color.r + 0.8, color.g + 0.0, color.b + 0.8);
+  gl_FragColor = vec4(inverseColor.rgb, 0.2);
 }
+
+
+
+// float patternZebra(float v){
+//   float density = 1.0;
+//   float d = 1.0 / density;
+//   float s = -cos(v / d * 3.141592653589793 * 2.0);
+//   return smoothstep(.0, .1 * d, .1 * s / fwidth(s));
+// }
+
+// void main(void) {
+//   // Generate noise data
+//   float time = 1.23456;
+//   float amplitude = 1.0;
+//   float frequency = 1.5;
+//   float noiseValue = noise(vec3(vTextureCoord * frequency, time)) * amplitude;
+//   // Convert noise data to rings
+//   float t = patternZebra(noiseValue);
+//   vec3 color = mix(vec3(1.,0.4,0.369), vec3(0.824,0.318,0.369), t);
+//   // Clip the rings to a circle
+//   float dist = length(vTextureCoord - vec2(0.5, 0.5));
+//   float alpha = smoothstep(0.250, 0.2482, dist);
+
+//   gl_FragColor = vec4(color * vLightWeighting, alpha);
+// }

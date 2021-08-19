@@ -34,13 +34,13 @@ function webgl_useTextureProgram() {
   sceneContext.enable(sceneContext.BLEND);
 
   //Blending function for transparencies
-  sceneContext.blendFunc(sceneContext.SRC_ALPHA, sceneContext.ONE_MINUS_SRC_ALPHA);   
-  sceneContext.blendColor(blendingColor[0], blendingColor[1], blendingColor[2], blendingAlpha);    
+  //sceneContext.blendFunc(sceneContext.SRC_ALPHA, sceneContext.ONE_MINUS_SRC_ALPHA);   
+  //sceneContext.blendColor(blendingColor[0], blendingColor[1], blendingColor[2], blendingAlpha);    
   //Enable culling
   sceneContext.enable(sceneContext.CULL_FACE);
 
-  sceneContext.pixelStorei(sceneContext.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-  sceneContext.pixelStorei(sceneContext.UNPACK_FLIP_Y_WEBGL, 1);
+  //sceneContext.pixelStorei(sceneContext.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
+  //sceneContext.pixelStorei(sceneContext.UNPACK_FLIP_Y_WEBGL, 1);
 }
 
 function webgl_usePerlinProgram() {
@@ -59,16 +59,15 @@ function webgl_usePerlinProgram() {
   sceneContext.depthFunc(sceneContext.LESS);
 
   //Enables blending
-  sceneContext.enable(sceneContext.BLEND);
+  //sceneContext.enable(sceneContext.BLEND);
 
   //Blending function for transparencies
   sceneContext.blendFunc(sceneContext.SRC_ALPHA, sceneContext.ONE_MINUS_SRC_ALPHA);   
   sceneContext.blendColor(blendingColor[0], blendingColor[1], blendingColor[2], blendingAlpha);    
   //Enable culling
   sceneContext.enable(sceneContext.CULL_FACE);
+  
 
-  sceneContext.pixelStorei(sceneContext.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
-  sceneContext.pixelStorei(sceneContext.UNPACK_FLIP_Y_WEBGL, 1);
 }
 
 function webgl_renderTexturedElement(buffers, texture) {
