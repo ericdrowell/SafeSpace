@@ -27,10 +27,11 @@ function webgl_useTextureProgram() {
   // const blendingAlpha = 0.5;
 
   //Enables depth testing
+  sceneContext.depthMask(true);
   sceneContext.enable(sceneContext.DEPTH_TEST);
-  //sceneContext.depthFunc(sceneContext.LESS);
+  sceneContext.depthFunc(sceneContext.LESS);
 
-  //sceneContext.disable(sceneContext.BLEND);
+  sceneContext.disable(sceneContext.BLEND);
 
   //Enables blending
   //sceneContext.enable(sceneContext.BLEND);
@@ -53,11 +54,12 @@ function webgl_usePerlinProgram() {
   webgl_setUniformLocation(planeShaderProgram, sceneContext, 'mv'); // move matrix
   webgl_setUniformLocation(planeShaderProgram, sceneContext, 'pm'); // perspective matrix
 
-
+  
 
   //Enables depth testing
+  sceneContext.depthMask(false);
   sceneContext.enable(sceneContext.DEPTH_TEST);
-  //sceneContext.depthFunc(sceneContext.LESS);
+  sceneContext.depthFunc(sceneContext.LESS);
 
   //Enables blending
   

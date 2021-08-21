@@ -6,7 +6,7 @@ function world_init() {
 function world_buildModel() {
 
   // -------------------- LEVEL 1 --------------------
-  world_addRoom(-290, -241, 26, 42, -10, 50, TEXTURES_PURPLE_STONE, TEXTURES_BIO_PURPLE, TEXTURES_ROTTING_WOOD);
+  world_addRoom(-290, -200, 26, 50, -10, 50, TEXTURES_PURPLE_STONE, TEXTURES_BIO_PURPLE, TEXTURES_ROTTING_WOOD);
   world_addSafeSpace(-262, 32, 18);
 
 
@@ -72,21 +72,20 @@ function world_addSafeSpace(x, y, z) {
   world_addBlockPlane(startX+1, endX-1, endY, endY, endZ, endZ, TEXTURES_STONE);
 
   // planes
-  world_addPlane(x, endY, z, PLANE_TYPE_XZ);
-  world_addPlane(x, y, startZ, PLANE_TYPE_XY);
-  world_addPlane(x, y, endZ, PLANE_TYPE_XY);
-  world_addPlane(startX, y, z, PLANE_TYPE_YZ);
-  world_addPlane(endX, y, z, PLANE_TYPE_YZ);
+  world_addPlane(x, y, z);
+  // world_addPlane(x, y, startZ, PLANE_TYPE_XY);
+  // world_addPlane(x, y, endZ, PLANE_TYPE_XY);
+  // world_addPlane(startX, y, z, PLANE_TYPE_YZ);
+  // world_addPlane(endX, y, z, PLANE_TYPE_YZ);
   
 
 }
 
-function world_addPlane(x, y, z, type) {
+function world_addPlane(x, y, z) {
   worldPlanes.push({
     x: x,
     y: y,
-    z: z,
-    type: type
+    z: z
   });
 }
 
@@ -267,37 +266,19 @@ function world_buildBuffers() {
   for (let p=0; p<worldPlanes.length; p++) {
     let plane = worldPlanes[p];
 
-    let buffers;
-    let xMultiplier=SAFE_SPACE_SIZE*2;
-    let yMultiplier=SAFE_SPACE_SIZE*2;
-    let zMultiplier=SAFE_SPACE_SIZE*2;
-
-    if (plane.type === PLANE_TYPE_XY) {
-      buffers = PLANE_XY_BUFFERS;
-      zMultiplier = 0;
-    }
-    else if (plane.type === PLANE_TYPE_XZ) {
-      buffers = PLANE_XZ_BUFFERS;
-      yMultiplier = 0;
-    }
-    else if (plane.type === PLANE_TYPE_YZ) {
-      buffers = PLANE_YZ_BUFFERS;
-      xMultiplier = 0;
-    }
-
     // position buffer
-    for (let n = 0; n < buffers.position.length; n+=3) {
-      perlinRawBuffers.position.push(buffers.position[n]*xMultiplier + parseInt(plane.x)*2);
-      perlinRawBuffers.position.push(buffers.position[n+1]*yMultiplier + parseInt(plane.y)*2);
-      perlinRawBuffers.position.push(buffers.position[n+2]*zMultiplier + parseInt(plane.z)*2);
+    for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
+      perlinRawBuffers.position.push(CUBE_BUFFERS.position[n]*SAFE_SPACE_SIZE*2 + parseInt(plane.x)*2);
+      perlinRawBuffers.position.push(CUBE_BUFFERS.position[n+1]*SAFE_SPACE_SIZE*2 + parseInt(plane.y)*2);
+      perlinRawBuffers.position.push(CUBE_BUFFERS.position[n+2]*SAFE_SPACE_SIZE*2 + parseInt(plane.z)*2);
     }
 
     // texture buffer
-    utils_concat(perlinRawBuffers.texture, buffers.texture);
+    utils_concat(perlinRawBuffers.texture, CUBE_BUFFERS.texture);
 
     // index buffer
-    for (let n = 0; n < buffers.index.length; n++) {
-      perlinRawBuffers.index.push(buffers.index[n] + (4 * p));
+    for (let n = 0; n < CUBE_BUFFERS.index.length; n++) {
+      perlinRawBuffers.index.push(CUBE_BUFFERS.index[n] + (4 * p));
     }
   }
 

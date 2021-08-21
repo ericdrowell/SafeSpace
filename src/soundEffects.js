@@ -1,57 +1,12 @@
-//http://zzfx.3d2k.com/
+const SOUND_EFFECTS_ENTER_SAFE_SPACE =    function(){zzfx(...[1.14,,24,.14,,.07,,2.81,-28,-28,,,,,251,,.02,.81,.13,.59])};
+const SOUND_EFFECTS_START =               function(){zzfx(...[,,217,.24,.03,.12,1,.58,1.1,,,,,,-39,,,,.15])};
+const SOUND_EFFECTS_DIALOG =              function(){zzfx(...[1.88,,44,.13,.05,.12,1,.24,,,,,,,-0.1,,.05,.07,.01,.76])};
+const SOUND_EFFECTS_RUN =                 function(){zzfx(...[2.23,,738,,.01,0,2,.45,,18,,,,.2,,.7,.05,,,.49])};
+const SOUND_EFFECTS_JUMP =                function(){zzfx(...[1.1,,48,,.1,0,1,.08,3.6,,,,,,,,.05,,.06])};
+const SOUND_EFFECTS_ROBOT =               function(){zzfx(...[1.13,,1673,.03,.21,.06,1,1.47,,13,-605,,.21,,71,,,.58,,.44])};
+const SOUND_EFFECTS_COMPUTER =            function(){zzfx(...[,,1373,.07,.05,.07,3,.16,,,292,.01,.07,,,,,,.12])};
+const SOUND_EFFECTS_NOTIFICATON =         function(){zzfx(...[1.46,,1090,.15,.2,.16,,.28,,,-275,.24,,,,,.12,.74,.12])};
 
-let soundEffectsMap = [
-  31963, // 0 - start
-  32987, // 1 - reload start
-  45902, // 2 - run
-  73712, // 3 - monster die
-  40892, // 4 - reload
-  68219, // 5 - dialog
-  97356, // 6 - jump
-  [9372, 78981], // 7 - shoot
-  77166, // 8 - empty gun
-  63716, // 9 - hit
-  15311, // 10 - monster spawn
-  13826, //95794, //16262, // 11 - monster jump
-  5171, // 12 - health
-  84557, // 13 - milestone
-  39023, // 14 boss jump
-];
-
-let SOUND_EFFECTS_START = 0;
-let SOUND_EFFECTS_RELOAD_START = 1;
-let SOUND_EFFECTS_RUN = 2;
-let SOUND_EFFECTS_MONSTER_DIE = 3;
-let SOUND_EFFECTS_RELOAD = 4;
-let SOUND_EFFECTS_DIALOG = 5;
-let SOUND_EFFECTS_JUMP = 6;
-let SOUND_EFFECTS_SHOOT = 7;
-let SOUND_EFFECTS_EMPTY_GUN = 8;
-let SOUND_EFFECTS_HIT = 9;
-let SOUND_EFFECTS_MONSTER_SPAWN = 10;
-let SOUND_EFFECTS_MONSTER_JUMP = 11;
-let SOUND_EFFECTS_HEALTH = 12;
-let SOUND_EFFECTS_MILESTONE = 13;
-let SOUND_EFFECTS_BOSS_JUMP = 14;
-
-function soundEffects_play(str, volume) {
-  let seed = soundEffectsMap[str];
-
-  if (!volume || volume <= 0) {
-    volume = 1;
-  }
-  if (volume > 1) {
-    volume = 1;
-  }
-
-  if (seed) {
-    if (Array.isArray(seed)) {
-      for (let n=0; n<seed.length; n++) {
-        ZZFX.z(seed[n], {volume:volume});
-      }
-    }
-    else {
-      ZZFX.z(seed, {volume:volume});
-    } 
-  }
+function soundEffects_play(sound) {
+  sound();
 }
