@@ -23,21 +23,23 @@ function webgl_useTextureProgram() {
   webgl_setUniformLocation(shaderProgram, sceneContext, 'mv'); // move matrix
   webgl_setUniformLocation(shaderProgram, sceneContext, 'pm'); // perspective matrix
 
-  const blendingColor = [0.0, 1.0, 0.0];
-  const blendingAlpha = 0.5;
+  // const blendingColor = [0.0, 1.0, 0.0];
+  // const blendingAlpha = 0.5;
 
   //Enables depth testing
   sceneContext.enable(sceneContext.DEPTH_TEST);
-  sceneContext.depthFunc(sceneContext.LESS);
+  //sceneContext.depthFunc(sceneContext.LESS);
+
+  //sceneContext.disable(sceneContext.BLEND);
 
   //Enables blending
-  sceneContext.enable(sceneContext.BLEND);
+  //sceneContext.enable(sceneContext.BLEND);
 
   //Blending function for transparencies
   //sceneContext.blendFunc(sceneContext.SRC_ALPHA, sceneContext.ONE_MINUS_SRC_ALPHA);   
   //sceneContext.blendColor(blendingColor[0], blendingColor[1], blendingColor[2], blendingAlpha);    
   //Enable culling
-  sceneContext.enable(sceneContext.CULL_FACE);
+  //sceneContext.enable(sceneContext.CULL_FACE);
 
   //sceneContext.pixelStorei(sceneContext.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
   //sceneContext.pixelStorei(sceneContext.UNPACK_FLIP_Y_WEBGL, 1);
@@ -51,21 +53,23 @@ function webgl_usePerlinProgram() {
   webgl_setUniformLocation(planeShaderProgram, sceneContext, 'mv'); // move matrix
   webgl_setUniformLocation(planeShaderProgram, sceneContext, 'pm'); // perspective matrix
 
-  const blendingColor = [0.0, 1.0, 0.0];
-  const blendingAlpha = 0.5;
+
 
   //Enables depth testing
   sceneContext.enable(sceneContext.DEPTH_TEST);
-  sceneContext.depthFunc(sceneContext.LESS);
+  //sceneContext.depthFunc(sceneContext.LESS);
 
   //Enables blending
-  //sceneContext.enable(sceneContext.BLEND);
+  
 
   //Blending function for transparencies
+  sceneContext.enable(sceneContext.BLEND);
   sceneContext.blendFunc(sceneContext.SRC_ALPHA, sceneContext.ONE_MINUS_SRC_ALPHA);   
-  sceneContext.blendColor(blendingColor[0], blendingColor[1], blendingColor[2], blendingAlpha);    
+  sceneContext.blendColor(1, 1, 1, 0.5);   
+
   //Enable culling
-  sceneContext.enable(sceneContext.CULL_FACE);
+  //sceneContext.enable(sceneContext.CULL_FACE);
+  //sceneContext.cullFace(sceneContext.FRONT_AND_BACK);
   
 
 }
@@ -105,8 +109,6 @@ function webgl_renderPerlinElement(buffers, texture) {
   // texture buffers
   sceneContext.bindBuffer(sceneContext.ARRAY_BUFFER, buffers.texture);
   sceneContext.vertexAttribPointer(planeShaderProgram.tc, 2, sceneContext.FLOAT, false, 0, 0);
-  sceneContext.activeTexture(sceneContext.TEXTURE0);
-  sceneContext.bindTexture(sceneContext.TEXTURE_2D, texture);
 
   // index buffers
   sceneContext.bindBuffer(sceneContext.ELEMENT_ARRAY_BUFFER, buffers.index);
@@ -188,3 +190,13 @@ function webgl_setAttribLocation(program, context, key) {
   program[key] = context.getAttribLocation(program, key);
   context.enableVertexAttribArray(program[key]);
 }
+
+function modelView_save() {
+  var copy = mat4.create();
+  mat4.set(mvMatrix, copy);
+  mvMatrixStack.push(copy);
+};
+
+function modelView_restore() {
+  mvMatrix = mvMatrixStack.pop();
+};

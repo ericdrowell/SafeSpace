@@ -29,23 +29,23 @@ function world_addPillars(startX, endX, startY, endY, startZ, endZ) {
 }
 
 function world_addDoor(startX, endX, startY, endY, startZ, endZ) {
-  world_addPlane(startX-1, endX+1, startY, endY+1, startZ, endZ, TEXTURES_ROTTING_WOOD);
-  world_addPlane(startX, endX, startY, endY, startZ, endZ, TEXTURES_DIRTY_GRAY);
+  world_addBlockPlane(startX-1, endX+1, startY, endY+1, startZ, endZ, TEXTURES_ROTTING_WOOD);
+  world_addBlockPlane(startX, endX, startY, endY, startZ, endZ, TEXTURES_DIRTY_GRAY);
   world_addBlock(startX, startY + Math.round((endY-startY)/2), startZ, TEXTURES_DOOR_KNOB);
 }
 
 function world_addTable(startX, endX, startY, endY, startZ, endZ) {
   // invisble 
-  world_addPlane(startX, endX, startY, endY, startZ, endZ, TEXTURES_INVISIBLE);
+  world_addBlockPlane(startX, endX, startY, endY, startZ, endZ, TEXTURES_INVISIBLE);
 
   // legs
-  world_addPlane(startX, startX, startY, endY-1, startZ, startZ, TEXTURES_STONE);
-  world_addPlane(endX, endX, startY, endY-1, startZ, startZ, TEXTURES_STONE);
-  world_addPlane(startX, startX, startY, endY-1, endZ, endZ, TEXTURES_STONE);
-  world_addPlane(endX, endX, startY, endY-1, endZ, endZ, TEXTURES_STONE);
+  world_addBlockPlane(startX, startX, startY, endY-1, startZ, startZ, TEXTURES_STONE);
+  world_addBlockPlane(endX, endX, startY, endY-1, startZ, startZ, TEXTURES_STONE);
+  world_addBlockPlane(startX, startX, startY, endY-1, endZ, endZ, TEXTURES_STONE);
+  world_addBlockPlane(endX, endX, startY, endY-1, endZ, endZ, TEXTURES_STONE);
 
   // table top
-  world_addPlane(startX, endX, endY, endY, startZ, endZ, TEXTURES_ROTTING_WOOD);
+  world_addBlockPlane(startX, endX, endY, endY, startZ, endZ, TEXTURES_ROTTING_WOOD);
 }
 
 function world_addSafeSpace(x, y, z) {
@@ -57,62 +57,66 @@ function world_addSafeSpace(x, y, z) {
   const endZ = z + SAFE_SPACE_SIZE;
 
   // bottom
-  world_addPlane(startX, endX, startY, startY, startZ, endZ, TEXTURES_STONE);
+  world_addBlockPlane(startX, endX, startY, startY, startZ, endZ, TEXTURES_STONE);
 
   // side beams
-  world_addPlane(startX, startX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
-  world_addPlane(endX, endX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
-  world_addPlane(startX, startX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
-  world_addPlane(endX, endX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
+  world_addBlockPlane(startX, startX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
+  world_addBlockPlane(endX, endX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
+  world_addBlockPlane(startX, startX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
+  world_addBlockPlane(endX, endX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
 
   // top beams
-  world_addPlane(startX, startX, endY, endY, startZ+1, endZ-1, TEXTURES_STONE);
-  world_addPlane(endX, endX, endY, endY, startZ+1, endZ-1, TEXTURES_STONE);
-  world_addPlane(startX+1, endX-1, endY, endY, startZ, startZ, TEXTURES_STONE);
-  world_addPlane(startX+1, endX-1, endY, endY, endZ, endZ, TEXTURES_STONE);
+  world_addBlockPlane(startX, startX, endY, endY, startZ+1, endZ-1, TEXTURES_STONE);
+  world_addBlockPlane(endX, endX, endY, endY, startZ+1, endZ-1, TEXTURES_STONE);
+  world_addBlockPlane(startX+1, endX-1, endY, endY, startZ, startZ, TEXTURES_STONE);
+  world_addBlockPlane(startX+1, endX-1, endY, endY, endZ, endZ, TEXTURES_STONE);
 
-  worldPlanes.push({
-    texture: TEXTURES_BLOOD_STONE,
-    x: x,
-    y: y,
-    z: startZ
-  });
-
-  worldPlanes.push({
-    texture: TEXTURES_BLOOD_STONE,
-    x: x,
-    y: y,
-    z: endZ
-  });
+  // planes
+  world_addPlane(x, endY, z, PLANE_TYPE_XZ);
+  world_addPlane(x, y, startZ, PLANE_TYPE_XY);
+  world_addPlane(x, y, endZ, PLANE_TYPE_XY);
+  world_addPlane(startX, y, z, PLANE_TYPE_YZ);
+  world_addPlane(endX, y, z, PLANE_TYPE_YZ);
+  
 
 }
 
+function world_addPlane(x, y, z, type) {
+  worldPlanes.push({
+    x: x,
+    y: y,
+    z: z,
+    type: type
+  });
+}
+
+
 function world_addPole(x, y, z, height) {
-  world_addPlane(x-1, x+1, y, y, z-1, z+1, TEXTURES_STONE);
-  world_addPlane(x, x, y, y+height, z, z, TEXTURES_STONE);
-  world_addPlane(x-1, x+1, y+height, y+height, z-1, z+1, TEXTURES_STONE);
+  world_addBlockPlane(x-1, x+1, y, y, z-1, z+1, TEXTURES_STONE);
+  world_addBlockPlane(x, x, y, y+height, z, z, TEXTURES_STONE);
+  world_addBlockPlane(x-1, x+1, y+height, y+height, z-1, z+1, TEXTURES_STONE);
 }
 
 function world_addSlope(startX, endX, endY, startZ, endZ) {
   let y = endY;
   for (let x = startX; x <= endX; x++) {
-    world_addPlane(x, x, y, y, startZ, endZ, TEXTURES_ROTTING_WOOD); 
+    world_addBlockPlane(x, x, y, y, startZ, endZ, TEXTURES_ROTTING_WOOD); 
     y--;
   }
 }
 
 function world_addRing(x, y, z) {
   // bottom of ring
-  world_addPlane(x, x, y, y, z-2, z+2, TEXTURES_DIRT);
+  world_addBlockPlane(x, x, y, y, z-2, z+2, TEXTURES_DIRT);
 
   // far side
-  world_addPlane(x, x, y+3, y+7, z-5, z-5, TEXTURES_DIRT);
+  world_addBlockPlane(x, x, y+3, y+7, z-5, z-5, TEXTURES_DIRT);
 
   // top of ring
-  world_addPlane(x, x, y+10, y+10, z-2, z+2, TEXTURES_DIRT);
+  world_addBlockPlane(x, x, y+10, y+10, z-2, z+2, TEXTURES_DIRT);
 
   // near side
-  world_addPlane(x, x, y+3, y+7, z+5, z+5, TEXTURES_DIRT);
+  world_addBlockPlane(x, x, y+3, y+7, z+5, z+5, TEXTURES_DIRT);
 
   // fillers
   world_addBlock(x, y+1, z-3, TEXTURES_DIRT);
@@ -143,21 +147,21 @@ function world_addTunnel(startX, endX, startY, endY, startZ, endZ) {
 
 function world_addRoom(startX, endX, startY, endY, startZ, endZ, floorTexture, wallTexture, celingTexture) {
   // floor
-  world_addPlane(startX, endX, startY, startY, startZ, endZ, floorTexture);
+  world_addBlockPlane(startX, endX, startY, startY, startZ, endZ, floorTexture);
 
   // walls
-  world_addPlane(startX, endX, startY, endY, endZ, endZ, wallTexture);
-  world_addPlane(startX, endX, startY, endY, startZ, startZ, wallTexture);
-  world_addPlane(startX, startX, startY, endY, startZ, endZ, wallTexture);
-  world_addPlane(endX, endX, startY, endY, startZ, endZ, wallTexture);
+  world_addBlockPlane(startX, endX, startY, endY, endZ, endZ, wallTexture);
+  world_addBlockPlane(startX, endX, startY, endY, startZ, startZ, wallTexture);
+  world_addBlockPlane(startX, startX, startY, endY, startZ, endZ, wallTexture);
+  world_addBlockPlane(endX, endX, startY, endY, startZ, endZ, wallTexture);
 
   // ceiling
-  world_addPlane(startX, endX, endY, endY, startZ, endZ, celingTexture);
+  world_addBlockPlane(startX, endX, endY, endY, startZ, endZ, celingTexture);
 
 
 }
 
-function world_addPlane(startX, endX, startY, endY, startZ, endZ, texture) {
+function world_addBlockPlane(startX, endX, startY, endY, startZ, endZ, texture) {
   for (let x=startX; x<=endX; x++) {
     for (let y=startY; y<=endY; y++) {
       for (let z=startZ; z<=endZ; z++) {
@@ -198,14 +202,11 @@ function world_removeBlock(x, y, z) {
 
 function world_buildBuffers() {
   let rawBuffers = {};
-  let perlinRawBuffers = [
-    {
-      position: [],
-      texture: [],
-      index: [],
-      numBlocks: 0
-    }
-  ];
+  let perlinRawBuffers = {
+    position: [],
+    texture: [],
+    index: []
+  };
 
   for (let x in world) {
     for (let y in world[x]) {
@@ -265,24 +266,39 @@ function world_buildBuffers() {
 
   for (let p=0; p<worldPlanes.length; p++) {
     let plane = worldPlanes[p];
-    let lastBuffer = perlinRawBuffers[perlinRawBuffers.length-1];
+
+    let buffers;
+    let xMultiplier=SAFE_SPACE_SIZE*2;
+    let yMultiplier=SAFE_SPACE_SIZE*2;
+    let zMultiplier=SAFE_SPACE_SIZE*2;
+
+    if (plane.type === PLANE_TYPE_XY) {
+      buffers = PLANE_XY_BUFFERS;
+      zMultiplier = 0;
+    }
+    else if (plane.type === PLANE_TYPE_XZ) {
+      buffers = PLANE_XZ_BUFFERS;
+      yMultiplier = 0;
+    }
+    else if (plane.type === PLANE_TYPE_YZ) {
+      buffers = PLANE_YZ_BUFFERS;
+      xMultiplier = 0;
+    }
 
     // position buffer
-    for (let n = 0; n < PLANE_BUFFERS.position.length; n+=3) {
-      lastBuffer.position.push(PLANE_BUFFERS.position[n]*SAFE_SPACE_SIZE*2 + parseInt(plane.x)*2);
-      lastBuffer.position.push(PLANE_BUFFERS.position[n+1]*SAFE_SPACE_SIZE*2 + parseInt(plane.y)*2);
-      lastBuffer.position.push(PLANE_BUFFERS.position[n+2]*0 + parseInt(plane.z)*2);
+    for (let n = 0; n < buffers.position.length; n+=3) {
+      perlinRawBuffers.position.push(buffers.position[n]*xMultiplier + parseInt(plane.x)*2);
+      perlinRawBuffers.position.push(buffers.position[n+1]*yMultiplier + parseInt(plane.y)*2);
+      perlinRawBuffers.position.push(buffers.position[n+2]*zMultiplier + parseInt(plane.z)*2);
     }
 
     // texture buffer
-    utils_concat(lastBuffer.texture, PLANE_BUFFERS.texture);
+    utils_concat(perlinRawBuffers.texture, buffers.texture);
 
     // index buffer
-    for (let n = 0; n < PLANE_BUFFERS.index.length; n++) {
-      lastBuffer.index.push(PLANE_BUFFERS.index[n] + (8 * lastBuffer.numBlocks));
+    for (let n = 0; n < buffers.index.length; n++) {
+      perlinRawBuffers.index.push(buffers.index[n] + (4 * p));
     }
-
-    lastBuffer.numBlocks++;
   }
 
   // convert regular arrays to webgl buffers
@@ -298,13 +314,11 @@ function world_buildBuffers() {
     });
   }
 
-  perlinRawBuffers.forEach(function(buffer) {
-    perlinBuffers.push({
-      position: webgl_createArrayBuffer(sceneContext, buffer.position),
-      texture: webgl_createArrayBuffer(sceneContext, buffer.texture),
-      index: webgl_createElementArrayBuffer(sceneContext, buffer.index)
-    });
-  });
+  perlinBuffers = {
+    position: webgl_createArrayBuffer(sceneContext, perlinRawBuffers.position),
+    texture: webgl_createArrayBuffer(sceneContext, perlinRawBuffers.texture),
+    index: webgl_createElementArrayBuffer(sceneContext, perlinRawBuffers.index)
+  };
 }
 
 function world_render() {
@@ -314,9 +328,7 @@ function world_render() {
     });
   } 
   
-  perlinBuffers.forEach(function(buffer) {
-    webgl_renderPerlinElement(buffer, textures[0].glTexture);
-  });
+  webgl_renderPerlinElement(perlinBuffers, textures[0].glTexture);
 }
 
 function world_getBlock(x, y, z) {

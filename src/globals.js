@@ -29,11 +29,16 @@ const OPTIMAL_VIEWPORT_WIDTH = 1300;
 const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
 const RAY_TRACE_INCREMENT = 0.3;
 const SAFE_SPACE_SIZE = 5;
+const PI = Math.PI;
+const HALF_PI = PI/2;
+const PLANE_TYPE_XY = 0;
+const PLANE_TYPE_XZ = 1;
+const PLANE_TYPE_YZ = 2;
 
 let world = []; // world blocks
 let worldPlanes = [];
 let worldBuffers = {};
-let perlinBuffers = [];
+let perlinBuffers = {};
 let hudCanvas;
 let hudContext;
 let openMenuTime = 0;

@@ -43,7 +43,7 @@ void main(void) {
   vec3 color;
   float x = vTextureCoord.x;
   float y = vTextureCoord.y;
-  color = vec3(noise(vec2(x * 21., y * 15.))) * vLightWeighting;
+  color = vec3(noise(vec2(x * 10., y * 10.)));
   vec3 inverseColor = vec3(color.r + 0.8, color.g + 0.0, color.b + 0.8);
   gl_FragColor = vec4(inverseColor.rgb, 0.2);
 }
