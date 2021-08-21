@@ -20,8 +20,10 @@ function webgl_useTextureProgram() {
 
   webgl_setAttribLocation(shaderProgram, sceneContext, 've'); // vertex vector
   webgl_setAttribLocation(shaderProgram, sceneContext, 'tc'); // texture vector
+
   webgl_setUniformLocation(shaderProgram, sceneContext, 'mv'); // move matrix
   webgl_setUniformLocation(shaderProgram, sceneContext, 'pm'); // perspective matrix
+  webgl_setUniformLocation(shaderProgram, sceneContext, 't'); 
 
   // const blendingColor = [0.0, 1.0, 0.0];
   // const blendingAlpha = 0.5;
@@ -51,10 +53,11 @@ function webgl_usePerlinProgram() {
 
   webgl_setAttribLocation(planeShaderProgram, sceneContext, 've'); // vertex vector
   webgl_setAttribLocation(planeShaderProgram, sceneContext, 'tc'); // texture vector
+  
   webgl_setUniformLocation(planeShaderProgram, sceneContext, 'mv'); // move matrix
   webgl_setUniformLocation(planeShaderProgram, sceneContext, 'pm'); // perspective matrix
+  webgl_setUniformLocation(planeShaderProgram, sceneContext, 't'); 
 
-  
 
   //Enables depth testing
   sceneContext.depthMask(false);
@@ -93,7 +96,7 @@ function webgl_renderTexturedElement(buffers, texture) {
   sceneContext.bindBuffer(sceneContext.ELEMENT_ARRAY_BUFFER, buffers.index);
 
   // set uniforms
-  sceneContext.uniform1i(shaderProgram.sa, 0);
+  sceneContext.uniform1f(shaderProgram.t, 0);
   sceneContext.uniformMatrix4fv(shaderProgram.pm, false, pMatrix);
   sceneContext.uniformMatrix4fv(shaderProgram.mv, false, mvMatrix);
 
@@ -116,7 +119,7 @@ function webgl_renderPerlinElement(buffers, texture) {
   sceneContext.bindBuffer(sceneContext.ELEMENT_ARRAY_BUFFER, buffers.index);
 
   // set uniforms
-  sceneContext.uniform1i(planeShaderProgram.sa, 0);
+  sceneContext.uniform1f(planeShaderProgram.t, totalElapsedTime * 0.0001);
   sceneContext.uniformMatrix4fv(planeShaderProgram.pm, false, pMatrix);
   sceneContext.uniformMatrix4fv(planeShaderProgram.mv, false, mvMatrix);
 

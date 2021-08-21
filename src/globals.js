@@ -18,8 +18,8 @@ const PIXEL_RATIO = (window && window.devicePixelRatio) || 1;
 const BLOCKS_PER_BUFFER = 2666;
 const BOBBLE_AMPLITUDE = 1; // webgl space
 const BOBBLE_FREQUENCEY = 10;
-const GRAVITY = -50; // units / second^2
-const JUMP_SPEED = 30;
+const GRAVITY = -40; // units / second^2
+const JUMP_SPEED = 20;
 const FLASH_COOLDOWN = 100;
 const CHAR_SPACING = 15;
 const TEXT_HEIGHT = 75;
@@ -37,6 +37,8 @@ let perlinBuffers = {};
 let hudCanvas;
 let hudContext;
 let openMenuTime = 0;
+let startTime = 0;
+let totalElapsedTime = 0;
 let elapsedTime = 0;
 let lastTime = 0;
 let now = 0;

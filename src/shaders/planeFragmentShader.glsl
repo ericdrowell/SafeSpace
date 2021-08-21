@@ -2,6 +2,7 @@ precision highp float;
 
 varying vec2 vTextureCoord;
 varying vec3 vLightWeighting;
+varying float vTime;
 
 // // Noise
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -41,9 +42,9 @@ float noise(vec2 P) { return noise(vec3(P, 1.0)); }
 
 void main(void) {
   vec3 color;
-  float x = vTextureCoord.x;
-  float y = vTextureCoord.y;
-  color = vec3(noise(vec2(x * 10., y * 10.)));
+  float x = vTextureCoord.x + vTime;
+  float y = vTextureCoord.y + vTime;
+  color = vec3(noise(vec2(x * (10.), y * (10.))));
   vec3 inverseColor = vec3(color.r + 0.8, color.g + 0.0, color.b + 0.8);
   gl_FragColor = vec4(inverseColor.rgb, 0.2);
 }

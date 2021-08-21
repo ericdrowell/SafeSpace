@@ -3,9 +3,11 @@ attribute vec2 tc; // aTextureCoord
 
 uniform mat4 mv; // uMVMatrix
 uniform mat4 pm; // uPMatrix
+uniform float t;
 
 varying vec2 vTextureCoord;
 varying vec3 vLightWeighting;
+varying float vTime;
 
 void main(void) {
   vec4 worldVertexPos = mv * vec4(ve, 1.0);
@@ -19,4 +21,5 @@ void main(void) {
   float pointLightWeight = 3.0 * pow(0.97, pointLightDist);
   vec3 pointLight = pointLightColor * pointLightWeight; 
   vLightWeighting = pointLight;
+  vTime = t;
 }

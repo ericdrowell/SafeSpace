@@ -166,9 +166,16 @@ function game_update() {
 
 function game_loop() {
   now = new Date().getTime();
+
+  if (startTime === 0) {
+    startTime = now;
+  }
+
   if (lastTime !== 0) {
     elapsedTime = now - lastTime;
   }
+  
+  totalElapsedTime = now - startTime;
 
   game_update();
   game_render();
