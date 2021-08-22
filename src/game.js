@@ -42,7 +42,7 @@ function game_init() {
 
 function game_restart() {
   player_init();
-  gameState = GAME_STATE_PLAYNG;
+  gameState = GAME_STATE_PLAYING;
 }
 
 function game_setViewportSize() {
@@ -89,11 +89,6 @@ function game_render() {
     mat4.translate(mvMatrix, [0, bobble, 0]);
 
     world_render();
-
-    // screen shake
-    let marginLeft = canvasLeft + (playerHurting * 50 * Math.sin(now*0.1));
-    sceneCanvas.style.marginLeft = marginLeft + 'px';
-    hudCanvas.style.marginLeft = marginLeft + 'px';
 
     firstRender = true;
     

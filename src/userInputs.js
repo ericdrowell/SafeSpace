@@ -58,7 +58,6 @@ function userInputs_handleKeyDown(evt) {
     case 82:
       // r key (reload)
       hudDirty = true;
-      player_reload();
       break;
   }
 };

@@ -10,6 +10,7 @@ function world_buildModel() {
   world_addSafeSpace(-262, 32, 18);
 
 
+  world_addSphere(-242, 50, 18);
 }
 
 // utils
@@ -26,12 +27,6 @@ function world_addPillars(startX, endX, startY, endY, startZ, endZ) {
       world_addPillar(x, startY, z, endY-startY);
     }
   }
-}
-
-function world_addDoor(startX, endX, startY, endY, startZ, endZ) {
-  world_addBlockPlane(startX-1, endX+1, startY, endY+1, startZ, endZ, TEXTURES_ROTTING_WOOD);
-  world_addBlockPlane(startX, endX, startY, endY, startZ, endZ, TEXTURES_DIRTY_GRAY);
-  world_addBlock(startX, startY + Math.round((endY-startY)/2), startZ, TEXTURES_DOOR_KNOB);
 }
 
 function world_addTable(startX, endX, startY, endY, startZ, endZ) {
@@ -73,8 +68,6 @@ function world_addSafeSpace(x, y, z) {
 
   // fields
   world_addField(x, y, z);
-
-  world_addSphere(x + 20, y, z);
 }
 
 function world_addField(x, y, z) {

@@ -27,23 +27,24 @@ const CUBE_BUFFERS = {
 };
 
 const SPHERE_BUFFERS = {};
+const SPHERE_LAT_BANDS = 24; // orig 24
+const SPHERE_LONG_SEGS = 45; // orig 45
 
 function geometry_buffers_create_sphere_buffers() {
   var vertices = [], texCoords = [], indices = [];
-  const latBands = 24, longSegs = 45;
 
-  for (var lat = 0; lat <= latBands; ++lat)
+  for (var lat = 0; lat <= SPHERE_LAT_BANDS; ++lat)
   {
-    const v     = lat / latBands; // also used as the vertical texture coordinate
+    const v     = lat / SPHERE_LAT_BANDS; // also used as the vertical texture coordinate
     const theta = v * Math.PI;    // 0 <= theta <= pi
     
     const y  = Math.cos(theta);   // y = cos(theta) - constant per latitude "slice"
     const st = Math.sin(theta);   // this will det. the radius of the latitude line
     
-    for (var lng = 0; lng <= longSegs; ++lng)
+    for (var lng = 0; lng <= SPHERE_LONG_SEGS; ++lng)
     {
-      const u   = lng / longSegs; // also used as the horizontal texture coordinate
-      const phi = (lng / longSegs) * 2.0 * Math.PI; // 0 <= phi <= 2 * pi
+      const u   = lng / SPHERE_LONG_SEGS; // also used as the horizontal texture coordinate
+      const phi = (lng / SPHERE_LONG_SEGS) * 2.0 * Math.PI; // 0 <= phi <= 2 * pi
       const x = st * Math.cos(phi); // x = sin(theta) * cos(phi)
       const z = st * Math.sin(phi); // z = sin(theta) * sin(phi)
       
@@ -57,10 +58,10 @@ function geometry_buffers_create_sphere_buffers() {
   }
 
   // for each "patch" of the sphere surface
-  var crtLine = 0, nextLine = longSegs + 1;
-  for (var lat = 0; lat < latBands; ++lat)
+  var crtLine = 0, nextLine = SPHERE_LONG_SEGS + 1;
+  for (var lat = 0; lat < SPHERE_LAT_BANDS; ++lat)
   {
-    for (var lng = 0; lng < longSegs; ++lng)
+    for (var lng = 0; lng < SPHERE_LONG_SEGS; ++lng)
     {
       const first = crtLine + lng, second = nextLine + lng;
       
@@ -74,7 +75,7 @@ function geometry_buffers_create_sphere_buffers() {
       }
 
       // watch out for degenerate triangles
-      if (lat + 1 < latBands)
+      if (lat + 1 < SPHERE_LAT_BANDS)
       {
         // same for the second triangle
         indices.push(second);
@@ -82,7 +83,7 @@ function geometry_buffers_create_sphere_buffers() {
         indices.push(first + 1);
       }      
     }
-    crtLine = nextLine; nextLine += longSegs + 1;
+    crtLine = nextLine; nextLine += SPHERE_LONG_SEGS + 1;
   }
 
   SPHERE_BUFFERS.position = vertices;

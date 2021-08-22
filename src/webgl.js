@@ -10,7 +10,7 @@ function webgl_init() {
   webgl_linkProgram(shaderProgram, sceneContext, fragmentShader, vertexShader);
 
   perlinShaderProgram = sceneContext.createProgram();
-  webgl_linkProgram(perlinShaderProgram, sceneContext, perlinFragmentShader, vertexShader);
+  webgl_linkProgram(perlinShaderProgram, sceneContext, perlinFragmentShader, perlinVertexShader);
 
   webgl_setSize(sceneCanvas);  
 }
@@ -23,7 +23,6 @@ function webgl_renderBlockElements(buffers, texture) {
 
   webgl_setUniformLocation(shaderProgram, sceneContext, 'mv'); // move matrix
   webgl_setUniformLocation(shaderProgram, sceneContext, 'pm'); // perspective matrix
-  webgl_setUniformLocation(shaderProgram, sceneContext, 't'); 
 
   // const blendingColor = [0.0, 1.0, 0.0];
   // const blendingAlpha = 0.5;
@@ -41,8 +40,11 @@ function webgl_renderBlockElements(buffers, texture) {
   //Blending function for transparencies
   //sceneContext.blendFunc(sceneContext.SRC_ALPHA, sceneContext.ONE_MINUS_SRC_ALPHA);   
   //sceneContext.blendColor(blendingColor[0], blendingColor[1], blendingColor[2], blendingAlpha);    
+
+
   //Enable culling
   //sceneContext.enable(sceneContext.CULL_FACE);
+  //sceneContext.cullFace(sceneContext.FRONT);
 
   //sceneContext.pixelStorei(sceneContext.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
   //sceneContext.pixelStorei(sceneContext.UNPACK_FLIP_Y_WEBGL, 1);
@@ -61,7 +63,6 @@ function webgl_renderBlockElements(buffers, texture) {
   sceneContext.bindBuffer(sceneContext.ELEMENT_ARRAY_BUFFER, buffers.index);
 
   // set uniforms
-  sceneContext.uniform1f(shaderProgram.t, 0);
   sceneContext.uniformMatrix4fv(shaderProgram.pm, false, pMatrix);
   sceneContext.uniformMatrix4fv(shaderProgram.mv, false, mvMatrix);
 
@@ -69,7 +70,7 @@ function webgl_renderBlockElements(buffers, texture) {
   sceneContext.drawElements(sceneContext.TRIANGLES, buffers.index.numElements, sceneContext.UNSIGNED_SHORT, 0);
 };
 
-function webgl_renderPerlinElements(buffers, texture) {
+function webgl_renderPerlinElements(buffers, color, perlinSize) {
   sceneContext.useProgram(perlinShaderProgram);
 
   webgl_setAttribLocation(perlinShaderProgram, sceneContext, 've'); // vertex vector
@@ -78,7 +79,8 @@ function webgl_renderPerlinElements(buffers, texture) {
   webgl_setUniformLocation(perlinShaderProgram, sceneContext, 'mv'); // move matrix
   webgl_setUniformLocation(perlinShaderProgram, sceneContext, 'pm'); // perspective matrix
   webgl_setUniformLocation(perlinShaderProgram, sceneContext, 't'); 
-
+  webgl_setUniformLocation(perlinShaderProgram, sceneContext, 'color'); // perspective matrix
+  webgl_setUniformLocation(perlinShaderProgram, sceneContext, 'perlinSize'); // perspective matrix
 
   //Enables depth testing
   sceneContext.depthMask(false);
@@ -94,12 +96,13 @@ function webgl_renderPerlinElements(buffers, texture) {
   sceneContext.blendColor(1, 1, 1, 0.5);   
 
   //Enable culling
-  //sceneContext.enable(sceneContext.CULL_FACE);
+  //sceneContext.disable(sceneContext.CULL_FACE);
   //sceneContext.cullFace(sceneContext.FRONT_AND_BACK);
 
   // position buffers
   sceneContext.bindBuffer(sceneContext.ARRAY_BUFFER, buffers.position);
   sceneContext.vertexAttribPointer(perlinShaderProgram.ve, 3, sceneContext.FLOAT, false, 0, 0);
+
 
   // texture buffers
   sceneContext.bindBuffer(sceneContext.ARRAY_BUFFER, buffers.texture);
@@ -109,9 +112,11 @@ function webgl_renderPerlinElements(buffers, texture) {
   sceneContext.bindBuffer(sceneContext.ELEMENT_ARRAY_BUFFER, buffers.index);
 
   // set uniforms
-  sceneContext.uniform1f(perlinShaderProgram.t, totalElapsedTime * 0.0001);
   sceneContext.uniformMatrix4fv(perlinShaderProgram.pm, false, pMatrix);
   sceneContext.uniformMatrix4fv(perlinShaderProgram.mv, false, mvMatrix);
+  sceneContext.uniform1f(perlinShaderProgram.t, totalElapsedTime * 0.0001);
+  sceneContext.uniform3fv(perlinShaderProgram.color, color);
+  sceneContext.uniform1f(perlinShaderProgram.perlinSize, perlinSize);
 
   // draw elements
   sceneContext.drawElements(sceneContext.TRIANGLES, buffers.index.numElements, sceneContext.UNSIGNED_SHORT, 0);
@@ -349,6 +354,7 @@ function world_render() {
     });
   } 
   
-  webgl_renderPerlinElements(fieldBuffers, textures[0].glTexture);
-  webgl_renderPerlinElements(sphereBuffers, textures[0].glTexture);
+  webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], 80);
+  webgl_renderPerlinElements(fieldBuffers, [0, 0.5, 0.8], 10);
+  
 }

@@ -12,12 +12,6 @@ function player_init() {
     yaw: 6.3,
     z: 45
   };
-
-  playerHurting = 0;
-  flashTimeRemaining = 0;
-  numBullets = 6;
-  reloadTimeRemaining = 0;
-  isReloading = false;
 }
 
 function player_update() {
@@ -53,23 +47,6 @@ function player_update() {
   player.upVelocity += GRAVITY * elapsedTime / 1000;
   let distEachFrame = player.upVelocity * elapsedTime / 1000;
   world_moveObject(player, 0, distEachFrame, 0);  
-
-  
-  if (flashTimeRemaining !== 0) {
-    flashTimeRemaining -= elapsedTime;
-
-    if (flashTimeRemaining < 0) {
-      flashTimeRemaining = 0;
-    }
-  }
-
-  // pain flash
-  if (playerHurting > 0) {
-    playerHurting -= elapsedTime/1000;
-    if (playerHurting < 0) {
-      playerHurting = 0;
-    }
-  }
 };
 
 function player_jump() {
@@ -77,13 +54,5 @@ function player_jump() {
     player.upVelocity = JUMP_SPEED;
     player.isAirborne = true;
     soundEffects_play(SOUND_EFFECTS_JUMP);
-  }
-}
-
-function player_reload() {
-  if (!isReloading && numBullets < 6) {
-    soundEffects_play(SOUND_EFFECTS_RELOAD_START);
-    isReloading = true;
-    reloadTimeRemaining = RELOAD_SPEED;
   }
 }
