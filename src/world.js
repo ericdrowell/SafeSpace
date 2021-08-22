@@ -1,18 +1,3 @@
-function world_init() {
-  world_buildModel();
-  world_buildBuffers();
-}
-
-function world_buildModel() {
-
-  // -------------------- LEVEL 1 --------------------
-  world_addRoom(-290, -200, 26, 50, -10, 50, TEXTURES_PURPLE_STONE, TEXTURES_BIO_PURPLE, TEXTURES_ROTTING_WOOD);
-  world_addSafeSpace(-262, 32, 18);
-
-
-  world_addSphere(-242, 50, 18);
-}
-
 // utils
 function world_addPillar(x, y, z, height) {
   world_addPole(x-1, y, z, height);
@@ -31,16 +16,16 @@ function world_addPillars(startX, endX, startY, endY, startZ, endZ) {
 
 function world_addTable(startX, endX, startY, endY, startZ, endZ) {
   // invisble 
-  world_addBlockPlane(startX, endX, startY, endY, startZ, endZ, TEXTURES_INVISIBLE);
+  world_addPlane(startX, endX, startY, endY, startZ, endZ, TEXTURES_INVISIBLE);
 
   // legs
-  world_addBlockPlane(startX, startX, startY, endY-1, startZ, startZ, TEXTURES_STONE);
-  world_addBlockPlane(endX, endX, startY, endY-1, startZ, startZ, TEXTURES_STONE);
-  world_addBlockPlane(startX, startX, startY, endY-1, endZ, endZ, TEXTURES_STONE);
-  world_addBlockPlane(endX, endX, startY, endY-1, endZ, endZ, TEXTURES_STONE);
+  world_addPlane(startX, startX, startY, endY-1, startZ, startZ, TEXTURES_STONE);
+  world_addPlane(endX, endX, startY, endY-1, startZ, startZ, TEXTURES_STONE);
+  world_addPlane(startX, startX, startY, endY-1, endZ, endZ, TEXTURES_STONE);
+  world_addPlane(endX, endX, startY, endY-1, endZ, endZ, TEXTURES_STONE);
 
   // table top
-  world_addBlockPlane(startX, endX, endY, endY, startZ, endZ, TEXTURES_ROTTING_WOOD);
+  world_addPlane(startX, endX, endY, endY, startZ, endZ, TEXTURES_ROTTING_WOOD);
 }
 
 function world_addSafeSpace(x, y, z) {
@@ -52,19 +37,19 @@ function world_addSafeSpace(x, y, z) {
   const endZ = z + SAFE_SPACE_SIZE;
 
   // bottom
-  world_addBlockPlane(startX, endX, startY, startY, startZ, endZ, TEXTURES_STONE);
+  world_addPlane(startX, endX, startY, startY, startZ, endZ, TEXTURES_STONE);
 
   // side beams
-  world_addBlockPlane(startX, startX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
-  world_addBlockPlane(endX, endX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
-  world_addBlockPlane(startX, startX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
-  world_addBlockPlane(endX, endX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
+  world_addPlane(startX, startX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
+  world_addPlane(endX, endX, startY+1, endY, startZ, startZ, TEXTURES_STONE);
+  world_addPlane(startX, startX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
+  world_addPlane(endX, endX, startY+1, endY, endZ, endZ, TEXTURES_STONE);
 
   // top beams
-  world_addBlockPlane(startX, startX, endY, endY, startZ+1, endZ-1, TEXTURES_STONE);
-  world_addBlockPlane(endX, endX, endY, endY, startZ+1, endZ-1, TEXTURES_STONE);
-  world_addBlockPlane(startX+1, endX-1, endY, endY, startZ, startZ, TEXTURES_STONE);
-  world_addBlockPlane(startX+1, endX-1, endY, endY, endZ, endZ, TEXTURES_STONE);
+  world_addPlane(startX, startX, endY, endY, startZ+1, endZ-1, TEXTURES_STONE);
+  world_addPlane(endX, endX, endY, endY, startZ+1, endZ-1, TEXTURES_STONE);
+  world_addPlane(startX+1, endX-1, endY, endY, startZ, startZ, TEXTURES_STONE);
+  world_addPlane(startX+1, endX-1, endY, endY, endZ, endZ, TEXTURES_STONE);
 
   // fields
   world_addField(x, y, z);
@@ -88,31 +73,31 @@ function world_addSphere(x, y, z) {
 
 
 function world_addPole(x, y, z, height) {
-  world_addBlockPlane(x-1, x+1, y, y, z-1, z+1, TEXTURES_STONE);
-  world_addBlockPlane(x, x, y, y+height, z, z, TEXTURES_STONE);
-  world_addBlockPlane(x-1, x+1, y+height, y+height, z-1, z+1, TEXTURES_STONE);
+  world_addPlane(x-1, x+1, y, y, z-1, z+1, TEXTURES_STONE);
+  world_addPlane(x, x, y, y+height, z, z, TEXTURES_STONE);
+  world_addPlane(x-1, x+1, y+height, y+height, z-1, z+1, TEXTURES_STONE);
 }
 
 function world_addSlope(startX, endX, endY, startZ, endZ) {
   let y = endY;
   for (let x = startX; x <= endX; x++) {
-    world_addBlockPlane(x, x, y, y, startZ, endZ, TEXTURES_ROTTING_WOOD); 
+    world_addPlane(x, x, y, y, startZ, endZ, TEXTURES_ROTTING_WOOD); 
     y--;
   }
 }
 
 function world_addRing(x, y, z) {
   // bottom of ring
-  world_addBlockPlane(x, x, y, y, z-2, z+2, TEXTURES_DIRT);
+  world_addPlane(x, x, y, y, z-2, z+2, TEXTURES_DIRT);
 
   // far side
-  world_addBlockPlane(x, x, y+3, y+7, z-5, z-5, TEXTURES_DIRT);
+  world_addPlane(x, x, y+3, y+7, z-5, z-5, TEXTURES_DIRT);
 
   // top of ring
-  world_addBlockPlane(x, x, y+10, y+10, z-2, z+2, TEXTURES_DIRT);
+  world_addPlane(x, x, y+10, y+10, z-2, z+2, TEXTURES_DIRT);
 
   // near side
-  world_addBlockPlane(x, x, y+3, y+7, z+5, z+5, TEXTURES_DIRT);
+  world_addPlane(x, x, y+3, y+7, z+5, z+5, TEXTURES_DIRT);
 
   // fillers
   world_addBlock(x, y+1, z-3, TEXTURES_DIRT);
@@ -143,21 +128,21 @@ function world_addTunnel(startX, endX, startY, endY, startZ, endZ) {
 
 function world_addRoom(startX, endX, startY, endY, startZ, endZ, floorTexture, wallTexture, celingTexture) {
   // floor
-  world_addBlockPlane(startX, endX, startY, startY, startZ, endZ, floorTexture);
+  world_addPlane(startX, endX, startY, startY, startZ, endZ, floorTexture);
 
   // walls
-  world_addBlockPlane(startX, endX, startY, endY, endZ, endZ, wallTexture);
-  world_addBlockPlane(startX, endX, startY, endY, startZ, startZ, wallTexture);
-  world_addBlockPlane(startX, startX, startY, endY, startZ, endZ, wallTexture);
-  world_addBlockPlane(endX, endX, startY, endY, startZ, endZ, wallTexture);
+  world_addPlane(startX, endX, startY, endY, endZ, endZ, wallTexture);
+  world_addPlane(startX, endX, startY, endY, startZ, startZ, wallTexture);
+  world_addPlane(startX, startX, startY, endY, startZ, endZ, wallTexture);
+  world_addPlane(endX, endX, startY, endY, startZ, endZ, wallTexture);
 
   // ceiling
-  world_addBlockPlane(startX, endX, endY, endY, startZ, endZ, celingTexture);
+  world_addPlane(startX, endX, endY, endY, startZ, endZ, celingTexture);
 
 
 }
 
-function world_addBlockPlane(startX, endX, startY, endY, startZ, endZ, texture) {
+function world_addPlane(startX, endX, startY, endY, startZ, endZ, texture) {
   for (let x=startX; x<=endX; x++) {
     for (let y=startY; y<=endY; y++) {
       for (let z=startZ; z<=endZ; z++) {

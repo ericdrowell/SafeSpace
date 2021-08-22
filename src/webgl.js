@@ -201,7 +201,7 @@ function modelView_restore() {
   mvMatrix = mvMatrixStack.pop();
 };
 
-function world_buildBlockBuffers() {
+function webgl_buildBlockBuffers() {
   let rawBuffers = {};
   for (let x in world) {
     for (let y in world[x]) {
@@ -273,7 +273,7 @@ function world_buildBlockBuffers() {
   }
 }
 
-function world_buildFieldBuffers() {
+function webgl_buildFieldBuffers() {
   let rawBuffers = {
     position: [],
     texture: [],
@@ -307,7 +307,7 @@ function world_buildFieldBuffers() {
   };
 }
 
-function world_buildSphereBuffers() {
+function webgl_buildSphereBuffers() {
   let rawBuffers = {
     position: [],
     texture: [],
@@ -341,13 +341,13 @@ function world_buildSphereBuffers() {
   };
 }
 
-function world_buildBuffers() {
-  world_buildBlockBuffers();
-  world_buildFieldBuffers();
-  world_buildSphereBuffers();
+function webgl_buildBuffers() {
+  webgl_buildBlockBuffers();
+  webgl_buildFieldBuffers();
+  webgl_buildSphereBuffers();
 }
 
-function world_render() {
+function webgl_render() {
   for (let texture in worldBuffers) {
     worldBuffers[texture].forEach(function(buffer) {
       webgl_renderBlockElements(buffer, textures[texture].glTexture);

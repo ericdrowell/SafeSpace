@@ -23,7 +23,7 @@ function game_init() {
   hud_init();
   userInputs_init();
 
-  world_init();
+  level_init();
   player_init();
 
   gameState = GAME_STATE_INTRO;
@@ -88,7 +88,7 @@ function game_render() {
     mat4.translate(mvMatrix, [-2 * player.x, -2 * (player.y + PLAYER_HEIGHT), -2 * player.z]);
     mat4.translate(mvMatrix, [0, bobble, 0]);
 
-    world_render();
+    webgl_render();
 
     firstRender = true;
     
