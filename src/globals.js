@@ -29,11 +29,14 @@ const OPTIMAL_VIEWPORT_WIDTH = 1300;
 const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
 const RAY_TRACE_INCREMENT = 0.3;
 const SAFE_SPACE_SIZE = 5;
+const SPHERE_SIZE = 2;
 
 let world = []; // world blocks
-let worldPlanes = [];
+let worldFields = [];
+let worldSpheres = [];
 let worldBuffers = {};
-let perlinBuffers = {};
+let fieldBuffers = {};
+let sphereBuffers = {};
 let hudCanvas;
 let hudContext;
 let openMenuTime = 0;
@@ -55,7 +58,7 @@ let mvMatrix;
 let pMatrix;
 let mvMatrixStack = [];
 let shaderProgram;
-let planeShaderProgram;
+let perlinShaderProgram;
 let bobble = 0;
 let bobbleCounter = 0;
 let hudRatio;

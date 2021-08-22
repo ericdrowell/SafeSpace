@@ -25,3 +25,69 @@ const CUBE_BUFFERS = {
     20, 21, 22, 20, 22, 23 // Left face
   ]
 };
+
+const SPHERE_BUFFERS = {};
+
+function geometry_buffers_create_sphere_buffers() {
+  var vertices = [], texCoords = [], indices = [];
+  const latBands = 24, longSegs = 45;
+
+  for (var lat = 0; lat <= latBands; ++lat)
+  {
+    const v     = lat / latBands; // also used as the vertical texture coordinate
+    const theta = v * Math.PI;    // 0 <= theta <= pi
+    
+    const y  = Math.cos(theta);   // y = cos(theta) - constant per latitude "slice"
+    const st = Math.sin(theta);   // this will det. the radius of the latitude line
+    
+    for (var lng = 0; lng <= longSegs; ++lng)
+    {
+      const u   = lng / longSegs; // also used as the horizontal texture coordinate
+      const phi = (lng / longSegs) * 2.0 * Math.PI; // 0 <= phi <= 2 * pi
+      const x = st * Math.cos(phi); // x = sin(theta) * cos(phi)
+      const z = st * Math.sin(phi); // z = sin(theta) * sin(phi)
+      
+      vertices.push(x);
+      vertices.push(y);
+      vertices.push(z);
+
+      texCoords.push(u);
+      texCoords.push(v);
+    }
+  }
+
+  // for each "patch" of the sphere surface
+  var crtLine = 0, nextLine = longSegs + 1;
+  for (var lat = 0; lat < latBands; ++lat)
+  {
+    for (var lng = 0; lng < longSegs; ++lng)
+    {
+      const first = crtLine + lng, second = nextLine + lng;
+      
+      // watch out for degenerate triangles
+      if (lat > 0)
+      {
+        // vertex indices for the first triangle of the patch
+        indices.push(first);
+        indices.push(second);
+        indices.push(first + 1);
+      }
+
+      // watch out for degenerate triangles
+      if (lat + 1 < latBands)
+      {
+        // same for the second triangle
+        indices.push(second);
+        indices.push(second + 1);
+        indices.push(first + 1);
+      }      
+    }
+    crtLine = nextLine; nextLine += longSegs + 1;
+  }
+
+  SPHERE_BUFFERS.position = vertices;
+  SPHERE_BUFFERS.texture = texCoords;
+  SPHERE_BUFFERS.index = indices; 
+}
+
+geometry_buffers_create_sphere_buffers()

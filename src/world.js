@@ -71,18 +71,22 @@ function world_addSafeSpace(x, y, z) {
   world_addBlockPlane(startX+1, endX-1, endY, endY, startZ, startZ, TEXTURES_STONE);
   world_addBlockPlane(startX+1, endX-1, endY, endY, endZ, endZ, TEXTURES_STONE);
 
-  // planes
-  world_addPlane(x, y, z);
-  // world_addPlane(x, y, startZ, PLANE_TYPE_XY);
-  // world_addPlane(x, y, endZ, PLANE_TYPE_XY);
-  // world_addPlane(startX, y, z, PLANE_TYPE_YZ);
-  // world_addPlane(endX, y, z, PLANE_TYPE_YZ);
-  
+  // fields
+  world_addField(x, y, z);
 
+  world_addSphere(x + 20, y, z);
 }
 
-function world_addPlane(x, y, z) {
-  worldPlanes.push({
+function world_addField(x, y, z) {
+  worldFields.push({
+    x: x,
+    y: y,
+    z: z
+  });
+}
+
+function world_addSphere(x, y, z) {
+  worldSpheres.push({
     x: x,
     y: y,
     z: z
@@ -197,119 +201,6 @@ function world_removeBlock(x, y, z) {
   if (world[x] && world[x][y] && world[x][y][z]) {
     delete world[x][y][z];
   }
-}
-
-function world_buildBuffers() {
-  let rawBuffers = {};
-  let perlinRawBuffers = {
-    position: [],
-    texture: [],
-    index: []
-  };
-
-  for (let x in world) {
-    for (let y in world[x]) {
-      for (let z in world[x][y]) {
-        let block = world[x][y][z];
-        let texture = block.texture;
-
-        if (texture === TEXTURES_INVISIBLE) {
-          continue;
-        }
-
-        if (rawBuffers[texture] === undefined) {
-          rawBuffers[texture] = [
-            {
-              position: [],
-              texture: [],
-              index: [],
-              numBlocks: 0
-            }
-          ];
-        }
-
-        let lastBuffer = rawBuffers[texture][rawBuffers[texture].length-1];
-
-        // used to slightly offset all blocks so they don't fit perfectly, and create a more organic fitting
-        let randomOffset = texture === TEXTURES_DIRT ? 0 : (Math.random() - 0.5) * 0.1;
-
-        // position buffer
-        for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
-          lastBuffer.position.push(CUBE_BUFFERS.position[n] + parseInt(x)*2 + randomOffset);
-          lastBuffer.position.push(CUBE_BUFFERS.position[n+1] + parseInt(y)*2 + randomOffset);
-          lastBuffer.position.push(CUBE_BUFFERS.position[n+2] + parseInt(z)*2 + randomOffset);
-        }
-
-        // texture buffer
-        utils_concat(lastBuffer.texture, CUBE_BUFFERS.texture);
-
-        // index buffer
-        for (let n = 0; n < CUBE_BUFFERS.index.length; n++) {
-          lastBuffer.index.push(CUBE_BUFFERS.index[n] + (24 * lastBuffer.numBlocks));
-        }
-
-        if (lastBuffer.numBlocks >= BLOCKS_PER_BUFFER) {
-          rawBuffers[texture].push({
-            position: [],
-            texture: [],
-            index: [],
-            numBlocks: 0
-          });
-        }
-        else {
-          lastBuffer.numBlocks++;
-        }
-      }
-    }
-  }
-
-  for (let p=0; p<worldPlanes.length; p++) {
-    let plane = worldPlanes[p];
-
-    // position buffer
-    for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
-      perlinRawBuffers.position.push(CUBE_BUFFERS.position[n]*SAFE_SPACE_SIZE*2 + parseInt(plane.x)*2);
-      perlinRawBuffers.position.push(CUBE_BUFFERS.position[n+1]*SAFE_SPACE_SIZE*2 + parseInt(plane.y)*2);
-      perlinRawBuffers.position.push(CUBE_BUFFERS.position[n+2]*SAFE_SPACE_SIZE*2 + parseInt(plane.z)*2);
-    }
-
-    // texture buffer
-    utils_concat(perlinRawBuffers.texture, CUBE_BUFFERS.texture);
-
-    // index buffer
-    for (let n = 0; n < CUBE_BUFFERS.index.length; n++) {
-      perlinRawBuffers.index.push(CUBE_BUFFERS.index[n] + (4 * p));
-    }
-  }
-
-  // convert regular arrays to webgl buffers
-  for (let texture in rawBuffers) {
-    worldBuffers[texture] = [];
-
-    rawBuffers[texture].forEach(function(buffer) {
-      worldBuffers[texture].push({
-        position: webgl_createArrayBuffer(sceneContext, buffer.position),
-        texture: webgl_createArrayBuffer(sceneContext, buffer.texture),
-        index: webgl_createElementArrayBuffer(sceneContext, buffer.index)
-      });
-    });
-  }
-
-  perlinBuffers = {
-    position: webgl_createArrayBuffer(sceneContext, perlinRawBuffers.position),
-    texture: webgl_createArrayBuffer(sceneContext, perlinRawBuffers.texture),
-    index: webgl_createElementArrayBuffer(sceneContext, perlinRawBuffers.index)
-  };
-}
-
-function world_render() {
-  for (let texture in worldBuffers) {
-    worldBuffers[texture].forEach(function(buffer) {
-      webgl_renderTexturedElement(buffer, textures[texture].glTexture);
-    });
-  } 
-  
-  webgl_renderPerlinElement(perlinBuffers, textures[0].glTexture);
 }
 
 function world_getBlock(x, y, z) {

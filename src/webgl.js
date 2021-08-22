@@ -9,13 +9,13 @@ function webgl_init() {
   shaderProgram = sceneContext.createProgram();
   webgl_linkProgram(shaderProgram, sceneContext, fragmentShader, vertexShader);
 
-  planeShaderProgram = sceneContext.createProgram();
-  webgl_linkProgram(planeShaderProgram, sceneContext, planeFragmentShader, vertexShader);
+  perlinShaderProgram = sceneContext.createProgram();
+  webgl_linkProgram(perlinShaderProgram, sceneContext, perlinFragmentShader, vertexShader);
 
   webgl_setSize(sceneCanvas);  
 }
 
-function webgl_useTextureProgram() {
+function webgl_renderBlockElements(buffers, texture) {
   sceneContext.useProgram(shaderProgram);
 
   webgl_setAttribLocation(shaderProgram, sceneContext, 've'); // vertex vector
@@ -46,41 +46,6 @@ function webgl_useTextureProgram() {
 
   //sceneContext.pixelStorei(sceneContext.UNPACK_PREMULTIPLY_ALPHA_WEBGL, true);
   //sceneContext.pixelStorei(sceneContext.UNPACK_FLIP_Y_WEBGL, 1);
-}
-
-function webgl_usePerlinProgram() {
-  sceneContext.useProgram(planeShaderProgram);
-
-  webgl_setAttribLocation(planeShaderProgram, sceneContext, 've'); // vertex vector
-  webgl_setAttribLocation(planeShaderProgram, sceneContext, 'tc'); // texture vector
-  
-  webgl_setUniformLocation(planeShaderProgram, sceneContext, 'mv'); // move matrix
-  webgl_setUniformLocation(planeShaderProgram, sceneContext, 'pm'); // perspective matrix
-  webgl_setUniformLocation(planeShaderProgram, sceneContext, 't'); 
-
-
-  //Enables depth testing
-  sceneContext.depthMask(false);
-  sceneContext.enable(sceneContext.DEPTH_TEST);
-  sceneContext.depthFunc(sceneContext.LESS);
-
-  //Enables blending
-  
-
-  //Blending function for transparencies
-  sceneContext.enable(sceneContext.BLEND);
-  sceneContext.blendFunc(sceneContext.SRC_ALPHA, sceneContext.ONE_MINUS_SRC_ALPHA);   
-  sceneContext.blendColor(1, 1, 1, 0.5);   
-
-  //Enable culling
-  //sceneContext.enable(sceneContext.CULL_FACE);
-  //sceneContext.cullFace(sceneContext.FRONT_AND_BACK);
-  
-
-}
-
-function webgl_renderTexturedElement(buffers, texture) {
-  webgl_useTextureProgram();
 
   // position buffers
   sceneContext.bindBuffer(sceneContext.ARRAY_BUFFER, buffers.position);
@@ -104,24 +69,49 @@ function webgl_renderTexturedElement(buffers, texture) {
   sceneContext.drawElements(sceneContext.TRIANGLES, buffers.index.numElements, sceneContext.UNSIGNED_SHORT, 0);
 };
 
-function webgl_renderPerlinElement(buffers, texture) {
-  webgl_usePerlinProgram();
+function webgl_renderPerlinElements(buffers, texture) {
+  sceneContext.useProgram(perlinShaderProgram);
+
+  webgl_setAttribLocation(perlinShaderProgram, sceneContext, 've'); // vertex vector
+  webgl_setAttribLocation(perlinShaderProgram, sceneContext, 'tc'); // texture vector
+  
+  webgl_setUniformLocation(perlinShaderProgram, sceneContext, 'mv'); // move matrix
+  webgl_setUniformLocation(perlinShaderProgram, sceneContext, 'pm'); // perspective matrix
+  webgl_setUniformLocation(perlinShaderProgram, sceneContext, 't'); 
+
+
+  //Enables depth testing
+  sceneContext.depthMask(false);
+  sceneContext.enable(sceneContext.DEPTH_TEST);
+  sceneContext.depthFunc(sceneContext.LESS);
+
+  //Enables blending
+  
+
+  //Blending function for transparencies
+  sceneContext.enable(sceneContext.BLEND);
+  sceneContext.blendFunc(sceneContext.SRC_ALPHA, sceneContext.ONE_MINUS_SRC_ALPHA);   
+  sceneContext.blendColor(1, 1, 1, 0.5);   
+
+  //Enable culling
+  //sceneContext.enable(sceneContext.CULL_FACE);
+  //sceneContext.cullFace(sceneContext.FRONT_AND_BACK);
 
   // position buffers
   sceneContext.bindBuffer(sceneContext.ARRAY_BUFFER, buffers.position);
-  sceneContext.vertexAttribPointer(planeShaderProgram.ve, 3, sceneContext.FLOAT, false, 0, 0);
+  sceneContext.vertexAttribPointer(perlinShaderProgram.ve, 3, sceneContext.FLOAT, false, 0, 0);
 
   // texture buffers
   sceneContext.bindBuffer(sceneContext.ARRAY_BUFFER, buffers.texture);
-  sceneContext.vertexAttribPointer(planeShaderProgram.tc, 2, sceneContext.FLOAT, false, 0, 0);
+  sceneContext.vertexAttribPointer(perlinShaderProgram.tc, 2, sceneContext.FLOAT, false, 0, 0);
 
   // index buffers
   sceneContext.bindBuffer(sceneContext.ELEMENT_ARRAY_BUFFER, buffers.index);
 
   // set uniforms
-  sceneContext.uniform1f(planeShaderProgram.t, totalElapsedTime * 0.0001);
-  sceneContext.uniformMatrix4fv(planeShaderProgram.pm, false, pMatrix);
-  sceneContext.uniformMatrix4fv(planeShaderProgram.mv, false, mvMatrix);
+  sceneContext.uniform1f(perlinShaderProgram.t, totalElapsedTime * 0.0001);
+  sceneContext.uniformMatrix4fv(perlinShaderProgram.pm, false, pMatrix);
+  sceneContext.uniformMatrix4fv(perlinShaderProgram.mv, false, mvMatrix);
 
   // draw elements
   sceneContext.drawElements(sceneContext.TRIANGLES, buffers.index.numElements, sceneContext.UNSIGNED_SHORT, 0);
@@ -205,3 +195,160 @@ function modelView_save() {
 function modelView_restore() {
   mvMatrix = mvMatrixStack.pop();
 };
+
+function world_buildBlockBuffers() {
+  let rawBuffers = {};
+  for (let x in world) {
+    for (let y in world[x]) {
+      for (let z in world[x][y]) {
+        let block = world[x][y][z];
+        let texture = block.texture;
+
+        if (texture === TEXTURES_INVISIBLE) {
+          continue;
+        }
+
+        if (rawBuffers[texture] === undefined) {
+          rawBuffers[texture] = [
+            {
+              position: [],
+              texture: [],
+              index: [],
+              numBlocks: 0
+            }
+          ];
+        }
+
+        let lastBuffer = rawBuffers[texture][rawBuffers[texture].length-1];
+
+        // used to slightly offset all blocks so they don't fit perfectly, and create a more organic fitting
+        let randomOffset = texture === TEXTURES_DIRT ? 0 : (Math.random() - 0.5) * 0.1;
+
+        // position buffer
+        for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
+          lastBuffer.position.push(CUBE_BUFFERS.position[n] + parseInt(x)*2 + randomOffset);
+          lastBuffer.position.push(CUBE_BUFFERS.position[n+1] + parseInt(y)*2 + randomOffset);
+          lastBuffer.position.push(CUBE_BUFFERS.position[n+2] + parseInt(z)*2 + randomOffset);
+        }
+
+        // texture buffer
+        utils_concat(lastBuffer.texture, CUBE_BUFFERS.texture);
+
+        // index buffer
+        for (let n = 0; n < CUBE_BUFFERS.index.length; n++) {
+          lastBuffer.index.push(CUBE_BUFFERS.index[n] + (24 * lastBuffer.numBlocks));
+        }
+
+        if (lastBuffer.numBlocks >= BLOCKS_PER_BUFFER) {
+          rawBuffers[texture].push({
+            position: [],
+            texture: [],
+            index: [],
+            numBlocks: 0
+          });
+        }
+        else {
+          lastBuffer.numBlocks++;
+        }
+      }
+    }
+  }
+
+  // convert regular arrays to webgl buffers
+  for (let texture in rawBuffers) {
+    worldBuffers[texture] = [];
+
+    rawBuffers[texture].forEach(function(buffer) {
+      worldBuffers[texture].push({
+        position: webgl_createArrayBuffer(sceneContext, buffer.position),
+        texture: webgl_createArrayBuffer(sceneContext, buffer.texture),
+        index: webgl_createElementArrayBuffer(sceneContext, buffer.index)
+      });
+    });
+  }
+}
+
+function world_buildFieldBuffers() {
+  let rawBuffers = {
+    position: [],
+    texture: [],
+    index: []
+  };
+
+  for (let p=0; p<worldFields.length; p++) {
+    let field = worldFields[p];
+
+    // position buffer
+    for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
+      rawBuffers.position.push(CUBE_BUFFERS.position[n]*SAFE_SPACE_SIZE*2 + parseInt(field.x)*2);
+      rawBuffers.position.push(CUBE_BUFFERS.position[n+1]*SAFE_SPACE_SIZE*2 + parseInt(field.y)*2);
+      rawBuffers.position.push(CUBE_BUFFERS.position[n+2]*SAFE_SPACE_SIZE*2 + parseInt(field.z)*2);
+    }
+
+    // texture buffer
+    utils_concat(rawBuffers.texture, CUBE_BUFFERS.texture);
+
+    // index buffer
+    for (let n = 0; n < CUBE_BUFFERS.index.length; n++) {
+      rawBuffers.index.push(CUBE_BUFFERS.index[n] + p);
+    }
+  }
+
+  // convert regular arrays to webgl buffers
+  fieldBuffers = {
+    position: webgl_createArrayBuffer(sceneContext, rawBuffers.position),
+    texture: webgl_createArrayBuffer(sceneContext, rawBuffers.texture),
+    index: webgl_createElementArrayBuffer(sceneContext, rawBuffers.index)
+  };
+}
+
+function world_buildSphereBuffers() {
+  let rawBuffers = {
+    position: [],
+    texture: [],
+    index: []
+  };
+
+  for (let p=0; p<worldSpheres.length; p++) {
+    let sphere = worldSpheres[p];
+
+    // position buffer
+    for (let n = 0; n < SPHERE_BUFFERS.position.length; n+=3) {
+      rawBuffers.position.push(SPHERE_BUFFERS.position[n]*SPHERE_SIZE*2 + parseInt(sphere.x)*2);
+      rawBuffers.position.push(SPHERE_BUFFERS.position[n+1]*SPHERE_SIZE*2 + parseInt(sphere.y)*2);
+      rawBuffers.position.push(SPHERE_BUFFERS.position[n+2]*SPHERE_SIZE*2 + parseInt(sphere.z)*2);
+    }
+
+    // texture buffer
+    utils_concat(rawBuffers.texture, SPHERE_BUFFERS.texture);
+
+    // index buffer
+    for (let n = 0; n < SPHERE_BUFFERS.index.length; n++) {
+      rawBuffers.index.push(SPHERE_BUFFERS.index[n] + p);
+    }
+  }
+
+  // convert regular arrays to webgl buffers
+  sphereBuffers = {
+    position: webgl_createArrayBuffer(sceneContext, rawBuffers.position),
+    texture: webgl_createArrayBuffer(sceneContext, rawBuffers.texture),
+    index: webgl_createElementArrayBuffer(sceneContext, rawBuffers.index)
+  };
+}
+
+function world_buildBuffers() {
+  world_buildBlockBuffers();
+  world_buildFieldBuffers();
+  world_buildSphereBuffers();
+}
+
+function world_render() {
+  for (let texture in worldBuffers) {
+    worldBuffers[texture].forEach(function(buffer) {
+      webgl_renderBlockElements(buffer, textures[texture].glTexture);
+    });
+  } 
+  
+  webgl_renderPerlinElements(fieldBuffers, textures[0].glTexture);
+  webgl_renderPerlinElements(sphereBuffers, textures[0].glTexture);
+}
