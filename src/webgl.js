@@ -93,7 +93,7 @@ function webgl_renderPerlinElements(buffers, color, perlinSize) {
   //Blending function for transparencies
   sceneContext.enable(sceneContext.BLEND);
   sceneContext.blendFunc(sceneContext.SRC_ALPHA, sceneContext.ONE_MINUS_SRC_ALPHA);   
-  sceneContext.blendColor(1, 1, 1, 0.5);   
+  sceneContext.blendColor(1, 1, 1, 1);   
 
   //Enable culling
   //sceneContext.disable(sceneContext.CULL_FACE);
@@ -191,13 +191,13 @@ function webgl_setAttribLocation(program, context, key) {
   context.enableVertexAttribArray(program[key]);
 }
 
-function modelView_save() {
+function webgl_save() {
   var copy = mat4.create();
   mat4.set(mvMatrix, copy);
   mvMatrixStack.push(copy);
 };
 
-function modelView_restore() {
+function webgl_restore() {
   mvMatrix = mvMatrixStack.pop();
 };
 
@@ -313,25 +313,20 @@ function webgl_buildSphereBuffers() {
     texture: [],
     index: []
   };
+  
+  // position buffer
+  for (let n = 0; n < SPHERE_BUFFERS.position.length; n+=3) {
+    rawBuffers.position.push(SPHERE_BUFFERS.position[n]);
+    rawBuffers.position.push(SPHERE_BUFFERS.position[n+1]);
+    rawBuffers.position.push(SPHERE_BUFFERS.position[n+2]);
+  }
 
-  for (let p=0; p<worldSpheres.length; p++) {
-    let sphere = worldSpheres[p];
-    const radius = sphere.radius;
+  // texture buffer
+  utils_concat(rawBuffers.texture, SPHERE_BUFFERS.texture);
 
-    // position buffer
-    for (let n = 0; n < SPHERE_BUFFERS.position.length; n+=3) {
-      rawBuffers.position.push(SPHERE_BUFFERS.position[n]*radius*2 + parseInt(sphere.x)*2);
-      rawBuffers.position.push(SPHERE_BUFFERS.position[n+1]*radius*2 + parseInt(sphere.y)*2);
-      rawBuffers.position.push(SPHERE_BUFFERS.position[n+2]*radius*2 + parseInt(sphere.z)*2);
-    }
-
-    // texture buffer
-    utils_concat(rawBuffers.texture, SPHERE_BUFFERS.texture);
-
-    // index buffer
-    for (let n = 0; n < SPHERE_BUFFERS.index.length; n++) {
-      rawBuffers.index.push(SPHERE_BUFFERS.index[n] + p);
-    }
+  // index buffer
+  for (let n = 0; n < SPHERE_BUFFERS.index.length; n++) {
+    rawBuffers.index.push(SPHERE_BUFFERS.index[n]);
   }
 
   // convert regular arrays to webgl buffers
@@ -355,7 +350,19 @@ function webgl_render() {
     });
   } 
   
-  webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], 30);
+  for (let p=0; p<worldSpheres.length; p++) {
+    let sphere = worldSpheres[p];
+
+    webgl_save();
+    mat4.translate(mvMatrix, [sphere.x*2, sphere.y*2, sphere.z*2]);
+    let scale = sphereRadii*2;
+    mat4.scale(mvMatrix, [scale,scale,scale]);
+    webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], 30);
+    webgl_restore();
+  }
+
+  
+
   webgl_renderPerlinElements(fieldBuffers, [0, 0.5, 0.8], 10);
   
 }

@@ -67,8 +67,7 @@ function world_addSphere(x, y, z) {
   worldSpheres.push({
     x: x,
     y: y,
-    z: z,
-    radius: SPHERE_START_RADIUS
+    z: z
   });
 }
 

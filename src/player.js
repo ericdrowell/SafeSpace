@@ -1,5 +1,6 @@
 function player_init() {
   // start pos
+  // TODO: these should all just be flat variables
   player = {
     isAirborne: false,
     pitch: -0.12,
@@ -38,7 +39,7 @@ function player_inNova() {
     const cx = nova.x;
     const cy = nova.y;
     const cz = nova.z;
-    const r = nova.radius;
+    const r = sphereRadii;
     if (Math.pow(( x-cx ),2) + Math.pow((y-cy),2) + Math.pow((z-cz),2) < r*r) {
       return true;
     }
@@ -60,8 +61,10 @@ function player_update() {
   }
 
   if (player_inNova()) {
-    soundEffects_play(SOUND_EFFECTS_EXPLOSION);
-    gameState = GAME_STATE_DIED;
+    if (!player.isSafe) {
+      soundEffects_play(SOUND_EFFECTS_EXPLOSION);
+      gameState = GAME_STATE_DIED;
+    }
   }
 
   // handle moving forward and backward

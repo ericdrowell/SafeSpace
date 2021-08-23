@@ -25,6 +25,7 @@ function game_init() {
 
   level_init();
   player_init();
+  music_init(SONG);
 
   gameState = GAME_STATE_INTRO;
 
@@ -152,6 +153,7 @@ function game_update() {
   
   if (gameState === GAME_STATE_PLAYING) {
     player_update();
+    nova_update();
   }
 }
 

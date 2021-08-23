@@ -30,7 +30,9 @@ const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
 const RAY_TRACE_INCREMENT = 0.3;
 const SAFE_SPACE_SIZE = 5;
 const SPHERE_START_RADIUS = 6;
+const NOVA_EXPAND_SPEED = 6; // // per second
 
+let sphereRadii = SPHERE_START_RADIUS;
 let world = []; // world blocks
 let worldFields = [];
 let worldSpheres = [];
