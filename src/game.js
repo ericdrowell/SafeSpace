@@ -151,10 +151,6 @@ function game_update() {
   }
   
   if (gameState === GAME_STATE_PLAYING) {
-    if (player.health <= 0) {
-      game_die();
-    }
-    
     player_update();
   }
 }

@@ -10,5 +10,5 @@ function level_initLevel1() {
   world_addSafeSpace(-262, 32, 18);
 
 
-  world_addSphere(-242, 50, 18);
+  world_addSphere(-242, 32, 18);
 }

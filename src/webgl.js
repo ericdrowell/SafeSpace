@@ -316,12 +316,13 @@ function webgl_buildSphereBuffers() {
 
   for (let p=0; p<worldSpheres.length; p++) {
     let sphere = worldSpheres[p];
+    const radius = sphere.radius;
 
     // position buffer
     for (let n = 0; n < SPHERE_BUFFERS.position.length; n+=3) {
-      rawBuffers.position.push(SPHERE_BUFFERS.position[n]*SPHERE_SIZE*2 + parseInt(sphere.x)*2);
-      rawBuffers.position.push(SPHERE_BUFFERS.position[n+1]*SPHERE_SIZE*2 + parseInt(sphere.y)*2);
-      rawBuffers.position.push(SPHERE_BUFFERS.position[n+2]*SPHERE_SIZE*2 + parseInt(sphere.z)*2);
+      rawBuffers.position.push(SPHERE_BUFFERS.position[n]*radius*2 + parseInt(sphere.x)*2);
+      rawBuffers.position.push(SPHERE_BUFFERS.position[n+1]*radius*2 + parseInt(sphere.y)*2);
+      rawBuffers.position.push(SPHERE_BUFFERS.position[n+2]*radius*2 + parseInt(sphere.z)*2);
     }
 
     // texture buffer
@@ -354,7 +355,7 @@ function webgl_render() {
     });
   } 
   
-  webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], 80);
+  webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], 30);
   webgl_renderPerlinElements(fieldBuffers, [0, 0.5, 0.8], 10);
   
 }
