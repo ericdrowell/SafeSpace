@@ -22,10 +22,10 @@ function game_init() {
   webgl_init();
   hud_init();
   userInputs_init();
-
   level_init();
   player_init();
-  music_init(SONG);
+  music_init();
+  terminal_init();
 
   textures_init(function() {
     texturesReady = true;
@@ -112,24 +112,32 @@ function game_setState(state) {
   gameState = nextState;
 
   // state transition scenarios
-  // level title -> intro
+  // title -> level intro
   if (prevState === GAME_STATE_TITLE) {
     music_play();
+    terminal_show();
+    soundEffects_play(SOUND_EFFECTS_DIALOG);
+    soundEffects_play(SOUND_EFFECTS_TERMINAL);
   }
   // level intro -> playing
   else if (prevState === GAME_STATE_LEVEL_INTRO) {
-    game_requestPointerLock()
+    terminal_hide();
+    game_requestPointerLock();
     soundEffects_play(SOUND_EFFECTS_START);
+
   }
   // playing -> paused
   else if (nextState === GAME_STATE_PAUSED) {
+    terminal_show();
     music_stop();
     game_exitPointerLock();
     soundEffects_play(SOUND_EFFECTS_DIALOG);
+    soundEffects_play(SOUND_EFFECTS_TERMINAL);
   }
   // paused -> playing
   else if (prevState === GAME_STATE_PAUSED) {
     music_play();
+    terminal_hide();
 
     player.sideMovement = 0;
     player.straightMovement = 0;

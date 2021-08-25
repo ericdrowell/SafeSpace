@@ -10,13 +10,13 @@ const SOUND_EFFECTS_NOVA_EXPLOSION =       function(){zzfx(...[,,1875,.06,.19,3,
 const SOUND_EFFECTS_NOVA_BLOCK =           function(){zzfx(1,.05,1321,.23,0,.2,2,1.22,1.1,-6.3,181,0,0,0,36,0,0,1,.17,0)};
 const SOUND_EFFECTS_NOVA_COUNTDOWN =       function(){zzfx(1.84,.05,74,.02,.14,.85,0,1.27,.6,.7,0,0,0,.4,-55,.4,.42,.86,.08,0)};
 const SOUND_EFFECTS_NOVA_RESET =           function(){zzfx(...[1.06,,105,.06,.2,.69,1,.77,-8.4,,-37,.07,.05,,,,,.58,.09,.25])};
+const SOUND_EFFECTS_TERMINAL =             function(){zzfx(1,.05,1373,.07,.05,.07,3,.16,0,0,292,.01,.07,0,0,0,0,1,.12,0)};           
 
 // not used yet
 //const SOUND_EFFECTS_NOVA_EXPLOSION =      function(){zzfx(...[,,1875,.06,.19,3,3,.02,,18,-177,.24,,,-101,,,,1,.01])};
 //const SOUND_EFFECTS_EXPLOSION =           function(){zzfx(1,.05,855,0,.28,.85,4,2.92,0,.3,0,0,.18,.7,0,1,0,.97,.06,0)};
 // const SOUND_EFFECTS_ACTIVATED =           function(){zzfx(1.56,.05,380,.03,.26,.42,0,.72,0,0,0,0,0,.2,-64,.7,.27,.88,.03,.24)};
 // const SOUND_EFFECTS_ROBOT =               function(){zzfx(1.13,.05,1673,.03,.21,.06,1,1.47,0,13,-605,0,.21,0,71,0,0,.58,0,.44)};
-// const SOUND_EFFECTS_COMPUTER =            function(){zzfx(1,.05,1373,.07,.05,.07,3,.16,0,0,292,.01,.07,0,0,0,0,1,.12,0)};
 // const SOUND_EFFECTS_NOTIFICATON =         function(){zzfx(1.46,.05,1090,.15,.2,.16,0,.28,0,0,-275,.24,0,0,0,0,.12,.74,.12,0)};
 // const SOUND_EFFECTS_NOVA =                function(){zzfx(1.63,.05,34,0,.38,.8,1,1.08,.4,.8,0,0,0,.6,0,.9,.47,.88,.09,0)};
 // zzfx(2.02,.05,147,0,.06,.05,0,.86,-8.7,0,0,0,0,.2,22,.3,.14,.84,.05,.12) monster talking

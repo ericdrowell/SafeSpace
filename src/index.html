@@ -2,9 +2,46 @@
 <html style="background:black;">
   <head>
     <title>Safe Space (js13k 2021)</title>
+    <style>
+      #terminal {
+        position: fixed;
+        display: none;
+        background-color: black;
+        background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 120%);
+        height: 100vh;
+        margin: 0;
+        overflow: hidden;
+        padding: 2rem;
+        color: white;
+        font: 1.3rem Inconsolata, monospace;
+        text-shadow: 0 0 5px #C8C8C8;
+        box-sizing: border-box;
+      }
+      #terminal::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px);
+        pointer-events: none;
+      }
+      #cursor {
+        width: 12px;
+        height: 1.1rem;
+        background-color: white;
+        margin-bottom: -2px;
+        display: inline-block;
+        box-shadow: 0 0 5px #C8C8C8;
+      }
+    </style>
   </head>
   <body>
     <canvas id="sceneCanvas"></canvas>
+    <div id="terminal">
+      <p>Dr. Heisenberg, there's no time to explain.  You must leave at once.<span id="cursor"></span></p>
+    </div>
     <canvas id="hudCanvas"></canvas>
     <script>{js}</script>
   </body>

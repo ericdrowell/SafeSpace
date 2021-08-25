@@ -1,4 +1,5 @@
 
+
 function webgl_init() {
   mvMatrix = mat4.create(); 
   pMatrix = mat4.create();
@@ -13,6 +14,14 @@ function webgl_init() {
   webgl_linkProgram(perlinShaderProgram, sceneContext, perlinFragmentShader, perlinVertexShader);
 
   webgl_setSize(sceneCanvas);  
+}
+
+function webgl_show() {
+  sceneCanvas.style.display = 'block';
+}
+
+function webgl_hide() {
+  sceneCanvas.style.display = 'none';
 }
 
 function webgl_renderBlockElements(buffers, texture) {
@@ -356,7 +365,7 @@ function webgl_render() {
   mat4.rotate(mvMatrix, -player.yaw, [0, 1, 0]);
   mat4.translate(mvMatrix, [-2 * player.x, -2 * (player.y + PLAYER_HEIGHT), -2 * player.z]);
   mat4.translate(mvMatrix, [0, bobble, 0]);
-  
+
   for (let texture in worldBuffers) {
     worldBuffers[texture].forEach(function(buffer) {
       webgl_renderBlockElements(buffer, textures[texture].glTexture);

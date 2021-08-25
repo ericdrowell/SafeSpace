@@ -6,13 +6,11 @@ function canvas2d_init() {
   if (windowRatio > GAME_ASPECT_RATIO) {
     hudCanvas.style.left = '50%';
     hudCanvas.style.marginLeft = '-' + (viewportWidth/2) + 'px';
-    canvasLeft = -1 * (viewportWidth/2);
   }
   // very tall screen
   else {
     hudCanvas.style.top = '50%';
     hudCanvas.style.marginTop = '-' + (viewportHeight/2) + 'px';
-    canvasLeft = 0;
   }
 
   spriteCanvas = document.createElement('canvas');
@@ -25,6 +23,14 @@ function canvas2d_init() {
   textureCanvas.height = 16;
   textureContext = textureCanvas.getContext('2d');
 };
+
+function canvas2d_show() {
+  hudCanvas.style.display = 'block';
+}
+
+function canvas2d_hide() {
+  hudCanvas.style.display = 'none';
+}
 
 function canvas2d_initCanvas(canvas, width, height, pixelRatio) {
   let context = canvas.getContext('2d');
