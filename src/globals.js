@@ -1,18 +1,14 @@
+const PIXEL_RATIO = (window && window.devicePixelRatio) || 1;
 const PLAYER_SPEED = 20; // units / s
 const PLAYER_HEIGHT = 4;
 const PLAYER_STEP_SPEED = 300; // ms
-
 const GAME_STATE_TITLE = 0;
-const GAME_STATE_INTRO = 1;
-const GAME_STATE_PAUSED = 2;
-const GAME_STATE_PLAYING = 3;
+const GAME_STATE_LEVEL_INTRO = 1;
+const GAME_STATE_PLAYING = 2;
+const GAME_STATE_PAUSED = 3;
 const GAME_STATE_DIED = 4;
 const GAME_STATE_WIN = 5;
-
-const PAIN_FLASH_DURATION = 200; // ms
 const MENU_COOLDOWN = 0.5; // s
-const BLOCK_NUM_VERTICES = 24;
-const PIXEL_RATIO = (window && window.devicePixelRatio) || 1;
 // gl drawElements can only handle 64k vertices.  Each block is defined by exactly 24 vertices.  Thus we can at most
 // render 2,666 blocks for each drawElements call.  Exceeding this number will result in skipping of call draws for individual blocks
 const BLOCKS_PER_BUFFER = 2666;
@@ -29,9 +25,12 @@ const OPTIMAL_VIEWPORT_WIDTH = 1300;
 const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
 const RAY_TRACE_INCREMENT = 0.3;
 const SAFE_SPACE_SIZE = 5;
-const SPHERE_START_RADIUS = 6;
-const NOVA_EXPAND_SPEED = 6; // // per second
+const SPHERE_START_RADIUS = 1;
+const NOVA_EXPAND_SPEED = 6; // per second
+const NOVA_MAX_RADIUS = 50; // seconds
 
+let level = 1;
+let nova_isExploding = false;
 let sphereRadii = SPHERE_START_RADIUS;
 let world = []; // world blocks
 let worldFields = [];
@@ -68,7 +67,6 @@ let spritesReady = false;
 let musicReady = false;
 let gameReady = false;
 let gameStarted = false;
-let audio = null;
 let idGenerator = 0;
 let windowRatio;
 let viewportScale;
@@ -81,7 +79,4 @@ let musicPlaying;
 let texturesReady = false;
 let textureCanvas;
 let textureContext;
-let clickBlock = 0;
-let audio_ctx;
 let musicBuffer;
-let firstRender = false;

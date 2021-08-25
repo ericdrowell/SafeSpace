@@ -16,55 +16,52 @@ function userInputs_init() {
   }, false);
 
   document.addEventListener('pointerlockchange', function(evt) {
-    if (!userInputs_isPointerLocked() && gameState === GAME_STATE_PLAYING) {
-      hudDirty = true;
-      game_pause();
-    }
+    userInputs_handlePointerlockChange(evt);
   }, false);
 };
 
 function userInputs_handleKeyDown(evt) {
+  if (gameState === GAME_STATE_PLAYING) {
+    let keycode = ((evt.which) || (evt.keyCode));
 
-  let keycode = ((evt.which) || (evt.keyCode));
+    // https://w3c.github.io/pointerlock/#dfn-engagement-gesture
+    game_requestPointerLock()
 
-  switch (keycode) {
-    case 65:
-      // a key (strafe left)
-      if (gameState === GAME_STATE_PLAYING) {
+    switch (keycode) {
+      case 27:
+        // esc key
+        // NOTE: this code line is only reached if there was a problem with pointer lock
+        // and player is in playing state without pointer lock
+        game_setState(GAME_STATE_PAUSED);
+      case 65:
+        // a key (strafe left)
         player.sideMovement = -1;
-      }
-      break;
-    case 87:
-      // w key (move forward)
-      if (gameState === GAME_STATE_PLAYING) {
+        break;
+      case 87:
+        // w key (move forward)
         player.straightMovement = 1;
-      }
-      break;
-    case 68:
-      // d key (strafe right)
-      if (gameState === GAME_STATE_PLAYING) {
+        break;
+      case 68:
+        // d key (strafe right)
         player.sideMovement = 1;
-      }
-      break;
-    case 83: 
-      // s key (move backwards)
-      if (gameState === GAME_STATE_PLAYING) {
+        break;
+      case 83: 
+        // s key (move backwards)
         player.straightMovement = -1;
-      }
-      break;
-    case 32:
-      player_jump();
-      break;
-    case 82:
-      // r key (reload)
-      hudDirty = true;
-      break;
+        break;
+      case 32:
+        player_jump();
+        break;
+    }
   }
 };
 
 function userInputs_handleKeyUp(evt) {
   if (gameState === GAME_STATE_PLAYING) {
     let keycode = ((evt.which) || (evt.keyCode));
+
+    // https://w3c.github.io/pointerlock/#dfn-engagement-gesture
+    game_requestPointerLock()
 
     switch (keycode) {
       case 65:
@@ -90,7 +87,7 @@ function userInputs_handleKeyUp(evt) {
 
 function userInputs_handleMouseMove(evt) {
   if (gameState === GAME_STATE_PLAYING) {
-    if (userInputs_isPointerLocked()) {
+    if (game_isPointerLocked()) {
       // pitch (up and down)
       player.pitch += evt.movementY * Math.PI * 0.001 * -1;
       if (player.pitch > Math.PI/2) {
@@ -106,20 +103,20 @@ function userInputs_handleMouseMove(evt) {
   }
 }
 
-function userInputs_handleMouseDown() {
-  if (clickBlock === 0) {
-    if (gameState === GAME_STATE_INTRO) {
-      game_start();
-    }
-    else if (gameState === GAME_STATE_PAUSED) {
-      game_resume();
-    }
-    else if (gameState === GAME_STATE_DIED || gameState === GAME_STATE_WIN) {
-      game_restart()
-    }
+function userInputs_handlePointerlockChange(evt) {
+  if (!game_isPointerLocked()) {
+    game_setState(GAME_STATE_PAUSED);
   }
 }
 
-function userInputs_isPointerLocked() {
-  return document.pointerLockElement === hudCanvas;
+function userInputs_handleMouseDown() {
+  if (gameState === GAME_STATE_TITLE) {
+    game_setState(GAME_STATE_LEVEL_INTRO);
+  }
+  else if (gameState === GAME_STATE_LEVEL_INTRO) {
+    game_setState(GAME_STATE_PLAYING);
+  }
+  else if (gameState === GAME_STATE_PAUSED) {
+    game_setState(GAME_STATE_PLAYING);
+  }
 }

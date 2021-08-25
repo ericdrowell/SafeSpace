@@ -27,8 +27,6 @@ function game_init() {
   player_init();
   music_init(SONG);
 
-  gameState = GAME_STATE_INTRO;
-
   textures_init(function() {
     texturesReady = true;
     sprite_init(function() {
@@ -37,6 +35,8 @@ function game_init() {
       game_setReady();
     });
   });
+
+  game_setState(GAME_STATE_TITLE);
 
   game_loop();
 }
@@ -74,25 +74,8 @@ function game_setReady() {
 
 function game_render() {
   // TODO: should use dirty flag instead of looking at state
-  if (gameState === GAME_STATE_PLAYING || (!firstRender && texturesReady)) {
-    let viewAngle = 45; // 45 -> 90
-    let minDist = 0.1;
-    let maxDist = 150; // 100
-    mat4.perspective(viewAngle, sceneCanvas.width / sceneCanvas.height, minDist, maxDist, pMatrix);
-    mat4.identity(mvMatrix);
-
-    webgl_clear(sceneCanvas, sceneContext);
-
-
-    mat4.rotate(mvMatrix, -player.pitch, [1, 0, 0]);
-    mat4.rotate(mvMatrix, -player.yaw, [0, 1, 0]);
-    mat4.translate(mvMatrix, [-2 * player.x, -2 * (player.y + PLAYER_HEIGHT), -2 * player.z]);
-    mat4.translate(mvMatrix, [0, bobble, 0]);
-
-    webgl_render();
-
-    firstRender = true;
-    
+  if (gameState === GAME_STATE_PLAYING) {
+    webgl_render(); 
   }
 
   if (hudDirty && texturesReady) {
@@ -101,56 +84,66 @@ function game_render() {
   }
 };
 
-function game_start() {
-  hudDirty = true;
-  gameState = GAME_STATE_PLAYING;
-  soundEffects_play(SOUND_EFFECTS_START);
-  hudCanvas.requestPointerLock();
-}
-
-function game_pause() {
-  hudDirty = true;
-  gameState = GAME_STATE_PAUSED;
-  soundEffects_play(SOUND_EFFECTS_DIALOG);
-  document.exitPointerLock();
-}
-
-function game_resume() {
-  hudDirty = true;
-  gameState = GAME_STATE_PLAYING;
-  hudCanvas.requestPointerLock();
-  soundEffects_play(SOUND_EFFECTS_DIALOG);
-}
-
-function game_win() {
-  hudDirty = true;
-  setTimeout(function() {
-    hudDirty = true;
-    document.exitPointerLock();
-    gameState = GAME_STATE_WIN;
-    clickBlock = 500;
-  }, 1000);
-
-}
-
-function game_die() {
-  hudDirty = true;
-  document.exitPointerLock();
-  gameState = GAME_STATE_DIED;
-  clickBlock = 500;
-}
-
-function game_update() {
-  // handle click block
-  // TODO: should move this to hud
-  if (clickBlock > 0) {
-    clickBlock -= elapsedTime;
-    if (clickBlock <= 0) {
-      clickBlock = 0;
-      hudDirty = true;
-    }
+function game_requestPointerLock() {
+  if (!game_isPointerLocked()) {
+    hudCanvas.requestPointerLock();
   }
+}
+
+function game_exitPointerLock() {
+  document.exitPointerLock();
+}
+
+function game_isPointerLocked() {
+  return document.pointerLockElement === hudCanvas;
+}
+
+function game_setState(state) {
+  let prevState = gameState;
+  let nextState = state;
+
+  //console.log(prevState + '->' + nextState);
+
+  // if state changing to self, kickout
+  if (prevState === nextState) {
+    return false;
+  }
+
+  gameState = nextState;
+
+  // state transition scenarios
+  // level title -> intro
+  if (prevState === GAME_STATE_TITLE) {
+    music_play();
+  }
+  // level intro -> playing
+  else if (prevState === GAME_STATE_LEVEL_INTRO) {
+    game_requestPointerLock()
+    soundEffects_play(SOUND_EFFECTS_START);
+  }
+  // playing -> paused
+  else if (nextState === GAME_STATE_PAUSED) {
+    music_stop();
+    game_exitPointerLock();
+    soundEffects_play(SOUND_EFFECTS_DIALOG);
+  }
+  // paused -> playing
+  else if (prevState === GAME_STATE_PAUSED) {
+    music_play();
+
+    player.sideMovement = 0;
+    player.straightMovement = 0;
+    player.sideMovement = 0;
+    player.straightMovement = 0;
+
+    game_requestPointerLock()
+    soundEffects_play(SOUND_EFFECTS_DIALOG);
+  }
+
   
+}
+
+function game_update() {  
   if (gameState === GAME_STATE_PLAYING) {
     player_update();
     nova_update();

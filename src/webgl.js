@@ -344,6 +344,19 @@ function webgl_buildBuffers() {
 }
 
 function webgl_render() {
+  let viewAngle = 45; // 45 -> 90
+  let minDist = 0.1;
+  let maxDist = 150; // 100
+  mat4.perspective(viewAngle, sceneCanvas.width / sceneCanvas.height, minDist, maxDist, pMatrix);
+  mat4.identity(mvMatrix);
+
+  webgl_clear(sceneCanvas, sceneContext);
+
+  mat4.rotate(mvMatrix, -player.pitch, [1, 0, 0]);
+  mat4.rotate(mvMatrix, -player.yaw, [0, 1, 0]);
+  mat4.translate(mvMatrix, [-2 * player.x, -2 * (player.y + PLAYER_HEIGHT), -2 * player.z]);
+  mat4.translate(mvMatrix, [0, bobble, 0]);
+  
   for (let texture in worldBuffers) {
     worldBuffers[texture].forEach(function(buffer) {
       webgl_renderBlockElements(buffer, textures[texture].glTexture);
