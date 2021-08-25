@@ -22,7 +22,7 @@
     "jshint": "jshint ./src/*.js",
     "create-dist": "rm -rf ./dist && mkdir ./dist && mkdir ./dist/shaders",
     "closure": "google-closure-compiler --compilation_level=ADVANCED --js=./dist/game-wrapped.js --js_output_file=./dist/safe-space.min.js",
-    "minify": "terser ./dist/game-wrapped.js -c -m -o ./dist/safe-space.min.js",
+    "minify": "terser ./dist/game-wrapped.js -c passes=2 -m -o ./dist/safe-space.min.js",
     "concat": "concat -o ./dist/game-concatenated.js ./src/*.js ./lib/*.js ./dist/shaders/*.js",
     "html": "html-minifier --collapse-whitespace ./dist/index-uncompressed.html -o ./dist/index.html",
     "watch": "npm-watch",

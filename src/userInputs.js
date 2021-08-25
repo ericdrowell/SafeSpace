@@ -33,6 +33,7 @@ function userInputs_handleKeyDown(evt) {
         // NOTE: this code line is only reached if there was a problem with pointer lock
         // and player is in playing state without pointer lock
         game_setState(GAME_STATE_PAUSED);
+        break;
       case 65:
         // a key (strafe left)
         player.sideMovement = -1;
@@ -104,7 +105,7 @@ function userInputs_handleMouseMove(evt) {
 }
 
 function userInputs_handlePointerlockChange(evt) {
-  if (!game_isPointerLocked()) {
+  if (!game_isPointerLocked() && gameState === GAME_STATE_PLAYING) {
     game_setState(GAME_STATE_PAUSED);
   }
 }
@@ -116,7 +117,14 @@ function userInputs_handleMouseDown() {
   else if (gameState === GAME_STATE_LEVEL_INTRO) {
     game_setState(GAME_STATE_PLAYING);
   }
+  else if (gameState === GAME_STATE_PLAYING) {
+    // https://w3c.github.io/pointerlock/#dfn-engagement-gesture
+    game_requestPointerLock()
+  }
   else if (gameState === GAME_STATE_PAUSED) {
     game_setState(GAME_STATE_PLAYING);
+  }
+  else if (gameState === GAME_STATE_DIED) {
+    game_setState(GAME_STATE_LEVEL_INTRO);
   }
 }

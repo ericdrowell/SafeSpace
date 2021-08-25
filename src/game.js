@@ -98,11 +98,10 @@ function game_isPointerLocked() {
   return document.pointerLockElement === hudCanvas;
 }
 
-function game_setState(state) {
+function game_setState(nextState) {
   let prevState = gameState;
-  let nextState = state;
 
-  //console.log(prevState + '->' + nextState);
+  console.log(prevState + '->' + nextState);
 
   // if state changing to self, kickout
   if (prevState === nextState) {
@@ -113,7 +112,8 @@ function game_setState(state) {
 
   // state transition scenarios
   // title -> level intro
-  if (prevState === GAME_STATE_TITLE) {
+  if (nextState === GAME_STATE_LEVEL_INTRO) {
+    music_stop();
     music_play();
     terminal_show();
     soundEffects_play(SOUND_EFFECTS_DIALOG);
@@ -121,6 +121,7 @@ function game_setState(state) {
   }
   // level intro -> playing
   else if (prevState === GAME_STATE_LEVEL_INTRO) {
+    webgl_show();
     terminal_hide();
     game_requestPointerLock();
     soundEffects_play(SOUND_EFFECTS_START);
@@ -129,6 +130,7 @@ function game_setState(state) {
   // playing -> paused
   else if (nextState === GAME_STATE_PAUSED) {
     terminal_show();
+    webgl_hide();
     music_stop();
     game_exitPointerLock();
     soundEffects_play(SOUND_EFFECTS_DIALOG);
@@ -138,6 +140,7 @@ function game_setState(state) {
   else if (prevState === GAME_STATE_PAUSED) {
     music_play();
     terminal_hide();
+    webgl_show();
 
     player.sideMovement = 0;
     player.straightMovement = 0;
@@ -146,6 +149,14 @@ function game_setState(state) {
 
     game_requestPointerLock()
     soundEffects_play(SOUND_EFFECTS_DIALOG);
+  }
+  // playing -> died
+  else if (nextState === GAME_STATE_DIED) {
+    terminal_show();
+    webgl_hide();
+    music_stop();
+    game_exitPointerLock();
+    soundEffects_play(SOUND_EFFECTS_DIED);
   }
 
   

@@ -19,6 +19,7 @@ function nova_reset() {
   nova_isExploding = false;
   sphereRadii = SPHERE_START_RADIUS;
   soundEffects_play(SOUND_EFFECTS_NOVA_RESET);
+  music_play();
 }
 
 function nova_start() {

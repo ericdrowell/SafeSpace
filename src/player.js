@@ -11,7 +11,8 @@ function player_init() {
     y: 26.5,
     yaw: 6.3,
     z: 45,
-    isSafe: false
+    inField: false,
+    inNova: false,
   };
 }
 
@@ -50,21 +51,30 @@ function player_inNova() {
 
 function player_update() {
   // if entering safe space
-  if (!player.isSafe && player_inSafeSpace()) {
+  if (!player.inField && player_inSafeSpace()) {
     soundEffects_play(SOUND_EFFECTS_ENTER_SAFE_SPACE);
-    player.isSafe = true;
+    player.inField = true;
   }
   // if exiting safe space
-  else if (player.isSafe && !player_inSafeSpace()) {
+  else if (player.inField && !player_inSafeSpace()) {
     soundEffects_play(SOUND_EFFECTS_EXIT_SAFE_SPACE);
-    player.isSafe = false;
+    player.inField = false;
   }
 
-  if (player_inNova()) {
-    if (!player.isSafe) {
-      soundEffects_play(SOUND_EFFECTS_EXPLOSION);
-      gameState = GAME_STATE_DIED;
+  // if entering nova
+  if (!player.inNova && player_inNova()) {
+    if (player.inField) {
+      soundEffects_play(SOUND_EFFECTS_FIELD_PROTECT);
     }
+    else {
+      game_setState(GAME_STATE_DIED);
+    }
+
+    player.inNova = true;
+  }
+  // if exiting nova
+  else if (player.inNova && !player_inNova()) {
+    player.inNova = false;
   }
 
   // handle moving forward and backward

@@ -79,7 +79,7 @@ function webgl_renderBlockElements(buffers, texture) {
   sceneContext.drawElements(sceneContext.TRIANGLES, buffers.index.numElements, sceneContext.UNSIGNED_SHORT, 0);
 };
 
-function webgl_renderPerlinElements(buffers, color, perlinSize) {
+function webgl_renderPerlinElements(buffers, color, perlinSize, hasDepthMask) {
   sceneContext.useProgram(perlinShaderProgram);
 
   webgl_setAttribLocation(perlinShaderProgram, sceneContext, 've'); // vertex vector
@@ -92,7 +92,7 @@ function webgl_renderPerlinElements(buffers, color, perlinSize) {
   webgl_setUniformLocation(perlinShaderProgram, sceneContext, 'perlinSize'); // perspective matrix
 
   //Enables depth testing
-  sceneContext.depthMask(false);
+  sceneContext.depthMask(hasDepthMask);
   sceneContext.enable(sceneContext.DEPTH_TEST);
   sceneContext.depthFunc(sceneContext.LESS);
 
@@ -379,12 +379,12 @@ function webgl_render() {
     mat4.translate(mvMatrix, [sphere.x*2, sphere.y*2, sphere.z*2]);
     let scale = sphereRadii*2;
     mat4.scale(mvMatrix, [scale,scale,scale]);
-    webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], 30);
+    webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], 30, true);
     webgl_restore();
   }
 
   
 
-  webgl_renderPerlinElements(fieldBuffers, [0, 0.5, 0.8], 10);
+  webgl_renderPerlinElements(fieldBuffers, [0, 0.5, 0.8], 10, false);
   
 }

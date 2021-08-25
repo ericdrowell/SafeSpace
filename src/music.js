@@ -11,5 +11,7 @@ function music_play() {
 }
 
 function music_stop() {
-  music_audioNode.stop();
+  if (music_audioNode) {
+    music_audioNode.stop();
+  }
 }
