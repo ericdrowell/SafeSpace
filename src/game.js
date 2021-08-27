@@ -6,17 +6,17 @@ setTimeout(function() {
 }, 50);
 
 function game_init() {
-  game_setViewportSize();
+  game_setState(GAME_STATE_TITLE);
 
+  game_setViewportSize();
   canvas2d_init()
   webgl_init();
   hud_init();
   userInputs_init();
-  level_init();
   player_init();
+  level_init();
   music_init();
   terminal_init();
-  title_init();
 
   textures_init(function() {
     texturesReady = true;
@@ -27,7 +27,7 @@ function game_init() {
     });
   });
 
-  game_setState(GAME_STATE_TITLE);
+  
 
   game_loop();
 }
@@ -64,14 +64,16 @@ function game_setReady() {
 }
 
 function game_render() {
-  // TODO: should use dirty flag instead of looking at state
-  if (gameState === GAME_STATE_PLAYING) {
-    webgl_render(); 
-  }
+  if (texturesReady) {
+    // TODO: should use dirty flag instead of looking at state
+    if (gameState === GAME_STATE_PLAYING || gameState === GAME_STATE_TITLE) {
+      webgl_render(); 
+    }
 
-  if (hudDirty && texturesReady) {
-    hud_render();
-    hudDirty = false;
+    if (hudDirty) {
+      hud_render();
+      hudDirty = false;
+    }
   }
 };
 
@@ -106,13 +108,13 @@ function game_setState(nextState) {
   if (nextState === GAME_STATE_LEVEL_INTRO) {
     music_stop();
     music_play();
-    title_hide();
     terminal_show();
     soundEffects_play(SOUND_EFFECTS_DIALOG);
     soundEffects_play(SOUND_EFFECTS_TERMINAL);
   }
   // level intro -> playing
   else if (prevState === GAME_STATE_LEVEL_INTRO) {
+    level_init();
     webgl_show();
     terminal_hide();
     game_requestPointerLock();

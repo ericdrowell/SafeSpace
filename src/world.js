@@ -203,12 +203,9 @@ function world_getBlock(x, y, z) {
 
 // use ray tracing to find collisions
 function world_moveObject(object, xChange, yChange, zChange) {
-  
   let newX = object.x;
   let newY = object.y;
   let newZ = object.z;
-
-  
 
   // y movement
   let yChangeAbs = Math.abs(yChange);

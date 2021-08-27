@@ -1,16 +1,11 @@
 function player_init() {
-  // start pos
   // TODO: these should all just be flat variables
   player = {
     isAirborne: false,
-    pitch: -0.12,
     sideMovement: 0,
     straightMovement: 0,
     upVelocity: 0,
-    x: -251.9,
-    y: 26.5,
-    yaw: 6.3,
-    z: 45,
+    pitch: 0,
     inField: false,
     inNova: false,
   };

@@ -211,6 +211,8 @@ function webgl_restore() {
 };
 
 function webgl_buildBlockBuffers() {
+  worldBuffers = {};
+
   let rawBuffers = {};
   for (let x in world) {
     for (let y in world[x]) {
@@ -289,6 +291,8 @@ function webgl_buildFieldBuffers() {
     index: []
   };
 
+  const zSize = gameState === GAME_STATE_TITLE ? 0 : SAFE_SPACE_SIZE;
+
   for (let p=0; p<worldFields.length; p++) {
     let field = worldFields[p];
 
@@ -296,7 +300,7 @@ function webgl_buildFieldBuffers() {
     for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
       rawBuffers.position.push(CUBE_BUFFERS.position[n]*SAFE_SPACE_SIZE*2 + parseInt(field.x)*2);
       rawBuffers.position.push(CUBE_BUFFERS.position[n+1]*SAFE_SPACE_SIZE*2 + parseInt(field.y)*2);
-      rawBuffers.position.push(CUBE_BUFFERS.position[n+2]*SAFE_SPACE_SIZE*2 + parseInt(field.z)*2);
+      rawBuffers.position.push(CUBE_BUFFERS.position[n+2]*zSize*2 + parseInt(field.z)*2);
     }
 
     // texture buffer
@@ -372,6 +376,14 @@ function webgl_render() {
     });
   } 
   
+  let spherePerlinSize = 30;
+  let fieldPerlinSize = 10;
+
+  if (gameState === GAME_STATE_TITLE) {
+    spherePerlinSize *= 2;
+    fieldPerlinSize *= 2;
+  }
+
   for (let p=0; p<worldSpheres.length; p++) {
     let sphere = worldSpheres[p];
 
@@ -379,12 +391,12 @@ function webgl_render() {
     mat4.translate(mvMatrix, [sphere.x*2, sphere.y*2, sphere.z*2]);
     let scale = sphereRadii*2;
     mat4.scale(mvMatrix, [scale,scale,scale]);
-    webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], 30, true);
+    webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], spherePerlinSize, true);
     webgl_restore();
   }
 
   
-
-  webgl_renderPerlinElements(fieldBuffers, [0, 0.5, 0.8], 10, false);
+  
+  webgl_renderPerlinElements(fieldBuffers, [0, 0.5, 0.8], fieldPerlinSize, false);
   
 }
