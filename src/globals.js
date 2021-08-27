@@ -80,3 +80,5 @@ let textureCanvas;
 let textureContext;
 let musicBuffer;
 let terminalEl;
+let titleEl;
+let titleTextEl;

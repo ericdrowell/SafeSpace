@@ -3,6 +3,13 @@
   <head>
     <title>Safe Space (js13k 2021)</title>
     <style>
+      html, body {
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+        background-color: black;
+        height: 100%;
+      }
       #terminal {
         position: fixed;
         display: none;
@@ -35,12 +42,130 @@
         display: inline-block;
         box-shadow: 0 0 5px #C8C8C8;
       }
+
+
+
+#title {
+
+
+  background: black;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  position: fixed;
+  display: none;
+  overflow: hidden;
+}
+
+.title-inner {
+
+}
+
+.text-effect {
+  overflow: hidden;
+  position: relative;
+  padding: 3px;
+  filter: contrast(130%) brightness(400%);
+}
+
+.neon {
+  position: relative;
+  
+
+  background: black;
+  
+
+  color: transparent;
+}
+  
+.neon::before,
+.neon::after {
+
+    content: attr(data-text);
+    
+
+    color: white;
+    
+
+    filter: blur(0.02em);
+    
+    position: absolute;
+    top: 0; left: 0;
+    pointer-events: none;
+  }
+  
+
+  .neon::after {
+    mix-blend-mode: difference;
+  }
+
+
+
+.gradient,
+.spotlight {
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  pointer-events: none;
+  z-index: 10;  
+}
+
+.gradient {
+  background: linear-gradient(30deg, rgb(0, 128, 205), rgb(205, 0, 0));
+
+  mix-blend-mode: multiply;
+}
+
+.spotlight {
+  animation: light 10s infinite linear;
+
+  background: 
+    radial-gradient(circle, white, transparent 25%) 0 0 / 25% 25%, 
+    radial-gradient(circle, white, black 25%) 200% 200% / 12.5% 12.5%;
+  top: -100%; left: -100%;
+  
+  mix-blend-mode: color-dodge;
+}
+
+@keyframes light {
+  100% {
+    transform: translate3d(10%, 50%, 0);
+  }
+}
+
+
+.neon {
+  -webkit-font-smoothing: antialiased;
+  font: 300 10vw system-ui;
+  text-transform: uppercase;
+  text-align: center;
+  margin: 0;
+}
+  
+  .neon:focus { outline: none; border: 1px dotted white; }
+
+
+
+
+
     </style>
   </head>
   <body>
+    <div id="title">
+      <div class="title-inner">
+        <div class="text-effect">
+          <h1 class="neon" data-text="Safe Space">Safe Space</h1>
+          <div class="gradient"></div>
+          <div class="spotlight"></div>
+        </div>
+      </div>
+    </div>
+
+
+
     <canvas id="sceneCanvas"></canvas>
     <div id="terminal">
-      <p>> Dr. Heisenberg, there's no time to explain.  You must leave the lab at once.  The fusion reactors are melting down.  I've created several SAFE SPACES to protect you from radioactive bursts.  I'll tell you more once you reach the infirmary.  HURRY!!<span id="cursor"></span></p>
+      <p>> Dr. Heisenberg, there's no time to explain.  You must leave the lab at once.  The fusion reactors are melting down.  I've created a SAFE SPACE that protects you from radioactive bursts when you're inside.  I'll tell you more once you reach the infirmary.  HURRY!!<span id="cursor"></span></p>
     </div>
     <canvas id="hudCanvas"></canvas>
     <script>{js}</script>

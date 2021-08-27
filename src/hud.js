@@ -7,9 +7,10 @@ function hud_render() {
 
   hudContext.save();
   hudContext.scale(viewportScale, viewportScale);
-  
+
   hudContext.restore();
 }
+
 
 
 

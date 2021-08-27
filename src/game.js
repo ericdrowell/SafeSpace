@@ -8,16 +8,6 @@ setTimeout(function() {
 function game_init() {
   game_setViewportSize();
 
-  let html = document.querySelector('html');
-  html.style.height = '100%';
-
-  let body = document.querySelector('body');
-  body.style.overflow = 'hidden';
-  body.style.padding = 0;
-  body.style.margin = 0;
-  body.style.backgroundColor = 'black';
-  body.style.height = '100%';
-
   canvas2d_init()
   webgl_init();
   hud_init();
@@ -26,6 +16,7 @@ function game_init() {
   player_init();
   music_init();
   terminal_init();
+  title_init();
 
   textures_init(function() {
     texturesReady = true;
@@ -101,7 +92,7 @@ function game_isPointerLocked() {
 function game_setState(nextState) {
   let prevState = gameState;
 
-  console.log(prevState + '->' + nextState);
+  //console.log(prevState + '->' + nextState);
 
   // if state changing to self, kickout
   if (prevState === nextState) {
@@ -115,6 +106,7 @@ function game_setState(nextState) {
   if (nextState === GAME_STATE_LEVEL_INTRO) {
     music_stop();
     music_play();
+    title_hide();
     terminal_show();
     soundEffects_play(SOUND_EFFECTS_DIALOG);
     soundEffects_play(SOUND_EFFECTS_TERMINAL);
