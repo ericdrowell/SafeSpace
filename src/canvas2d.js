@@ -25,11 +25,11 @@ function canvas2d_init() {
 };
 
 function canvas2d_show() {
-  hudCanvas.style.display = 'block';
+  hudCanvas.style.opacity = 1;
 }
 
 function canvas2d_hide() {
-  hudCanvas.style.display = 'none';
+  hudCanvas.style.opacity = 0;
 }
 
 function canvas2d_initCanvas(canvas, width, height, pixelRatio) {
@@ -51,10 +51,33 @@ function canvas2d_initCanvas(canvas, width, height, pixelRatio) {
   return context;
 }
 
-function canvas2d_fillPattern(context, scale, pattern) {
-    context.save();
-    context.scale(2, 2);
-    context.fillStyle = pattern;
-    context.fill();
-    context.restore();
+function canvas2d_copyWebgl() {
+  //hudContext.clearRect(0, 0, viewportWidth, viewportHeight);
+  hudContext.fillStyle = 'black';
+  hudContext.fillRect(0, 0, viewportWidth, viewportHeight);
+  hudContext.drawImage(sceneCanvas, 0, 0, sceneCanvas.width, sceneCanvas.height, 0, 0, hudCanvas.width, hudCanvas.height);
 }
+  
+
+function canvas2d_pixelate() {
+  let size = 4 * viewportScale,
+  w = sceneCanvas.width / size,
+  h = sceneCanvas.height / size;
+
+  // draw the original image at a fraction of the final size
+  hudContext.drawImage(hudCanvas, 0, 0, w, h);
+
+  // turn off image aliasing
+  // TODO: might be able to remove some of these
+  hudContext.msImageSmoothingEnabled = false;
+  hudContext.mozImageSmoothingEnabled = false;
+  hudContext.webkitImageSmoothingEnabled = false;
+  hudContext.imageSmoothingEnabled = false;
+
+  // enlarge the minimized image to full size    
+  hudContext.drawImage(hudCanvas, 0, 0, w, h, 0, 0, hudCanvas.width + size, hudCanvas.height + size);
+  
+}
+
+
+

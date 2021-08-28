@@ -4,7 +4,7 @@ function webgl_init() {
   mvMatrix = mat4.create(); 
   pMatrix = mat4.create();
 
-  sceneCanvas = document.getElementById('sceneCanvas');
+  sceneCanvas = document.createElement('canvas');
   sceneContext = sceneCanvas.getContext('webgl');
 
   shaderProgram = sceneContext.createProgram();
@@ -16,13 +16,13 @@ function webgl_init() {
   webgl_setSize(sceneCanvas);  
 }
 
-function webgl_show() {
-  sceneCanvas.style.display = 'block';
-}
+// function webgl_show() {
+//   sceneCanvas.style.display = 'block';
+// }
 
-function webgl_hide() {
-  sceneCanvas.style.display = 'none';
-}
+// function webgl_hide() {
+//   sceneCanvas.style.display = 'none';
+// }
 
 function webgl_renderBlockElements(buffers, texture) {
   sceneContext.useProgram(shaderProgram);
@@ -37,7 +37,7 @@ function webgl_renderBlockElements(buffers, texture) {
   // const blendingAlpha = 0.5;
 
   //Enables depth testing
-  sceneContext.depthMask(true);
+  //sceneContext.depthMask(true);
   sceneContext.enable(sceneContext.DEPTH_TEST);
   sceneContext.depthFunc(sceneContext.LESS);
 
@@ -79,7 +79,7 @@ function webgl_renderBlockElements(buffers, texture) {
   sceneContext.drawElements(sceneContext.TRIANGLES, buffers.index.numElements, sceneContext.UNSIGNED_SHORT, 0);
 };
 
-function webgl_renderPerlinElements(buffers, color, perlinSize, hasDepthMask) {
+function webgl_renderPerlinElements(buffers, color, perlinSize, hasDepthMask, speed) {
   sceneContext.useProgram(perlinShaderProgram);
 
   webgl_setAttribLocation(perlinShaderProgram, sceneContext, 've'); // vertex vector
@@ -92,7 +92,11 @@ function webgl_renderPerlinElements(buffers, color, perlinSize, hasDepthMask) {
   webgl_setUniformLocation(perlinShaderProgram, sceneContext, 'perlinSize'); // perspective matrix
 
   //Enables depth testing
-  sceneContext.depthMask(hasDepthMask);
+  // TODO: when depth mask is false, it enables transparencies, but webgl context copy to 2d canvas gets messed up
+  // I could create separate sets of buffers for each field plane, and reorder them before each render
+  // oh, I could also draw small at first, and then scale it up, not sure this would work though
+  //sceneContext.depthMask(hasDepthMask);
+  //sceneContext.depthMask(true);
   sceneContext.enable(sceneContext.DEPTH_TEST);
   sceneContext.depthFunc(sceneContext.LESS);
 
@@ -123,7 +127,7 @@ function webgl_renderPerlinElements(buffers, color, perlinSize, hasDepthMask) {
   // set uniforms
   sceneContext.uniformMatrix4fv(perlinShaderProgram.pm, false, pMatrix);
   sceneContext.uniformMatrix4fv(perlinShaderProgram.mv, false, mvMatrix);
-  sceneContext.uniform1f(perlinShaderProgram.t, totalElapsedTime * 0.0001);
+  sceneContext.uniform1f(perlinShaderProgram.t, totalElapsedTime * speed);
   sceneContext.uniform3fv(perlinShaderProgram.color, color);
   sceneContext.uniform1f(perlinShaderProgram.perlinSize, perlinSize);
 
@@ -186,11 +190,6 @@ function webgl_createElementArrayBuffer(context, vertices) {
   return buffer;
 };
 
-function webgl_clear(canvas, context) {
-  context.viewport(0, 0, canvas.width, canvas.height);
-  context.clear(context.COLOR_BUFFER_BIT | context.DEPTH_BUFFER_BIT);
-}
-
 function webgl_setUniformLocation(program, context, key) {
   program[key] = context.getUniformLocation(program, key);
 }
@@ -238,7 +237,8 @@ function webgl_buildBlockBuffers() {
         let lastBuffer = rawBuffers[texture][rawBuffers[texture].length-1];
 
         // used to slightly offset all blocks so they don't fit perfectly, and create a more organic fitting
-        let randomOffset = texture === TEXTURES_DIRT ? 0 : (Math.random() - 0.5) * 0.1;
+        //let randomOffset = texture === TEXTURES_DIRT ? 0 : (Math.random() - 0.5) * 0.1;
+        let randomOffset = 0;
 
         // position buffer
         for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
@@ -363,7 +363,8 @@ function webgl_render() {
   mat4.perspective(viewAngle, sceneCanvas.width / sceneCanvas.height, minDist, maxDist, pMatrix);
   mat4.identity(mvMatrix);
 
-  webgl_clear(sceneCanvas, sceneContext);
+  sceneContext.viewport(0, 0, sceneCanvas.width, sceneCanvas.height);
+  sceneContext.clear(sceneContext.COLOR_BUFFER_BIT | sceneContext.DEPTH_BUFFER_BIT | sceneContext.STENCIL_BUFFER_BIT);
 
   mat4.rotate(mvMatrix, -player.pitch, [1, 0, 0]);
   mat4.rotate(mvMatrix, -player.yaw, [0, 1, 0]);
@@ -380,8 +381,8 @@ function webgl_render() {
   let fieldPerlinSize = 10;
 
   if (gameState === GAME_STATE_TITLE) {
-    spherePerlinSize *= 2;
-    fieldPerlinSize *= 2;
+    spherePerlinSize = 100;
+    fieldPerlinSize = 20;
   }
 
   for (let p=0; p<worldSpheres.length; p++) {
@@ -391,12 +392,20 @@ function webgl_render() {
     mat4.translate(mvMatrix, [sphere.x*2, sphere.y*2, sphere.z*2]);
     let scale = sphereRadii*2;
     mat4.scale(mvMatrix, [scale,scale,scale]);
-    webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], spherePerlinSize, true);
+    let hasDepthMask = true;
+    let speed = 0.0001;
+
+    if (gameState === GAME_STATE_TITLE) {
+      hasDepthMask = false;
+      speed = 0.00002;
+    }
+
+    webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], spherePerlinSize, hasDepthMask, speed);
     webgl_restore();
   }
 
   
   
-  webgl_renderPerlinElements(fieldBuffers, [0, 0.5, 0.8], fieldPerlinSize, false);
+  webgl_renderPerlinElements(fieldBuffers, [0, 0.5, 0.8], fieldPerlinSize, false, 0.0001);
   
 }

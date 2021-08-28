@@ -22,6 +22,7 @@ function level_initTitleLevel() {
   world_addField(0, 5, -7);
 
   world_addSphere(0, -1.2, -1);
+  //world_addSphere(0, -1.2, -4);
 }
 
 function level_initLevel1() {

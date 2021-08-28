@@ -12,7 +12,7 @@ function game_init() {
   canvas2d_init()
   webgl_init();
   hud_init();
-  userInputs_init();
+  userInputs_init();  
   player_init();
   level_init();
   music_init();
@@ -68,12 +68,16 @@ function game_render() {
     // TODO: should use dirty flag instead of looking at state
     if (gameState === GAME_STATE_PLAYING || gameState === GAME_STATE_TITLE) {
       webgl_render(); 
+      canvas2d_copyWebgl();
+      canvas2d_pixelate();
     }
 
-    if (hudDirty) {
-      hud_render();
-      hudDirty = false;
-    }
+    
+
+    //hud_render();
+
+    //canvas2d_pixelate();
+
   }
 };
 
@@ -108,6 +112,7 @@ function game_setState(nextState) {
   if (nextState === GAME_STATE_LEVEL_INTRO) {
     music_stop();
     music_play();
+    canvas2d_hide();
     terminal_show();
     soundEffects_play(SOUND_EFFECTS_DIALOG);
     soundEffects_play(SOUND_EFFECTS_TERMINAL);
@@ -115,16 +120,16 @@ function game_setState(nextState) {
   // level intro -> playing
   else if (prevState === GAME_STATE_LEVEL_INTRO) {
     level_init();
-    webgl_show();
+    //webgl_show();
     terminal_hide();
+    canvas2d_show();
     game_requestPointerLock();
     soundEffects_play(SOUND_EFFECTS_START);
-
   }
   // playing -> paused
   else if (nextState === GAME_STATE_PAUSED) {
+    canvas2d_hide();
     terminal_show();
-    webgl_hide();
     music_stop();
     game_exitPointerLock();
     soundEffects_play(SOUND_EFFECTS_DIALOG);
@@ -134,7 +139,7 @@ function game_setState(nextState) {
   else if (prevState === GAME_STATE_PAUSED) {
     music_play();
     terminal_hide();
-    webgl_show();
+    canvas2d_show();
 
     player.sideMovement = 0;
     player.straightMovement = 0;
@@ -146,8 +151,8 @@ function game_setState(nextState) {
   }
   // playing -> died
   else if (nextState === GAME_STATE_DIED) {
+    canvas2d_hide();
     terminal_show();
-    webgl_hide();
     music_stop();
     game_exitPointerLock();
     soundEffects_play(SOUND_EFFECTS_DIED);
