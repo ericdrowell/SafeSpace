@@ -5,7 +5,7 @@ const SOUND_EFFECTS_RUN =                  function(){zzfx(0.8,.05,87,0,0,0,3,.5
 const SOUND_EFFECTS_JUMP =                 function(){zzfx(1.1,.05,48,0,.1,0,1,.08,3.6,0,0,0,0,0,0,0,.05,1,.06,0)};
 const SOUND_EFFECTS_ENTER_SAFE_SPACE =     function(){zzfx(1.99,.05,6,.09,.14,.46,1,.28,0,0,-54,.09,.06,0,0,0,.15,.54,.04,0)};
 const SOUND_EFFECTS_EXIT_SAFE_SPACE =      function(){zzfx(2.66,.05,687,.23,.1,0,2,1.9,0,0,-568,0,.3,0,71,0,.36,1,.01,.85)};
-const SOUND_EFFECTS_NOVA_RUMBLE =          function(){zzfx(...[,,538,1,.09,1,4,2.06,,-0.2,474,.04,,.6,.1,.5,,,6]);};
+const SOUND_EFFECTS_NOVA_RUMBLE =          function(){zzfx(...[,,538,1,.09,1,4,2.06,,-0.2,474,.04,,.6,.1,.5,,,6])};
 const SOUND_EFFECTS_NOVA_EXPLOSION =       function(){zzfx(...[,,1875,.06,.19,3,3,.02,,18,-177,.24,,,-101,,,,1,.01])};
 const SOUND_EFFECTS_NOVA_BLOCK =           function(){zzfx(1,.05,1321,.23,0,.2,2,1.22,1.1,-6.3,181,0,0,0,36,0,0,1,.17,0)};
 const SOUND_EFFECTS_NOVA_COUNTDOWN =       function(){zzfx(1.84,.05,74,.02,.14,.85,0,1.27,.6,.7,0,0,0,.4,-55,.4,.42,.86,.08,0)};
@@ -13,7 +13,8 @@ const SOUND_EFFECTS_NOVA_RESET =           function(){zzfx(...[1.06,,105,.06,.2,
 const SOUND_EFFECTS_TERMINAL =             function(){zzfx(1,.05,1373,.07,.05,.07,3,.16,0,0,292,.01,.07,0,0,0,0,1,.12,0)};     
 const SOUND_EFFECTS_FIELD_PROTECT =        function(){zzfx(...[,,1826,.25,,.16,3,.54,,,272,.04,.09,,,.6,,,.09])};      
 const SOUND_EFFECTS_DIED =                 function(){zzfx(...[1.79,,1358,.23,.11,.17,3,1.42,-9,,,,,,41,,.41,,.12])};
-
+const SOUND_EFFECTS_TERMINAL_BLIP =        function(){zzfx(...[,0,709,.01,.02,.03,1,.44,.1,3.2,,.02,.01,,,,,.3,.04])};   
+const SOUND_EFFECTS_TERMINAL_NEW_LINE =    function(){zzfx(...[1.03,0,207,,.04,,1,1.97,,,207,.07,,,,.1,,.89,.08,.09])};   
 // not used yet
 //const SOUND_EFFECTS_NOVA_EXPLOSION =      function(){zzfx(...[,,1875,.06,.19,3,3,.02,,18,-177,.24,,,-101,,,,1,.01])};
 //const SOUND_EFFECTS_EXPLOSION =           function(){zzfx(1,.05,855,0,.28,.85,4,2.92,0,.3,0,0,.18,.7,0,1,0,.97,.06,0)};

@@ -191,16 +191,29 @@ function textures_createRandom(colors) {
 }
 
 function textures_createTile(colors) {
-  textures_createRandom(colors);
+  let edgeSize = 1;
+
+  // tile fill
+  textureContext.fillStyle = '#' + colors[1];
+  textureContext.fillRect(0, 0, 16, 16);
+
+  // tile highlights
+  textureContext.fillStyle = '#' + colors[0];
+  textureContext.fillRect(edgeSize, 16-edgeSize*2, 16-edgeSize*2, edgeSize); // top
+  textureContext.fillRect(edgeSize, edgeSize, edgeSize, 16-edgeSize*2); // left
 
   // tile outline
-  textureContext.fillStyle = '#' + colors[0];
-  textureContext.fillRect(0, 0, 16, 1);
-  textureContext.fillRect(0, 0, 1, 15);
+  textureContext.fillStyle = '#' + colors[colors.length-1]; // [2]
+  textureContext.fillRect(0, 0, 16-edgeSize, edgeSize); // top
+  textureContext.fillRect(0, edgeSize, edgeSize, 16-edgeSize); // left
+  textureContext.fillRect(edgeSize, 16-edgeSize, 16-edgeSize, edgeSize); // bottom
+  textureContext.fillRect(16-edgeSize, 0, edgeSize, 16-edgeSize); // right
 
-  textureContext.fillStyle = '#' + colors[colors.length-1];
-  textureContext.fillRect(0, 15, 16, 1);
-  textureContext.fillRect(15, 1, 1, 16);
+
+
+  // textureContext.fillStyle = '#' + colors[0];
+  // textureContext.fillRect(2, 14, 14, 2); // bottom
+  // textureContext.fillRect(14, 0, 2, 14); // right
 
   return textureCanvas.toDataURL();
 }

@@ -114,8 +114,8 @@ function game_setState(nextState) {
     music_play();
     canvas2d_hide();
     terminal_show();
+    terminal_printMessages(0, 3);
     soundEffects_play(SOUND_EFFECTS_DIALOG);
-    soundEffects_play(SOUND_EFFECTS_TERMINAL);
   }
   // level intro -> playing
   else if (prevState === GAME_STATE_LEVEL_INTRO) {
@@ -133,7 +133,6 @@ function game_setState(nextState) {
     music_stop();
     game_exitPointerLock();
     soundEffects_play(SOUND_EFFECTS_DIALOG);
-    soundEffects_play(SOUND_EFFECTS_TERMINAL);
   }
   // paused -> playing
   else if (prevState === GAME_STATE_PAUSED) {
