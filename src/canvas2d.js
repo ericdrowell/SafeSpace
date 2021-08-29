@@ -40,29 +40,29 @@ function canvas2d_initCanvas(canvas, width, height) {
   return context;
 }
 
-function canvas2d_copyWebgl() {
-  //hudContext.clearRect(0, 0, viewportWidth, viewportHeight);
-  hudContext.fillStyle = 'black';
-  hudContext.fillRect(0, 0, viewportWidth, viewportHeight);
-  hudContext.drawImage(sceneCanvas, 0, 0);
-}
+// function canvas2d_copyWebgl() {
+//   //hudContext.clearRect(0, 0, viewportWidth, viewportHeight);
+//   hudContext.fillStyle = 'black';
+//   hudContext.fillRect(0, 0, viewportWidth, viewportHeight);
+//   hudContext.drawImage(sceneCanvas, 0, 0);
+// }
   
 
-function canvas2d_pixelate() {
-  let size = 4 * viewportScale,
-  w = Math.floor(sceneCanvas.width / size),
-  h = Math.ceil(sceneCanvas.height / size);
+// function canvas2d_pixelate() {
+//   let size = 4 * viewportScale,
+//   w = Math.floor(sceneCanvas.width / size),
+//   h = Math.ceil(sceneCanvas.height / size);
 
-  // draw the original image at a fraction of the final size
-  hudContext.drawImage(hudCanvas, 0, 0, w, h);
+//   // draw the original image at a fraction of the final size
+//   hudContext.drawImage(hudCanvas, 0, 0, w, h);
 
-  // turn off image aliasing
-  hudContext.imageSmoothingEnabled = false;
+//   // turn off image aliasing
+//   hudContext.imageSmoothingEnabled = false;
 
-  // enlarge the minimized image to full size    
-  hudContext.drawImage(hudCanvas, 0, 0, w, h, 0, 0, hudCanvas.width, hudCanvas.height);
+//   // enlarge the minimized image to full size    
+//   hudContext.drawImage(hudCanvas, 0, 0, w, h, 0, 0, hudCanvas.width, hudCanvas.height);
   
-}
+// }
 
 
 

@@ -30,7 +30,7 @@ const SAFE_SPACE_SIZE = 5;
 const SPHERE_START_RADIUS = 1;
 const NOVA_EXPAND_SPEED = 6; // per second
 const NOVA_MAX_RADIUS = 50; // seconds
-const TERMINAL_PRINT_SPEED = 10; // ms
+const TERMINAL_PRINT_CHAR_DELAY = 10; // ms
 const TERMINAL_PRINT_DELAY = 2000; // ms
 
 let level = 1;

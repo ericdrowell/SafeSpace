@@ -27,7 +27,7 @@
     "html": "html-minifier --collapse-whitespace ./dist/index-uncompressed.html -o ./dist/index.html",
     "watch": "npm-watch",
     "minify-glsl": "glsl-minifier -sT vertex -i ./src/shaders/vertexShader.glsl -o ./dist/shaders/vertexShader.glsl && glsl-minifier -sT fragment -i ./src/shaders/fragmentShader.glsl -o ./dist/shaders/fragmentShader.glsl && glsl-minifier -sT fragment -i ./src/shaders/perlinFragmentShader.glsl -o ./dist/shaders/perlinFragmentShader.glsl && glsl-minifier -sT vertex -i ./src/shaders/perlinVertexShader.glsl -o ./dist/shaders/perlinVertexShader.glsl",
-    "zip": "mkdir ./dist/safe-space-eric-rowell-js13k-2021 && cp ./dist/index.html ./dist/safe-space-eric-rowell-js13k-2021/index.html && cp ./dist/alphabet-tiny.gif ./dist/safe-space-eric-rowell-js13k-2021 && cd ./dist && zip -9 -r ./safe-space-eric-rowell-js13k-2021 ./safe-space-eric-rowell-js13k-2021 && cd .. && echo ================== && ls -l ./dist/safe-space-eric-rowell-js13k-2021.zip && echo ==================",
+    "zip": "mkdir ./dist/safe-space-eric-rowell-js13k-2021 && cp ./dist/index.html ./dist/safe-space-eric-rowell-js13k-2021/index.html && cd ./dist && zip -9 -r ./safe-space-eric-rowell-js13k-2021 ./safe-space-eric-rowell-js13k-2021 && cd .. && echo ================== && ls -l ./dist/safe-space-eric-rowell-js13k-2021.zip && echo ==================",
     "instrument": "nyc instrument dist/game-concatenated.js dist/nyc",
     "report": "nyc report --reporter=lcov --reporter=html --temp-dir ./coverage"
   },

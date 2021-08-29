@@ -4,8 +4,8 @@ function webgl_init() {
   mvMatrix = mat4.create(); 
   pMatrix = mat4.create();
 
-  sceneCanvas = document.createElement('canvas');
-  //sceneCanvas = document.getElementById('sceneCanvas');
+  //sceneCanvas = document.createElement('canvas');
+  sceneCanvas = document.getElementById('sceneCanvas');
 
   sceneContext = sceneCanvas.getContext('webgl');
 
@@ -39,7 +39,7 @@ function webgl_renderBlockElements(buffers, texture) {
   // const blendingAlpha = 0.5;
 
   //Enables depth testing
-  //sceneContext.depthMask(true);
+  sceneContext.depthMask(true);
   sceneContext.enable(sceneContext.DEPTH_TEST);
   sceneContext.depthFunc(sceneContext.LESS);
 
@@ -97,8 +97,7 @@ function webgl_renderPerlinElements(buffers, color, perlinSize, hasDepthMask, sp
   // TODO: when depth mask is false, it enables transparencies, but webgl context copy to 2d canvas gets messed up
   // I could create separate sets of buffers for each field plane, and reorder them before each render
   // oh, I could also draw small at first, and then scale it up, not sure this would work though
-  //sceneContext.depthMask(hasDepthMask);
-  //sceneContext.depthMask(true);
+  sceneContext.depthMask(hasDepthMask);
   sceneContext.enable(sceneContext.DEPTH_TEST);
   sceneContext.depthFunc(sceneContext.LESS);
 
@@ -383,7 +382,7 @@ function webgl_render() {
   let fieldPerlinSize = 10;
 
   if (gameState === GAME_STATE_TITLE) {
-    spherePerlinSize = 100;
+    spherePerlinSize = 150;
     fieldPerlinSize = 20;
   }
 

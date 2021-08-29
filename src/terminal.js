@@ -1,9 +1,9 @@
 // https://css-tricks.com/old-timey-terminal-styling/
 
 const terminal_messages = [
-  "LEVEL 1",
+  "LOADING LEVEL 1...",
   "Dr. Heisenberg, there's no time to explain.  You must leave the lab at once.  The fusion reactors are melting down.  I've created a SAFE SPACE that protects you from radioactive bursts.  I'll tell you more once you reach the infirmary.",
-  "[WASD] _run#__[Mouse] look#__[Space] jump#__[Esc] __menu",
+  "[WASD] _Run#__[Mouse] Look#__[Space] Jump#__[Esc] __Pause",
   "CLICK TO START",
 ];
 
@@ -44,7 +44,10 @@ function terminal_printChar(text) {
   }
 
   terminalTextEl.innerHTML += text;
-  soundEffects_play(SOUND_EFFECTS_TERMINAL_BLIP);
+
+  if (gameState === GAME_STATE_LEVEL_INTRO) {
+    soundEffects_play(SOUND_EFFECTS_TERMINAL_BLIP);
+  }
 }
 
 function terminal_newLine() {
@@ -55,7 +58,9 @@ function terminal_newLine() {
     terminalTextEl.innerHTML += '<br><br>> ';
   }
 
-  soundEffects_play(SOUND_EFFECTS_TERMINAL);
+  if (gameState === GAME_STATE_LEVEL_INTRO) {
+    soundEffects_play(SOUND_EFFECTS_TERMINAL);
+  }
   
 }
 
@@ -67,7 +72,7 @@ function terminal_processTextArr(arr, callback) {
     terminal_printChar(arr.shift());
     setTimeout(function() {
       terminal_processTextArr(arr, callback)
-    }, TERMINAL_PRINT_SPEED);
+    }, TERMINAL_PRINT_CHAR_DELAY);
   }
 }
 
