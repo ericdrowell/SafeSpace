@@ -13,11 +13,6 @@ function canvas2d_init() {
     hudCanvas.style.marginTop = '-' + (viewportHeight/2) + 'px';
   }
 
-  spriteCanvas = document.createElement('canvas');
-  spriteContext = canvas2d_initCanvas(spriteCanvas, OPTIMAL_VIEWPORT_WIDTH, OPTIMAL_VIEWPORT_HEIGHT, PIXEL_RATIO);
-  spriteContext.webkitImageSmoothingEnabled = false;
-  spriteContext.imageSmoothingEnabled = false;
-
   textureCanvas = document.createElement('canvas');
   textureCanvas.width = 16;
   textureCanvas.height = 16;

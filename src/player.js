@@ -86,13 +86,12 @@ function player_update() {
     world_moveObject(player, distEachFrame * Math.sin(player.yaw + Math.PI / 2), 0, distEachFrame * Math.cos(player.yaw + Math.PI / 2));
   }
 
-  if (!player.isAirborne) {
-    bobbleCounter += elapsedTime;
-    
+  if (!player.isAirborne) { 
     if (player.straightMovement || player.sideMovement) {
       // bobble
       
-      bobble = RUN_BOBBLE_AMPLITUDE * Math.sin((bobbleCounter/1000) * RUN_BOBBLE_FREQUENCEY);
+      bobble = RUN_BOBBLE_AMPLITUDE * Math.sin((totalElapsedTime/1000) * RUN_BOBBLE_FREQUENCEY);
+      
   
        // run sound
       playerStep -= elapsedTime;
@@ -103,7 +102,7 @@ function player_update() {
   
     }
     else {
-      bobble = STAND_BOBBLE_AMPLITUDE * Math.sin((bobbleCounter/1000) * STAND_BOBBLE_FREQUENCEY);
+      pitchBobble = STAND_BOBBLE_AMPLITUDE * Math.sin((totalElapsedTime/1000) * STAND_BOBBLE_FREQUENCEY);
     }
   }
 

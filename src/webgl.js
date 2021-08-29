@@ -368,7 +368,7 @@ function webgl_render() {
   sceneContext.viewport(0, 0, sceneCanvas.width, sceneCanvas.height);
   sceneContext.clear(sceneContext.COLOR_BUFFER_BIT | sceneContext.DEPTH_BUFFER_BIT | sceneContext.STENCIL_BUFFER_BIT);
 
-  mat4.rotate(mvMatrix, -player.pitch, [1, 0, 0]);
+  mat4.rotate(mvMatrix, -player.pitch + pitchBobble, [1, 0, 0]);
   mat4.rotate(mvMatrix, -player.yaw, [0, 1, 0]);
   mat4.translate(mvMatrix, [-2 * player.x, -2 * (player.y + PLAYER_HEIGHT), -2 * player.z]);
   mat4.translate(mvMatrix, [0, bobble, 0]);

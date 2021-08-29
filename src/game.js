@@ -20,11 +20,6 @@ function game_init() {
 
   textures_init(function() {
     texturesReady = true;
-    sprite_init(function() {
-      hudDirty = true;
-      spritesReady = true;
-      game_setReady();
-    });
   });
 
   
@@ -56,28 +51,26 @@ function game_setViewportSize() {
   viewportScale = viewportWidth / OPTIMAL_VIEWPORT_WIDTH;
 }
 
-function game_setReady() {
-
-  if (spritesReady) {
-    hudDirty = true;
-  }
-}
-
 function game_render() {
   if (texturesReady) {
+    let rendered = false;
     // TODO: should use dirty flag instead of looking at state
     if (gameState === GAME_STATE_PLAYING || gameState === GAME_STATE_TITLE) {
       webgl_render(); 
       canvas2d_copyWebgl();
-      canvas2d_pixelate();
+      rendered = true;
+      //canvas2d_pixelate();
     }
 
     
+    if (gameState === GAME_STATE_TITLE) {
+      hud_render();
+      rendered = true;
+    }
 
-    //hud_render();
-
-    //canvas2d_pixelate();
-
+    // if (rendered) {
+    //   canvas2d_pixelate();
+    // }
   }
 };
 

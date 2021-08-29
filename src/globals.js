@@ -12,7 +12,7 @@ const MENU_COOLDOWN = 0.5; // s
 // gl drawElements can only handle 64k vertices.  Each block is defined by exactly 24 vertices.  Thus we can at most
 // render 2,666 blocks for each drawElements call.  Exceeding this number will result in skipping of call draws for individual blocks
 const BLOCKS_PER_BUFFER = 2666;
-const STAND_BOBBLE_AMPLITUDE = 0.1; // webgl space
+const STAND_BOBBLE_AMPLITUDE = 0.002; // webgl space
 const STAND_BOBBLE_FREQUENCEY = 3;
 const RUN_BOBBLE_AMPLITUDE = 1; // webgl space
 const RUN_BOBBLE_FREQUENCEY = 10;
@@ -65,19 +65,15 @@ let mvMatrixStack = [];
 let shaderProgram;
 let perlinShaderProgram;
 let bobble = 0;
-let bobbleCounter = 0;
+let pitchBobble = 0;
 let hudRatio;
-let spritesReady = false;
 let musicReady = false;
 let gameReady = false;
 let gameStarted = false;
 let idGenerator = 0;
 let windowRatio;
 let viewportScale;
-let spriteCanvas;
-let spriteContext;
 let playerStep = 0;
-let hudDirty;
 let musicPlaying;
 let texturesReady = false;
 let textureCanvas;

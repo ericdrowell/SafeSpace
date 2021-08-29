@@ -3,7 +3,7 @@
 const terminal_messages = [
   "LEVEL 1",
   "Dr. Heisenberg, there's no time to explain.  You must leave the lab at once.  The fusion reactors are melting down.  I've created a SAFE SPACE that protects you from radioactive bursts.  I'll tell you more once you reach the infirmary.",
-  "[WASD] _run#__[Mouse] look#__[Space] jump",
+  "[WASD] _run#__[Mouse] look#__[Space] jump#__[Esc] __menu",
   "CLICK TO START",
 ];
 

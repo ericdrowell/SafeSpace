@@ -15,13 +15,18 @@ function level_init() {
 
 function level_initTitleLevel() {
   player.x = 0;
-  player.y = -4;
+  player.y = -PLAYER_HEIGHT;
   player.z = 0;
   player.yaw = 0;
 
-  world_addField(0, 5, -7);
+  //world_addField(0, 5, -7);
 
-  world_addSphere(0, -1.2, -1);
+  //world_addSphere(0, -1.2, -1); // bottom sphere
+  world_addSphere(0, 1.2, -1); // top sphere
+
+  
+  
+
   //world_addSphere(0, -1.2, -4);
 }
 
