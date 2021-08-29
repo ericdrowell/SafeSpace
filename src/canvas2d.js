@@ -32,21 +32,15 @@ function canvas2d_hide() {
   hudCanvas.style.opacity = 0;
 }
 
-function canvas2d_initCanvas(canvas, width, height, pixelRatio) {
+function canvas2d_initCanvas(canvas, width, height) {
   let context = canvas.getContext('2d');
-  canvas.width = width * pixelRatio;
-  canvas.height = height * pixelRatio;
+  canvas.width = width;
+  canvas.height = height;
   canvas.style.width = width + 'px';
   canvas.style.height = height + 'px';
   canvas.style.position = 'fixed';
   canvas.style.top = 0;
   canvas.style.left = 0;
-
-
-
-  if (pixelRatio !== 1) {
-    context.scale(pixelRatio, pixelRatio);
-  }
 
   return context;
 }
@@ -55,27 +49,23 @@ function canvas2d_copyWebgl() {
   //hudContext.clearRect(0, 0, viewportWidth, viewportHeight);
   hudContext.fillStyle = 'black';
   hudContext.fillRect(0, 0, viewportWidth, viewportHeight);
-  hudContext.drawImage(sceneCanvas, 0, 0, sceneCanvas.width, sceneCanvas.height, 0, 0, hudCanvas.width, hudCanvas.height);
+  hudContext.drawImage(sceneCanvas, 0, 0);
 }
   
 
 function canvas2d_pixelate() {
   let size = 4 * viewportScale,
-  w = sceneCanvas.width / size,
-  h = sceneCanvas.height / size;
+  w = Math.floor(sceneCanvas.width / size),
+  h = Math.ceil(sceneCanvas.height / size);
 
   // draw the original image at a fraction of the final size
   hudContext.drawImage(hudCanvas, 0, 0, w, h);
 
   // turn off image aliasing
-  // TODO: might be able to remove some of these
-  hudContext.msImageSmoothingEnabled = false;
-  hudContext.mozImageSmoothingEnabled = false;
-  hudContext.webkitImageSmoothingEnabled = false;
   hudContext.imageSmoothingEnabled = false;
 
   // enlarge the minimized image to full size    
-  hudContext.drawImage(hudCanvas, 0, 0, w, h, 0, 0, hudCanvas.width + size, hudCanvas.height + size);
+  hudContext.drawImage(hudCanvas, 0, 0, w, h, 0, 0, hudCanvas.width, hudCanvas.height);
   
 }
 

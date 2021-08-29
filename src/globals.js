@@ -12,8 +12,10 @@ const MENU_COOLDOWN = 0.5; // s
 // gl drawElements can only handle 64k vertices.  Each block is defined by exactly 24 vertices.  Thus we can at most
 // render 2,666 blocks for each drawElements call.  Exceeding this number will result in skipping of call draws for individual blocks
 const BLOCKS_PER_BUFFER = 2666;
-const BOBBLE_AMPLITUDE = 1; // webgl space
-const BOBBLE_FREQUENCEY = 10;
+const STAND_BOBBLE_AMPLITUDE = 0.1; // webgl space
+const STAND_BOBBLE_FREQUENCEY = 3;
+const RUN_BOBBLE_AMPLITUDE = 1; // webgl space
+const RUN_BOBBLE_FREQUENCEY = 10;
 const GRAVITY = -40; // units / second^2
 const JUMP_SPEED = 20;
 const FLASH_COOLDOWN = 100;

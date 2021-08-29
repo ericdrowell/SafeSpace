@@ -86,19 +86,28 @@ function player_update() {
     world_moveObject(player, distEachFrame * Math.sin(player.yaw + Math.PI / 2), 0, distEachFrame * Math.cos(player.yaw + Math.PI / 2));
   }
 
-  if (!player.isAirborne && (player.straightMovement || player.sideMovement)) {
-    // bobble
+  if (!player.isAirborne) {
     bobbleCounter += elapsedTime;
-    bobble = BOBBLE_AMPLITUDE * Math.sin((bobbleCounter/1000) * BOBBLE_FREQUENCEY);
-
-     // run sound
-    playerStep -= elapsedTime;
-    if (playerStep < 0) {
-      playerStep = PLAYER_STEP_SPEED;
-      soundEffects_play(SOUND_EFFECTS_RUN);
+    
+    if (player.straightMovement || player.sideMovement) {
+      // bobble
+      
+      bobble = RUN_BOBBLE_AMPLITUDE * Math.sin((bobbleCounter/1000) * RUN_BOBBLE_FREQUENCEY);
+  
+       // run sound
+      playerStep -= elapsedTime;
+      if (playerStep < 0) {
+        playerStep = PLAYER_STEP_SPEED;
+        soundEffects_play(SOUND_EFFECTS_RUN);
+      }
+  
     }
-
+    else {
+      bobble = STAND_BOBBLE_AMPLITUDE * Math.sin((bobbleCounter/1000) * STAND_BOBBLE_FREQUENCEY);
+    }
   }
+
+
 
   // handle gravity
   player.upVelocity += GRAVITY * elapsedTime / 1000;

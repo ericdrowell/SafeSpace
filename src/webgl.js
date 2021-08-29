@@ -5,6 +5,8 @@ function webgl_init() {
   pMatrix = mat4.create();
 
   sceneCanvas = document.createElement('canvas');
+  //sceneCanvas = document.getElementById('sceneCanvas');
+
   sceneContext = sceneCanvas.getContext('webgl');
 
   shaderProgram = sceneContext.createProgram();
