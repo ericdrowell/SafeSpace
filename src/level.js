@@ -19,11 +19,13 @@ function level_initTitleLevel() {
   player.z = 0;
   player.yaw = 0;
 
-  //world_addField(0, 5, -7);
+  world_addSafeSpace(0, -2, -26);
 
   //world_addSphere(0, -1.2, -1); // bottom sphere
 
-  world_addPlane(-20, 20, -20, 20, -10, -10, TEXTURES_METAL_RIDGES);
+  //world_addPlane(-20, 20, -20, 20, -20, -20, TEXTURES_METAL_PLATE_WITH_BOLTS);
+  //world_removePlane(-4, 4, -6, 3, -20, -20);
+
   world_addSphere(0, 1.2, -1); // top sphere
 
   

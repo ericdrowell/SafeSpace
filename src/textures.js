@@ -5,6 +5,7 @@ const TEXTURES_METAL_RIDGES = 2;
 const TEXTURES_METAL_PLATE_WITH_BOLTS = 3;
 const TEXTURES_METAL_PANELS = 4;
 const TEXTURES_BLUE_PLATE = 5;
+const TEXTURES_CONSTRUCTION_STRIPES = 6;
 
 function textures_init(callback) {
   textures = [
@@ -25,6 +26,9 @@ function textures_init(callback) {
     },
     {
       encoding: textures_createBluePlate()
+    },
+    {
+      encoding: textures_createConstructionStripes()
     }
   ];
 
@@ -89,7 +93,30 @@ function textures_createBluePlate() {
   return textureCanvas.toDataURL();
 }
 
+function textures_createConstructionStripes() {
+  textures_drawGrunge('#807218', 20);
+  //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
 
+  textureContext.fillStyle = 'rgba(0, 0, 0, 0.8)';
+
+  textureContext.beginPath();
+  textureContext.moveTo(0, 0);
+  textureContext.lineTo(32, 32);
+  textureContext.lineTo(16, 32);
+  textureContext.lineTo(0, 16);
+  textureContext.closePath();
+  textureContext.fill();
+
+
+  textureContext.beginPath();
+  textureContext.moveTo(16, 0);
+  textureContext.lineTo(32, 0);
+  textureContext.lineTo(32, 16);
+  textureContext.closePath();
+  textureContext.fill();
+
+  return textureCanvas.toDataURL();
+}
 
 
 function textures_createMetalRidges() {
