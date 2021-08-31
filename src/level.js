@@ -15,13 +15,15 @@ function level_init() {
 
 function level_initTitleLevel() {
   player.x = 0;
-  player.y = -PLAYER_HEIGHT;
+  player.y = -PLAYER_HEIGHT; // eye level
   player.z = 0;
   player.yaw = 0;
 
   //world_addField(0, 5, -7);
 
   //world_addSphere(0, -1.2, -1); // bottom sphere
+
+  world_addPlane(-20, 20, -20, 20, -10, -10, TEXTURES_METAL_RIDGES);
   world_addSphere(0, 1.2, -1); // top sphere
 
   
@@ -36,7 +38,7 @@ function level_initLevel1() {
   player.z = 45;
   player.yaw = 0;
 
-  world_addRoom(-290, -200, 26, 50, -10, 50, TEXTURES_PURPLE_STONE, TEXTURES_BIO_PURPLE, TEXTURES_ROTTING_WOOD);
+  world_addRoom(-290, -200, 26, 50, -10, 50);
   world_addSafeSpace(-262, 32, 18);
 
   world_addSphere(-242, 32, 18);

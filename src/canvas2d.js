@@ -14,9 +14,11 @@ function canvas2d_init() {
   }
 
   textureCanvas = document.createElement('canvas');
-  textureCanvas.width = 16;
-  textureCanvas.height = 16;
+  textureCanvas.width = 32;
+  textureCanvas.height = 32;
   textureContext = textureCanvas.getContext('2d');
+  // HACK: flip context y because cube geometries have it upside down
+  textureContext.transform(1, 0, 0, -1, 0, textureCanvas.height)
 };
 
 function canvas2d_show() {

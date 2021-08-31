@@ -28,14 +28,6 @@ function game_init() {
   game_loop();
 }
 
-function game_showTitleBackground() {
-  sceneCanvas.style.background = 'linear-gradient(0deg, rgba(1,6,41,1) 0%, rgba(64,3,56,1) 50%, rgba(154,87,0,1) 100%)';
-}
-
-function game_hideTitleBackground() {
-  sceneCanvas.style.background = 'black';
-}
-
 function game_restart() {
   player_init();
   gameState = GAME_STATE_PLAYING;
@@ -102,11 +94,10 @@ function game_setState(nextState) {
   // state transition scenarios
 
   if (nextState === GAME_STATE_TITLE) {
-    game_showTitleBackground();  
+
   }
   // title -> level intro
   else if (nextState === GAME_STATE_LEVEL_INTRO) {
-    game_hideTitleBackground();
     music_stop();
     music_play();
     canvas2d_hide();
