@@ -4,45 +4,136 @@ const TEXTURES_METAL_PLATE = 1;
 const TEXTURES_METAL_RIDGES = 2;
 const TEXTURES_METAL_PLATE_WITH_BOLTS = 3;
 const TEXTURES_METAL_PANELS = 4;
-const TEXTURES_WOOD = 5;
-const TEXTURES_CONSTRUCTION_STRIPES = 6;
-const TEXTURES_RUST = 7;
-const TEXTURES_LIGHT = 8;
-const TEXTURES_LIGHT_METAL = 9;
+const TEXTURES_CONSTRUCTION_STRIPES = 5;
+const TEXTURES_LIGHT = 6;
 
 function textures_init(callback) {
-  textures = [
-    {
-      encoding: textures_createMetalGrates()
-    },
-    {
-      encoding: textures_createMetalPlate()
-    },
-    {
-      encoding: textures_createMetalRidges()
-    },
-    {
-      encoding: textures_createMetalPlateWithBolts()
-    },
-    {
-      encoding: textures_createMetalPanels()
-    },
-    {
-      encoding: textures_createWood()
-    },
-    {
-      encoding: textures_createConstructionStripes()
-    },
-    {
-      encoding: textures_createRust()
-    },
-    {
-      encoding: textures_createLight()
-    },
-    {
-      encoding: textures_createLightMetal()
+  // -------------------------------------------------------------------
+  textures[TEXTURES_METAL_GRATES] = (function() {
+    textures_drawGrunge('#161616', 20);
+    //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
+  
+    textureContext.strokeStyle = 'rgba(0, 0, 0, 0.9)';
+    textureContext.lineWidth = 4;
+    textureContext.lineCap = 'round';
+  
+    textureContext.beginPath();
+    textureContext.moveTo(8, 16);
+    textureContext.lineTo(8, 28);
+    textureContext.stroke();
+  
+    textureContext.beginPath();
+    textureContext.moveTo(24, 4);
+    textureContext.lineTo(24, 16);
+    textureContext.stroke();
+    
+    return textureCanvas.toDataURL();
+  })();
+
+  // -------------------------------------------------------------------
+  textures[TEXTURES_METAL_PLATE] = (function() {
+    textures_drawGrunge('#080808', 20);
+    //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
+  
+    return textureCanvas.toDataURL();
+  })();
+
+  // -------------------------------------------------------------------
+  textures[TEXTURES_METAL_RIDGES] = (function() {
+    textures_drawGrunge('#080808', 20);
+    //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
+  
+    for (let n=0; n<5; n++) {
+      // highlight
+      textureContext.fillStyle = 'rgba(255, 255, 255, 0.07)';
+      textureContext.fillRect(5 + n*5, 2, 1, 27);
+    
+      // shadow
+      textureContext.fillStyle = 'rgba(0, 0, 0, 0.2)';
+      textureContext.fillRect(5 + n*5+1, 3, 1, 27);
     }
-  ];
+  
+    return textureCanvas.toDataURL();
+  })();
+
+  // -------------------------------------------------------------------
+  textures[TEXTURES_METAL_PLATE_WITH_BOLTS] = (function() {
+    textures_drawGrunge('#2d2014', 20);
+    textures_drawBorder('rgba(0, 0, 0, 0.5)');
+  
+    textures_drawBolt(5, 5);
+    textures_drawBolt(5, 27);
+    textures_drawBolt(27, 5);
+    textures_drawBolt(27, 27);
+  
+    return textureCanvas.toDataURL();
+  })();
+
+  // -------------------------------------------------------------------
+  textures[TEXTURES_METAL_PANELS] = (function() {
+    textures_drawGrunge('#140f09', 20);
+    //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
+  
+    // highlight
+    textureContext.fillStyle = 'rgba(255, 255, 255, 0.07)';
+    textureContext.fillRect(0, 0, 1, 32);
+  
+    // shadow
+    textureContext.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    textureContext.fillRect(31, 0, 1, 32);
+  
+    return textureCanvas.toDataURL();
+  })();
+
+  // -------------------------------------------------------------------
+  textures[TEXTURES_CONSTRUCTION_STRIPES] = (function() {
+    textures_drawGrunge('#807218', 20);
+    //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
+  
+    textureContext.fillStyle = 'rgba(0, 0, 0, 0.8)';
+  
+    textureContext.beginPath();
+    textureContext.moveTo(0, 0);
+    textureContext.lineTo(32, 32);
+    textureContext.lineTo(16, 32);
+    textureContext.lineTo(0, 16);
+    textureContext.closePath();
+    textureContext.fill();
+  
+  
+    textureContext.beginPath();
+    textureContext.moveTo(16, 0);
+    textureContext.lineTo(32, 0);
+    textureContext.lineTo(32, 16);
+    textureContext.closePath();
+    textureContext.fill();
+  
+    return textureCanvas.toDataURL();
+  })();
+
+  // -------------------------------------------------------------------
+  textures[TEXTURES_LIGHT] = (function() {
+    textures_drawGrunge('#201b1b', 20);
+    //textures_drawTopLeftBorder('rgba(255, 255, 255, 0.2)');
+  
+    textures_drawRect(3, 5, 3, 22, 'rgba(255, 255, 255, 0.2)');
+    textures_drawRect(4, 6, 3, 22, 'rgba(255, 255, 255, 0.2)');
+  
+    textures_drawRect(14, 5, 3, 22, 'rgba(255, 255, 255, 0.2)');
+    textures_drawRect(15, 6, 3, 22, 'rgba(255, 255, 255, 0.2)');
+  
+    textures_drawRect(25, 5, 3, 22, 'rgba(255, 255, 255, 0.2)');
+    textures_drawRect(26, 6, 3, 22, 'rgba(255, 255, 255, 0.2)');
+  
+    return textureCanvas.toDataURL();
+  })();
+
+  // unpack textures into an array of objects
+  for (let n=0; n<textures.length; n++) {
+    textures[n] = {
+      encoding: textures[n]
+    }
+  }
 
   let loadedImages = 0;
   let numImages = 0;
@@ -70,150 +161,12 @@ function textures_init(callback) {
   });
 };
 
-function textures_createMetalGrates() {
-  textures_drawGrunge('#161616', 20);
-  //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
-
-  textureContext.strokeStyle = 'rgba(0, 0, 0, 0.9)';
-  textureContext.lineWidth = 4;
-  textureContext.lineCap = 'round';
-
-  textureContext.beginPath();
-  textureContext.moveTo(8, 16);
-  textureContext.lineTo(8, 28);
-  textureContext.stroke();
-
-  textureContext.beginPath();
-  textureContext.moveTo(24, 4);
-  textureContext.lineTo(24, 16);
-  textureContext.stroke();
-  
-  return textureCanvas.toDataURL();
-}
-
-function textures_createLightMetal() {
-  textures_drawGrunge('#161616', 20);  
-  return textureCanvas.toDataURL();
-}
-
-function textures_createMetalPlate() {
-  textures_drawGrunge('#080808', 20);
-  //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
-
-  return textureCanvas.toDataURL();
-}
-
-function textures_createRust() {
-  textures_drawGrunge('#2d2014', 20);
-  return textureCanvas.toDataURL();
-}
+// draw utils -----------------------------------------------------
 
 function textures_drawRect(x, y, width, height, color) {
   textureContext.fillStyle = color;
   textureContext.fillRect(x, y, width, height);
 }
-
-function textures_createLight() {
-  textures_drawGrunge('#201b1b', 20);
-  //textures_drawTopLeftBorder('rgba(255, 255, 255, 0.2)');
-
-  textures_drawRect(3, 5, 3, 22, 'rgba(255, 255, 255, 0.2)');
-  textures_drawRect(4, 6, 3, 22, 'rgba(255, 255, 255, 0.2)');
-
-  textures_drawRect(14, 5, 3, 22, 'rgba(255, 255, 255, 0.2)');
-  textures_drawRect(15, 6, 3, 22, 'rgba(255, 255, 255, 0.2)');
-
-  textures_drawRect(25, 5, 3, 22, 'rgba(255, 255, 255, 0.2)');
-  textures_drawRect(26, 6, 3, 22, 'rgba(255, 255, 255, 0.2)');
-
-  return textureCanvas.toDataURL();
-}
-
-function textures_createWood() {
-  textures_drawGrunge('#8f654d', 20);
-  //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
-
-  textureContext.fillStyle = '#422b25';
-  textureContext.fillRect(0, 0, 1, 32);
-  textureContext.fillRect(16, 0, 1, 32);
-
-
-  return textureCanvas.toDataURL();
-}
-
-function textures_createConstructionStripes() {
-  textures_drawGrunge('#807218', 20);
-  //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
-
-  textureContext.fillStyle = 'rgba(0, 0, 0, 0.8)';
-
-  textureContext.beginPath();
-  textureContext.moveTo(0, 0);
-  textureContext.lineTo(32, 32);
-  textureContext.lineTo(16, 32);
-  textureContext.lineTo(0, 16);
-  textureContext.closePath();
-  textureContext.fill();
-
-
-  textureContext.beginPath();
-  textureContext.moveTo(16, 0);
-  textureContext.lineTo(32, 0);
-  textureContext.lineTo(32, 16);
-  textureContext.closePath();
-  textureContext.fill();
-
-  return textureCanvas.toDataURL();
-}
-
-
-function textures_createMetalRidges() {
-  textures_drawGrunge('#080808', 20);
-  //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
-
-  for (let n=0; n<5; n++) {
-    // highlight
-    textureContext.fillStyle = 'rgba(255, 255, 255, 0.07)';
-    textureContext.fillRect(5 + n*5, 2, 1, 27);
-  
-    // shadow
-    textureContext.fillStyle = 'rgba(0, 0, 0, 0.2)';
-    textureContext.fillRect(5 + n*5+1, 3, 1, 27);
-  }
-
-  return textureCanvas.toDataURL();
-}
-
-function textures_createMetalPanels() {
-  textures_drawGrunge('#140f09', 20);
-  //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
-
-  // highlight
-  textureContext.fillStyle = 'rgba(255, 255, 255, 0.07)';
-  textureContext.fillRect(0, 0, 1, 32);
-
-  // shadow
-  textureContext.fillStyle = 'rgba(0, 0, 0, 0.5)';
-  textureContext.fillRect(31, 0, 1, 32);
-
-  return textureCanvas.toDataURL();
-}
-
-function textures_createMetalPlateWithBolts() {
-  textures_drawGrunge('#2d2014', 20);
-  textures_drawBorder('rgba(0, 0, 0, 0.5)');
-
-  textures_drawBolt(5, 5);
-  textures_drawBolt(5, 27);
-  textures_drawBolt(27, 5);
-  textures_drawBolt(27, 27);
-
-
-
-  return textureCanvas.toDataURL();
-}
-
-// ------------------- TEXTURE UTILS -------------------
 
 function textures_drawBolt(x, y) {
   textureContext.beginPath();
@@ -225,33 +178,6 @@ function textures_drawBolt(x, y) {
   textureContext.arc(x-1, y-1, 2, 0, Math.PI*2, false);
   textureContext.fillStyle = 'rgba(255, 255, 255, 0.1)';
   textureContext.fill();
-}
-
-function textures_hexToRgb(hex) {
-  hex = hex.replace('#', '');
-  var bigint = parseInt(hex, 16);
-  return {
-    r: (bigint >> 16) & 255,
-    g: (bigint >> 8) & 255,
-    b: bigint & 255
-  }
-}
-function textures_componentToHex(c) {
-  var hex = c.toString(16);
-  return hex.length == 1 ? '0' + hex : hex;
-}
-function textures_rgbToHex(rgb) {
-  return '#' + textures_componentToHex(rgb.r) + textures_componentToHex(rgb.g) + textures_componentToHex(rgb.b);
-}
-function textures_grungeChannel(channel, maxChannelOffset) {
-  let newChannel = Math.floor(channel + Math.random() * maxChannelOffset);
-  if (newChannel > 255) {
-    newChannel = 255;
-  }
-  else if (newChannel < 0) {
-    newChannel = 0;
-  }
-  return newChannel;
 }
 
 function textures_drawBorder(color) {
@@ -283,5 +209,37 @@ function textures_drawGrunge(color, maxChannelOffset) {
       textureContext.fillRect(x, y, 1, 1);
     }
   }
+}
+
+// helper utils -----------------------------------------------------
+
+function textures_hexToRgb(hex) {
+  hex = hex.replace('#', '');
+  var bigint = parseInt(hex, 16);
+  return {
+    r: (bigint >> 16) & 255,
+    g: (bigint >> 8) & 255,
+    b: bigint & 255
+  }
+}
+
+function textures_componentToHex(c) {
+  var hex = c.toString(16);
+  return hex.length == 1 ? '0' + hex : hex;
+}
+
+function textures_rgbToHex(rgb) {
+  return '#' + textures_componentToHex(rgb.r) + textures_componentToHex(rgb.g) + textures_componentToHex(rgb.b);
+}
+
+function textures_grungeChannel(channel, maxChannelOffset) {
+  let newChannel = Math.floor(channel + Math.random() * maxChannelOffset);
+  if (newChannel > 255) {
+    newChannel = 255;
+  }
+  else if (newChannel < 0) {
+    newChannel = 0;
+  }
+  return newChannel;
 }
 

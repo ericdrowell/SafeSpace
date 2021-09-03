@@ -149,7 +149,7 @@ function world_addBlock(x, y, z, texture) {
   };
 }
 
-function world_addHexHoleXY(startX, endX, startY, endY, z) {
+function world_addDoorHoleXY(startX, endX, startY, endY, z) {
   const mainHoleSize = 4;
   const centerX = (endX+startX)/2;
   const centerY = (endY+startY)/2;
@@ -189,11 +189,11 @@ function world_addHexHoleXY(startX, endX, startY, endY, z) {
   world_addBlock(centerX+4, centerY+4, z, TEXTURES_LIGHT);
   world_addBlock(centerX+4, centerY-4, z, TEXTURES_LIGHT);
 
-  
-
   world_addBlocks(centerX-7, centerX-7, centerY-1, centerY+1, z, z, TEXTURES_LIGHT);
   world_addBlocks(centerX+7, centerX+7, centerY-1, centerY+1, z, z, TEXTURES_LIGHT);
+
   world_addBlocks(centerX-3, centerX+3, startY, startY, z, z, TEXTURES_LIGHT);
+  world_addBlocks(centerX-3, centerX+3, endY, endY, z, z, TEXTURES_LIGHT);
 
 
 

@@ -309,7 +309,7 @@ function webgl_buildFieldBuffers() {
 
     // index buffer
     for (let n = 0; n < CUBE_BUFFERS.index.length; n++) {
-      rawBuffers.index.push(CUBE_BUFFERS.index[n] + p);
+      rawBuffers.index.push(CUBE_BUFFERS.index[n]);
     }
   }
 
@@ -351,10 +351,49 @@ function webgl_buildSphereBuffers() {
   };
 }
 
+function webgl_buildDoorBuffers() {
+  let rawBuffers = {
+    position: [],
+    texture: [],
+    index: []
+  };
+
+  let blockIndex = 0;
+  
+  for (let x=0; x<7; x++) {
+    for (let y=0; y<10; y++) {
+      // position buffer
+      for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
+        rawBuffers.position.push(CUBE_BUFFERS.position[n]+x*2);
+        rawBuffers.position.push(CUBE_BUFFERS.position[n+1]+y*2);
+        rawBuffers.position.push(CUBE_BUFFERS.position[n+2]);
+      }
+
+      // texture buffer
+      utils_concat(rawBuffers.texture, CUBE_BUFFERS.texture);
+
+      // index buffer
+      for (let n = 0; n < CUBE_BUFFERS.index.length; n++) {
+        rawBuffers.index.push(CUBE_BUFFERS.index[n] + (24 * blockIndex));
+      }
+
+      blockIndex++;
+    }
+  }
+
+  // convert regular arrays to webgl buffers
+  doorBuffers = {
+    position: webgl_createArrayBuffer(sceneContext, rawBuffers.position),
+    texture: webgl_createArrayBuffer(sceneContext, rawBuffers.texture),
+    index: webgl_createElementArrayBuffer(sceneContext, rawBuffers.index)
+  };
+}
+
 function webgl_buildBuffers() {
-  webgl_buildBlockBuffers();
-  webgl_buildFieldBuffers();
-  webgl_buildSphereBuffers();
+  webgl_buildBlockBuffers(); // static
+  webgl_buildFieldBuffers(); // static
+  webgl_buildSphereBuffers(); // dynamic
+  webgl_buildDoorBuffers(); // dynamic
 }
 
 function webgl_render() {
@@ -372,6 +411,7 @@ function webgl_render() {
   mat4.translate(mvMatrix, [-2 * player.x, -2 * (player.y + PLAYER_HEIGHT), -2 * player.z]);
   mat4.translate(mvMatrix, [0, bobble, 0]);
 
+  // render world blocks
   for (let texture in worldBuffers) {
     worldBuffers[texture].forEach(function(buffer) {
       webgl_renderBlockElements(buffer, textures[texture].glTexture);
@@ -386,6 +426,7 @@ function webgl_render() {
     fieldPerlinSize = 10;
   }
 
+  // render novas
   for (let p=0; p<worldSpheres.length; p++) {
     let sphere = worldSpheres[p];
 
@@ -405,14 +446,19 @@ function webgl_render() {
     webgl_restore();
   }
 
+  // render doors
   for (let d=0; d<doors.length; d++) {
     let door = doors[d];
 
     webgl_save();
     mat4.translate(mvMatrix, [door.x*2, door.y*2, door.z*2]);
+    webgl_renderBlockElements(doorBuffers, textures[TEXTURES_CONSTRUCTION_STRIPES].glTexture);
     webgl_restore();
   }
   
+  // render fields
   webgl_renderPerlinElements(fieldBuffers, [0, 0.5, 0.8], fieldPerlinSize, false, 0.0001);
+
+
   
 }

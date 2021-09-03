@@ -42,16 +42,10 @@ function level_initLevel1() {
   // floors
   world_addGrateFloor(-8, 16, 0, -100, 10);
 
-  // doors
-  door_add(0, 1, -20);
 
-  // holes 
-  world_addHexHoleXY(-8, 16, 0, 10, -32);
-  world_addHexHoleXY(-8, 16, 0, 10, -40);
-  world_addHexHoleXY(-8, 16, 0, 10, 8);
 
   // walls
-  world_addBlocks(-8, 16, 0, 10, 9, 9, TEXTURES_METAL_RIDGES);
+  world_addBlocks(-8, 16, 0, 10, 8, 8, TEXTURES_METAL_RIDGES);
   world_addBlocks(-8, -8, 0, 10, -48, 10, TEXTURES_METAL_RIDGES);
   world_addBlocks(16, 16, 0, 10, -48, 10, TEXTURES_METAL_RIDGES);
 
@@ -60,4 +54,12 @@ function level_initLevel1() {
 
   // celings
   world_addBlocks(-8, 16, 10, 10, -48, 10, TEXTURES_METAL_RIDGES);
+
+  // holes 
+  world_addDoorHoleXY(-8, 16, 0, 10, -32);
+
+  // doors
+  world_addDoorHoleXY(-8, 16, 0, 10, -39);
+  door_add(4, 1, -40);
+  world_addDoorHoleXY(-8, 16, 0, 10, -41);
 }
