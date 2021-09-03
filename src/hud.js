@@ -95,17 +95,19 @@ function hud_renderTitleScreen() {
   // hudContext.fillStyle = hudContext.strokeStyle = 'rgba(255, 255, 255, 1)';
   // hud_renderTitle(-4, 26);
 
-  hudContext.fillStyle = hudContext.strokeStyle = 'rgba(92, 171, 219, .6)';
+  hudContext.fillStyle = hudContext.strokeStyle = 'rgba(89, 143, 196, .6)';
   hud_renderTitle(0, 30);
   //hudContext.restore();
 
   hudContext.font = '100 23px verdana';
 
+  hudContext.fillStyle = '#2d0f0b';
+  hudContext.fillText('@ericdrowell JS13K 2021', 1, 303);
+
   hudContext.fillStyle = '#543125';
   hudContext.fillText('@ericdrowell JS13K 2021', -1, 301);
 
-  hudContext.fillStyle = '#2d0f0b';
-  hudContext.fillText('@ericdrowell JS13K 2021', 0, 302);
+
 
   hudContext.restore();
 

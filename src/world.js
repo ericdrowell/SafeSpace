@@ -9,19 +9,19 @@ function world_addSafeSpace(x, y, z) {
 
   const texture = TEXTURES_METAL_PLATE_WITH_BOLTS;
   // bottom
-  world_addPlane(startX, endX, startY, startY, startZ, endZ, texture);
+  world_addBlocks(startX, endX, startY, startY, startZ, endZ, texture);
 
   // side beams
-  world_addPlane(startX, startX, startY+1, endY, startZ, startZ, texture);
-  world_addPlane(endX, endX, startY+1, endY, startZ, startZ, texture);
-  world_addPlane(startX, startX, startY+1, endY, endZ, endZ, texture);
-  world_addPlane(endX, endX, startY+1, endY, endZ, endZ, texture);
+  world_addBlocks(startX, startX, startY+1, endY, startZ, startZ, texture);
+  world_addBlocks(endX, endX, startY+1, endY, startZ, startZ, texture);
+  world_addBlocks(startX, startX, startY+1, endY, endZ, endZ, texture);
+  world_addBlocks(endX, endX, startY+1, endY, endZ, endZ, texture);
 
   // top beams
-  world_addPlane(startX, startX, endY, endY, startZ+1, endZ-1, texture);
-  world_addPlane(endX, endX, endY, endY, startZ+1, endZ-1, texture);
-  world_addPlane(startX+1, endX-1, endY, endY, startZ, startZ, texture);
-  world_addPlane(startX+1, endX-1, endY, endY, endZ, endZ, texture);
+  world_addBlocks(startX, startX, endY, endY, startZ+1, endZ-1, texture);
+  world_addBlocks(endX, endX, endY, endY, startZ+1, endZ-1, texture);
+  world_addBlocks(startX+1, endX-1, endY, endY, startZ, startZ, texture);
+  world_addBlocks(startX+1, endX-1, endY, endY, endZ, endZ, texture);
 
   // fields
   world_addField(x, y, z);
@@ -47,23 +47,23 @@ function world_addSphere(x, y, z) {
 function world_addSlope(startX, endX, endY, startZ, endZ, texture) {
   let y = endY;
   for (let x = startX; x <= endX; x++) {
-    world_addPlane(x, x, y, y, startZ, endZ, texture); 
+    world_addBlocks(x, x, y, y, startZ, endZ, texture); 
     y--;
   }
 }
 
 function world_addRing(x, y, z, texture) {
   // bottom of ring
-  world_addPlane(x, x, y, y, z-2, z+2, texture);
+  world_addBlocks(x, x, y, y, z-2, z+2, texture);
 
   // far side
-  world_addPlane(x, x, y+3, y+7, z-5, z-5, texture);
+  world_addBlocks(x, x, y+3, y+7, z-5, z-5, texture);
 
   // top of ring
-  world_addPlane(x, x, y+10, y+10, z-2, z+2, texture);
+  world_addBlocks(x, x, y+10, y+10, z-2, z+2, texture);
 
   // near side
-  world_addPlane(x, x, y+3, y+7, z+5, z+5, texture);
+  world_addBlocks(x, x, y+3, y+7, z+5, z+5, texture);
 
   // fillers
   world_addBlock(x, y+1, z-3, texture);
@@ -94,22 +94,22 @@ function world_addTunnel(startX, endX, startY, endY, startZ, endZ, texture) {
 
 function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
   // floor
-  world_addFloor(startX, endX, startY, startY, startZ, endZ);
+  world_addGrateFloor(startX, endX, startY, startZ, endZ);
 
   // walls
   let wallTexture = TEXTURES_METAL_PANELS;
-  world_addPlane(startX, endX, startY, endY, endZ, endZ, wallTexture);
-  world_addPlane(startX, endX, startY, endY, startZ, startZ, wallTexture);
-  world_addPlane(startX, startX, startY, endY, startZ, endZ, wallTexture);
-  world_addPlane(endX, endX, startY, endY, startZ, endZ, wallTexture);
+  world_addBlocks(startX, endX, startY, endY, endZ, endZ, wallTexture);
+  world_addBlocks(startX, endX, startY, endY, startZ, startZ, wallTexture);
+  world_addBlocks(startX, startX, startY, endY, startZ, endZ, wallTexture);
+  world_addBlocks(endX, endX, startY, endY, startZ, endZ, wallTexture);
 
   // ceiling
-  world_addPlane(startX, endX, endY, endY, startZ, endZ, TEXTURES_METAL_RIDGES);
+  world_addBlocks(startX, endX, endY, endY, startZ, endZ, TEXTURES_METAL_RIDGES);
 
 
 }
 
-function world_addPlane(startX, endX, startY, endY, startZ, endZ, texture) {
+function world_addBlocks(startX, endX, startY, endY, startZ, endZ, texture) {
   for (let x=startX; x<=endX; x++) {
     for (let y=startY; y<=endY; y++) {
       for (let z=startZ; z<=endZ; z++) {
@@ -119,13 +119,19 @@ function world_addPlane(startX, endX, startY, endY, startZ, endZ, texture) {
   }
 }
 
-function world_addFloor(startX, endX, startY, endY, startZ, endZ) {
+function world_addFloor(startX, endX, y, startZ, endZ, texture) {
   for (let x=startX; x<=endX; x++) {
-    for (let y=startY; y<=endY; y++) {
-      for (let z=startZ; z<=endZ; z++) {
-        let texture = x % 10 === 0 || z % 10 === 0 ? TEXTURES_METAL_PLATE : TEXTURES_METAL_GRATES
-        world_addBlock(x, y, z, texture);
-      }
+    for (let z=startZ; z<=endZ; z++) {
+      world_addBlock(x, y, z, texture);
+    }
+  }
+}
+
+function world_addGrateFloor(startX, endX, y, startZ, endZ) {
+  for (let x=startX; x<=endX; x++) {
+    for (let z=startZ; z<=endZ; z++) {
+      let texture = x % 10 === 0 || z % 10 === 0 ? TEXTURES_METAL_PLATE : TEXTURES_METAL_GRATES
+      world_addBlock(x, y, z, texture);
     }
   }
 }
@@ -143,7 +149,55 @@ function world_addBlock(x, y, z, texture) {
   };
 }
 
-function world_removePlane(startX, endX, startY, endY, startZ, endZ) {
+function world_addHexHoleXY(startX, endX, startY, endY, z, texture) {
+  const mainHoleSize = 4;
+  const centerX = (endX+startX)/2;
+  const centerY = (endY+startY)/2;
+  const lightTexture = TEXTURES_LIGHT;
+
+  world_addBlocks(startX, centerX-mainHoleSize, startY+1, startY+1, z, z, texture);
+  world_addBlocks(centerX+mainHoleSize, endX, startY+1, startY+1, z, z, texture);
+  world_addBlocks(startX, centerX-mainHoleSize-1, startY+2, startY+2, z, z, texture);
+  world_addBlocks(centerX+mainHoleSize+1, endX, startY+2, startY+2, z, z, texture);
+  world_addBlocks(startX, centerX-mainHoleSize-2, startY+3, startY+3, z, z, texture);
+  world_addBlocks(centerX+mainHoleSize+2, endX, startY+3, startY+3, z, z, texture);
+  world_addBlocks(startX, centerX-mainHoleSize-3, startY+4, startY+4, z, z, texture);
+  world_addBlocks(centerX+mainHoleSize+3, endX, startY+4, startY+4, z, z, texture);
+
+  world_addBlocks(startX, centerX-mainHoleSize-4, startY+5, startY+5, z, z, texture);
+  world_addBlocks(centerX+mainHoleSize+4, endX, startY+5, startY+5, z, z, texture);
+
+  world_addBlocks(startX, centerX-mainHoleSize-3, startY+6, startY+6, z, z, texture);
+  world_addBlocks(centerX+mainHoleSize+3, endX, startY+6, startY+6, z, z, texture);
+  world_addBlocks(startX, centerX-mainHoleSize-2, startY+7, startY+7, z, z, texture);
+  world_addBlocks(centerX+mainHoleSize+2, endX, startY+7, startY+7, z, z, texture);
+  world_addBlocks(startX, centerX-mainHoleSize-1, startY+8, startY+8, z, z, texture);
+  world_addBlocks(centerX+mainHoleSize+1, endX, startY+8, startY+8, z, z, texture);
+  world_addBlocks(startX, centerX-mainHoleSize, startY+9, startY+9, z, z, texture);
+  world_addBlocks(centerX+mainHoleSize, endX, startY+9, startY+9, z, z, texture);
+
+
+  // add lights
+  world_addBlock(centerX-8, centerY, z, TEXTURES_LIGHT);
+  world_addBlock(centerX-7, centerY+1, z, TEXTURES_LIGHT);
+  world_addBlock(centerX-7, centerY-1, z, TEXTURES_LIGHT);
+  world_addBlock(centerX-6, centerY+2, z, TEXTURES_LIGHT);
+  world_addBlock(centerX-6, centerY-2, z, TEXTURES_LIGHT);
+  world_addBlock(centerX-5, centerY+3, z, TEXTURES_LIGHT);
+  world_addBlock(centerX-5, centerY-3, z, TEXTURES_LIGHT);
+  world_addBlock(centerX-4, centerY+4, z, TEXTURES_LIGHT);
+  world_addBlock(centerX-4, centerY-4, z, TEXTURES_LIGHT);
+
+  world_addBlocks(centerX-3, centerX+3, startY, startY, z, z, TEXTURES_LIGHT);
+
+
+
+
+
+
+}
+
+function world_removeBlocks(startX, endX, startY, endY, startZ, endZ) {
   for (let x=startX; x<=endX; x++) {
     for (let y=startY; y<=endY; y++) {
       for (let z=startZ; z<=endZ; z++) {
@@ -203,6 +257,7 @@ function world_moveObject(object, xChange, yChange, zChange) {
       // if landed on block
       if (yChange < 0) {
         object.isAirborne = false;
+        player_jumpNum = 0;
       }
       
       break;

@@ -89,24 +89,21 @@ function player_update() {
   if (!player.isAirborne) { 
     if (player.straightMovement || player.sideMovement) {
       // bobble
+      bobbleTime += elapsedTime;
+      bobble = RUN_BOBBLE_AMPLITUDE * Math.sin((bobbleTime/1000) * RUN_BOBBLE_FREQUENCEY);
       
-      bobble = RUN_BOBBLE_AMPLITUDE * Math.sin((totalElapsedTime/1000) * RUN_BOBBLE_FREQUENCEY);
-      
-  
        // run sound
       playerStep -= elapsedTime;
       if (playerStep < 0) {
         playerStep = PLAYER_STEP_SPEED;
         soundEffects_play(SOUND_EFFECTS_RUN);
       }
-  
     }
     else {
-      pitchBobble = STAND_BOBBLE_AMPLITUDE * Math.sin((totalElapsedTime/1000) * STAND_BOBBLE_FREQUENCEY);
+      pitchBobbleTime += elapsedTime;
+      pitchBobble = STAND_BOBBLE_AMPLITUDE * Math.sin((pitchBobbleTime/1000) * STAND_BOBBLE_FREQUENCEY);
     }
   }
-
-
 
   // handle gravity
   player.upVelocity += GRAVITY * elapsedTime / 1000;
@@ -115,9 +112,10 @@ function player_update() {
 };
 
 function player_jump() {
-  if (!player.isAirborne) {
+  if (player_jumpNum < 2) {
     player.upVelocity = JUMP_SPEED;
     player.isAirborne = true;
+    player_jumpNum++;
     soundEffects_play(SOUND_EFFECTS_JUMP);
   }
 }
