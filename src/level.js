@@ -2,6 +2,7 @@ function level_init() {
   world = {};
   worldFields = [];
   worldSpheres = [];
+  doors = [];
 
   if (gameState === GAME_STATE_TITLE) {
     level_initTitleLevel();
@@ -33,19 +34,30 @@ function level_initLevel1() {
   // world_addSafeSpace(-262, 32, 18);
   // world_addSphere(-242, 32, 18);
 
-  player.x = 0;
+  player.x = 4;
   player.y = 0.5;
   player.z = 0;
   player.yaw = 0;
 
-  world_addGrateFloor(-10, 10, 0, -40, 10);
-  world_addFloor(-5, 5, 0, -30, 10, TEXTURES_METAL_PLATE);
-  world_addFloor(-4, 4, 0, -30, 10, TEXTURES_LIGHT_METAL);
+  // floors
+  world_addGrateFloor(-8, 16, 0, -100, 10);
 
-  // front 
-  world_addHexHoleXY(-10, 10, 0, 10, -30, TEXTURES_RUST);
+  // doors
+  door_add(0, 1, -20);
 
-  // back
-  world_addHexHoleXY(-10, 10, 0, 10, 10, TEXTURES_RUST);
-  world_addBlocks(-10, 10, 0, 10, 11, 11, TEXTURES_METAL_RIDGES);
+  // holes 
+  world_addHexHoleXY(-8, 16, 0, 10, -32);
+  world_addHexHoleXY(-8, 16, 0, 10, -40);
+  world_addHexHoleXY(-8, 16, 0, 10, 8);
+
+  // walls
+  world_addBlocks(-8, 16, 0, 10, 9, 9, TEXTURES_METAL_RIDGES);
+  world_addBlocks(-8, -8, 0, 10, -48, 10, TEXTURES_METAL_RIDGES);
+  world_addBlocks(16, 16, 0, 10, -48, 10, TEXTURES_METAL_RIDGES);
+
+  // safe spaces
+  world_addSafeSpace(4, 6, -80);
+
+  // celings
+  world_addBlocks(-8, 16, 10, 10, -48, 10, TEXTURES_METAL_RIDGES);
 }

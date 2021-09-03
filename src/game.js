@@ -15,6 +15,7 @@ function game_init() {
   hud_init();
   userInputs_init();  
   player_init();
+  door_init();
   level_init();
   music_init();
   terminal_init();

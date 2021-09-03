@@ -405,7 +405,13 @@ function webgl_render() {
     webgl_restore();
   }
 
-  
+  for (let d=0; d<doors.length; d++) {
+    let door = doors[d];
+
+    webgl_save();
+    mat4.translate(mvMatrix, [door.x*2, door.y*2, door.z*2]);
+    webgl_restore();
+  }
   
   webgl_renderPerlinElements(fieldBuffers, [0, 0.5, 0.8], fieldPerlinSize, false, 0.0001);
   

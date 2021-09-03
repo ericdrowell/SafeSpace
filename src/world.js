@@ -130,7 +130,7 @@ function world_addFloor(startX, endX, y, startZ, endZ, texture) {
 function world_addGrateFloor(startX, endX, y, startZ, endZ) {
   for (let x=startX; x<=endX; x++) {
     for (let z=startZ; z<=endZ; z++) {
-      let texture = x % 10 === 0 || z % 10 === 0 ? TEXTURES_METAL_PLATE : TEXTURES_METAL_GRATES
+      let texture = x % 8 === 0 || z % 8 === 0 ? TEXTURES_METAL_PLATE : TEXTURES_METAL_GRATES
       world_addBlock(x, y, z, texture);
     }
   }
@@ -149,38 +149,32 @@ function world_addBlock(x, y, z, texture) {
   };
 }
 
-function world_addHexHoleXY(startX, endX, startY, endY, z, texture) {
+function world_addHexHoleXY(startX, endX, startY, endY, z) {
   const mainHoleSize = 4;
   const centerX = (endX+startX)/2;
   const centerY = (endY+startY)/2;
-  const lightTexture = TEXTURES_LIGHT;
 
-  world_addBlocks(startX, centerX-mainHoleSize, startY+1, startY+1, z, z, texture);
-  world_addBlocks(centerX+mainHoleSize, endX, startY+1, startY+1, z, z, texture);
-  world_addBlocks(startX, centerX-mainHoleSize-1, startY+2, startY+2, z, z, texture);
-  world_addBlocks(centerX+mainHoleSize+1, endX, startY+2, startY+2, z, z, texture);
-  world_addBlocks(startX, centerX-mainHoleSize-2, startY+3, startY+3, z, z, texture);
-  world_addBlocks(centerX+mainHoleSize+2, endX, startY+3, startY+3, z, z, texture);
-  world_addBlocks(startX, centerX-mainHoleSize-3, startY+4, startY+4, z, z, texture);
-  world_addBlocks(centerX+mainHoleSize+3, endX, startY+4, startY+4, z, z, texture);
+  const wallTexture = TEXTURES_METAL_RIDGES;
 
-  world_addBlocks(startX, centerX-mainHoleSize-4, startY+5, startY+5, z, z, texture);
-  world_addBlocks(centerX+mainHoleSize+4, endX, startY+5, startY+5, z, z, texture);
+  world_addBlocks(startX, centerX-mainHoleSize-1, startY+1, startY+1, z, z, wallTexture);
+  world_addBlocks(centerX+mainHoleSize+1, endX, startY+1, startY+1, z, z, wallTexture);
+  world_addBlocks(startX, centerX-mainHoleSize-2, startY+2, startY+2, z, z, wallTexture);
+  world_addBlocks(centerX+mainHoleSize+2, endX, startY+2, startY+2, z, z, wallTexture);
+  world_addBlocks(startX, centerX-mainHoleSize-3, startY+3, startY+3, z, z, wallTexture);
+  world_addBlocks(centerX+mainHoleSize+3, endX, startY+3, startY+3, z, z, wallTexture);
 
-  world_addBlocks(startX, centerX-mainHoleSize-3, startY+6, startY+6, z, z, texture);
-  world_addBlocks(centerX+mainHoleSize+3, endX, startY+6, startY+6, z, z, texture);
-  world_addBlocks(startX, centerX-mainHoleSize-2, startY+7, startY+7, z, z, texture);
-  world_addBlocks(centerX+mainHoleSize+2, endX, startY+7, startY+7, z, z, texture);
-  world_addBlocks(startX, centerX-mainHoleSize-1, startY+8, startY+8, z, z, texture);
-  world_addBlocks(centerX+mainHoleSize+1, endX, startY+8, startY+8, z, z, texture);
-  world_addBlocks(startX, centerX-mainHoleSize, startY+9, startY+9, z, z, texture);
-  world_addBlocks(centerX+mainHoleSize, endX, startY+9, startY+9, z, z, texture);
+  world_addBlocks(startX, centerX-mainHoleSize-3, startY+7, startY+7, z, z, wallTexture);
+  world_addBlocks(centerX+mainHoleSize+3, endX, startY+7, startY+7, z, z, wallTexture);
+  world_addBlocks(startX, centerX-mainHoleSize-2, startY+8, startY+8, z, z, wallTexture);
+  world_addBlocks(centerX+mainHoleSize+2, endX, startY+8, startY+8, z, z, wallTexture);
+  world_addBlocks(startX, centerX-mainHoleSize-1, startY+9, startY+9, z, z, wallTexture);
+  world_addBlocks(centerX+mainHoleSize+1, endX, startY+9, startY+9, z, z, wallTexture);
 
+  world_addBlocks(startX, centerX-7, centerY-1, centerY+1, z, z, wallTexture);
+  world_addBlocks(centerX+7, endX, centerY-1, centerY+1, z, z, wallTexture);
 
   // add lights
-  world_addBlock(centerX-8, centerY, z, TEXTURES_LIGHT);
-  world_addBlock(centerX-7, centerY+1, z, TEXTURES_LIGHT);
-  world_addBlock(centerX-7, centerY-1, z, TEXTURES_LIGHT);
+
   world_addBlock(centerX-6, centerY+2, z, TEXTURES_LIGHT);
   world_addBlock(centerX-6, centerY-2, z, TEXTURES_LIGHT);
   world_addBlock(centerX-5, centerY+3, z, TEXTURES_LIGHT);
@@ -188,6 +182,17 @@ function world_addHexHoleXY(startX, endX, startY, endY, z, texture) {
   world_addBlock(centerX-4, centerY+4, z, TEXTURES_LIGHT);
   world_addBlock(centerX-4, centerY-4, z, TEXTURES_LIGHT);
 
+  world_addBlock(centerX+6, centerY+2, z, TEXTURES_LIGHT);
+  world_addBlock(centerX+6, centerY-2, z, TEXTURES_LIGHT);
+  world_addBlock(centerX+5, centerY+3, z, TEXTURES_LIGHT);
+  world_addBlock(centerX+5, centerY-3, z, TEXTURES_LIGHT);
+  world_addBlock(centerX+4, centerY+4, z, TEXTURES_LIGHT);
+  world_addBlock(centerX+4, centerY-4, z, TEXTURES_LIGHT);
+
+  
+
+  world_addBlocks(centerX-7, centerX-7, centerY-1, centerY+1, z, z, TEXTURES_LIGHT);
+  world_addBlocks(centerX+7, centerX+7, centerY-1, centerY+1, z, z, TEXTURES_LIGHT);
   world_addBlocks(centerX-3, centerX+3, startY, startY, z, z, TEXTURES_LIGHT);
 
 

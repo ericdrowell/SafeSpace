@@ -117,14 +117,14 @@ function textures_createLight() {
   textures_drawGrunge('#201b1b', 20);
   //textures_drawTopLeftBorder('rgba(255, 255, 255, 0.2)');
 
-  textures_drawRect(4, 5, 3, 22, 'rgba(255, 255, 255, 0.2)');
-  textures_drawRect(5, 6, 3, 22, 'rgba(255, 255, 255, 0.2)');
+  textures_drawRect(3, 5, 3, 22, 'rgba(255, 255, 255, 0.2)');
+  textures_drawRect(4, 6, 3, 22, 'rgba(255, 255, 255, 0.2)');
 
-  textures_drawRect(15, 5, 3, 22, 'rgba(255, 255, 255, 0.2)');
-  textures_drawRect(16, 6, 3, 22, 'rgba(255, 255, 255, 0.2)');
+  textures_drawRect(14, 5, 3, 22, 'rgba(255, 255, 255, 0.2)');
+  textures_drawRect(15, 6, 3, 22, 'rgba(255, 255, 255, 0.2)');
 
-  textures_drawRect(26, 5, 3, 22, 'rgba(255, 255, 255, 0.2)');
-  textures_drawRect(27, 6, 3, 22, 'rgba(255, 255, 255, 0.2)');
+  textures_drawRect(25, 5, 3, 22, 'rgba(255, 255, 255, 0.2)');
+  textures_drawRect(26, 6, 3, 22, 'rgba(255, 255, 255, 0.2)');
 
   return textureCanvas.toDataURL();
 }

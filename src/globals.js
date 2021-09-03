@@ -86,3 +86,4 @@ let terminalEl;
 let terminalTextEl;
 let titleEl;
 let titleTextEl;
+let doors = [];
