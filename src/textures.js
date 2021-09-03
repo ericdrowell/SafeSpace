@@ -6,13 +6,12 @@ const TEXTURES_METAL_PLATE_WITH_BOLTS = 3;
 const TEXTURES_METAL_PANELS = 4;
 const TEXTURES_CONSTRUCTION_STRIPES = 5;
 const TEXTURES_LIGHT = 6;
+const TEXTURES_STENCIL_PLATE = 7;
 
 function textures_init(callback) {
   // -------------------------------------------------------------------
   textures[TEXTURES_METAL_GRATES] = (function() {
     textures_drawGrunge('#161616', 20);
-    //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
-  
     textureContext.strokeStyle = 'rgba(0, 0, 0, 0.9)';
     textureContext.lineWidth = 4;
     textureContext.lineCap = 'round';
@@ -33,16 +32,13 @@ function textures_init(callback) {
   // -------------------------------------------------------------------
   textures[TEXTURES_METAL_PLATE] = (function() {
     textures_drawGrunge('#080808', 20);
-    //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
-  
     return textureCanvas.toDataURL();
   })();
 
   // -------------------------------------------------------------------
   textures[TEXTURES_METAL_RIDGES] = (function() {
     textures_drawGrunge('#080808', 20);
-    //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
-  
+
     for (let n=0; n<5; n++) {
       // highlight
       textureContext.fillStyle = 'rgba(255, 255, 255, 0.07)';
@@ -59,7 +55,7 @@ function textures_init(callback) {
   // -------------------------------------------------------------------
   textures[TEXTURES_METAL_PLATE_WITH_BOLTS] = (function() {
     textures_drawGrunge('#2d2014', 20);
-    textures_drawBorder('rgba(0, 0, 0, 0.5)');
+    textures_drawBorder('rgba(0, 0, 0, 0.5)', 0);
   
     textures_drawBolt(5, 5);
     textures_drawBolt(5, 27);
@@ -72,8 +68,7 @@ function textures_init(callback) {
   // -------------------------------------------------------------------
   textures[TEXTURES_METAL_PANELS] = (function() {
     textures_drawGrunge('#140f09', 20);
-    //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
-  
+
     // highlight
     textureContext.fillStyle = 'rgba(255, 255, 255, 0.07)';
     textureContext.fillRect(0, 0, 1, 32);
@@ -88,8 +83,7 @@ function textures_init(callback) {
   // -------------------------------------------------------------------
   textures[TEXTURES_CONSTRUCTION_STRIPES] = (function() {
     textures_drawGrunge('#807218', 20);
-    //textures_drawBorder('rgba(0, 0, 0, 0.5)', 1);
-  
+
     textureContext.fillStyle = 'rgba(0, 0, 0, 0.8)';
   
     textureContext.beginPath();
@@ -127,6 +121,39 @@ function textures_init(callback) {
   
     return textureCanvas.toDataURL();
   })();
+
+  // -------------------------------------------------------------------
+  textures[TEXTURES_STENCIL_PLATE] = (function() {
+
+    textures_drawGrunge('#1e1516', 20);
+
+    textures_addDepth(function(level) {
+      let color = level === 0 ? 'rgba(0, 0, 0, 0.5)': 'rgba(59, 60, 62, 0.7)'
+      textures_drawBorder(color, 3);
+
+      textureContext.beginPath();
+      textureContext.moveTo(16, 4);
+      textureContext.lineTo(16, 28);
+      textureContext.lineWidth = 1;
+      textureContext.strokeStyle = color;
+      textureContext.stroke();
+
+      textureContext.beginPath();
+      textureContext.moveTo(17, 16);
+      textureContext.lineTo(27, 16);
+      textureContext.lineWidth = 1;
+      textureContext.strokeStyle = color;
+      textureContext.stroke();
+    });
+
+
+    return textureCanvas.toDataURL();
+  })();
+
+
+
+
+  
 
   // unpack textures into an array of objects
   for (let n=0; n<textures.length; n++) {
@@ -180,12 +207,10 @@ function textures_drawBolt(x, y) {
   textureContext.fill();
 }
 
-function textures_drawBorder(color) {
-  textureContext.fillStyle = color;
-  textureContext.fillRect(0, 0, 1, 32);
-  textureContext.fillRect(31, 0, 1, 32);
-  textureContext.fillRect(0, 0, 32, 1);
-  textureContext.fillRect(0, 31, 32, 1);
+function textures_drawBorder(color, inset) {
+  textureContext.lineWidth = 1;
+  textureContext.strokeStyle = color;
+  textureContext.strokeRect(inset, inset, 32-inset*2, 32-inset*2);
 }
 
 function textures_drawTopLeftBorder(color) {
@@ -211,7 +236,14 @@ function textures_drawGrunge(color, maxChannelOffset) {
   }
 }
 
-// helper utils -----------------------------------------------------
+function textures_addDepth(func) {
+  textureContext.save();
+  textureContext.translate(2, 2);
+  func(0);
+  textureContext.restore();
+
+  func(1);
+};
 
 function textures_hexToRgb(hex) {
   hex = hex.replace('#', '');

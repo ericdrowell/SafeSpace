@@ -452,7 +452,7 @@ function webgl_render() {
 
     webgl_save();
     mat4.translate(mvMatrix, [door.x*2, door.y*2, door.z*2]);
-    webgl_renderBlockElements(doorBuffers, textures[TEXTURES_CONSTRUCTION_STRIPES].glTexture);
+    webgl_renderBlockElements(doorBuffers, textures[TEXTURES_STENCIL_PLATE].glTexture);
     webgl_restore();
   }
   
