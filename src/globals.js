@@ -35,6 +35,7 @@ const TERMINAL_PRINT_DELAY = 2000; // ms
 const DOOR_STATE_CLOSED = 0;
 const DOOR_STATE_OPENING = 1;
 const DOOR_STATE_OPEN = 2;
+const DOOR_STATE_CLOSING = 3;
 const DOOR_OPEN_SPEED = 20; // units / s
 
 let level = 1;

@@ -25,6 +25,14 @@ function player_inSafeSpace() {
   return false;
 }
 
+function player_nearDoor(door) {
+  let xDist = player.x - door.x;
+  let yDist = player.y - door.y;
+  let zDist = player.z - door.z;
+  let dist = Math.sqrt(xDist*xDist + yDist*yDist + zDist*zDist);
+  return dist < 20;
+}
+
 function player_inNova() {
   for (let n=0; n<worldSpheres.length; n++) {
     let nova = worldSpheres[n];

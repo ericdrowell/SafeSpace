@@ -12,18 +12,34 @@ function door_add(x, y, z) {
   });
 }
 
-function door_open(index) {
-  doors[index].state = DOOR_STATE_OPENING;
-}
-
 function door_update() {
   doors.forEach(function(door) {
+    // open doors if you are in range
+    if (player_nearDoor(door) && door.state === DOOR_STATE_CLOSED) {
+      door.state = DOOR_STATE_OPENING;
+      soundEffects_play(SOUND_EFFECTS_DOOR_OPEN);
+    }
+    else if (!player_nearDoor(door) && door.state === DOOR_STATE_OPEN) {
+      door.state = DOOR_STATE_CLOSING;
+      soundEffects_play(SOUND_EFFECTS_DOOR_CLOSE);
+    }
+
+    // udpate opening doors
+    let distEachFrame = DOOR_OPEN_SPEED * elapsedTime / 1000;
     if (door.state === DOOR_STATE_OPENING) {
-      let distEachFrame = DOOR_OPEN_SPEED * elapsedTime / 1000;
       door.offset += distEachFrame;
 
       if (door.offset > 8) {
+        door.offset = 8;
         door.state = DOOR_STATE_OPEN;
+      }
+    }
+    else if (door.state === DOOR_STATE_CLOSING) {    
+      door.offset -= distEachFrame;
+
+      if (door.offset < 0) {
+        door.offset = 0;
+        door.state = DOOR_STATE_CLOSED;
       }
     }
   });

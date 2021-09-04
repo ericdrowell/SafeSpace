@@ -15,6 +15,9 @@ const SOUND_EFFECTS_FIELD_PROTECT =        function(){zzfx(...[,,1826,.25,,.16,3
 const SOUND_EFFECTS_DIED =                 function(){zzfx(...[1.79,,1358,.23,.11,.17,3,1.42,-9,,,,,,41,,.41,,.12])};
 const SOUND_EFFECTS_TERMINAL_BLIP =        function(){zzfx(...[,0,709,.01,.02,.03,1,.44,.1,3.2,,.02,.01,,,,,.3,.04])};   
 const SOUND_EFFECTS_TERMINAL_NEW_LINE =    function(){zzfx(...[1.03,0,207,,.04,,1,1.97,,,207,.07,,,,.1,,.89,.08,.09])};   
+const SOUND_EFFECTS_DOOR_OPEN =            function(){zzfx(...[1.59,,260,.24,,.05,,.7,64,,135,.22,.01,.1,,,.07,,.01,.54])};   
+const SOUND_EFFECTS_DOOR_CLOSE =           function(){zzfx(...[1.86,,191,.05,.17,.01,1,2.28,,-81,476,,,.2,163,,.04,.33])}; 
+
 // not used yet
 //const SOUND_EFFECTS_NOVA_EXPLOSION =      function(){zzfx(...[,,1875,.06,.19,3,3,.02,,18,-177,.24,,,-101,,,,1,.01])};
 //const SOUND_EFFECTS_EXPLOSION =           function(){zzfx(1,.05,855,0,.28,.85,4,2.92,0,.3,0,0,.18,.7,0,1,0,.97,.06,0)};

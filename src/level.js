@@ -42,12 +42,13 @@ function level_initLevel1() {
   // floors
   world_addGrateFloor(-8, 16, 0, -100, 10);
 
-
-
   // walls
-  world_addBlocks(-8, 16, 0, 12, 8, 8, TEXTURES_SMOOTH_METAL);
-  world_addBlocks(-8, -8, 0, 12, -41, 10, TEXTURES_SMOOTH_METAL);
-  world_addBlocks(16, 16, 0, 12, -41, 10, TEXTURES_SMOOTH_METAL);
+  world_addWallXY(-9, 17, 0, 12, 9);
+  world_addWallXY(-9, 17, 0, 12, -39);
+  world_addWallXY(-9, 17, 0, 12, -41);
+
+  world_addWallYZ(-9, 0, 12, -41, 10);
+  world_addWallYZ(17, 0, 12, -41, 10);
 
   // safe spaces
   world_addSafeSpace(4, 6, -80);

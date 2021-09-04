@@ -404,6 +404,7 @@ function webgl_buildDoorEndBuffers() {
   let blockIndex = 0;
 
   let blockPositions = [
+    0, -1,
     0, 0, 
     0, 1,
     0, 2,
@@ -413,7 +414,8 @@ function webgl_buildDoorEndBuffers() {
     3, 6,
     3, 7,
     3, 8,
-    3, 9
+    3, 9,
+    3, 10
   ];
   
   for (let i=0; i<blockPositions.length; i+=2) {

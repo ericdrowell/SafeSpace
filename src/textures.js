@@ -13,7 +13,7 @@ const TEXTURES_SMOOTH_METAL = 9;
 function textures_init(callback) {
   // -------------------------------------------------------------------
   textures[TEXTURES_SMOOTH_METAL] = (function() {
-    textures_drawGrunge('#2d2c31', 20);
+    textures_drawGrunge('#161616', 20);
     //textures_drawBorder('rgba(0, 0, 0, 0.3)', 0);
 
     textures_addDepth(function(level) {

@@ -119,6 +119,14 @@ function world_addBlocks(startX, endX, startY, endY, startZ, endZ, texture) {
   }
 }
 
+function world_addWallXY(startX, endX, startY, endY, z) {
+  world_addBlocks(startX, endX, startY, endY, z, z, TEXTURES_SMOOTH_METAL);
+}
+
+function world_addWallYZ(x, startY, endY, startZ, endZ) {
+  world_addBlocks(x, x, startY, endY, startZ, endZ, TEXTURES_SMOOTH_METAL);
+}
+
 function world_addFloor(startX, endX, y, startZ, endZ, texture) {
   for (let x=startX; x<=endX; x++) {
     for (let z=startZ; z<=endZ; z++) {
@@ -178,6 +186,8 @@ function world_addDoorBorder(x, y, z, texture) {
 };
 
 function world_addDoorHoleXY(x, y, z) {
+  world_removeBlocks(x-4, x+4, y, y+10, z, z);
+  world_removeBlocks(x-6, x+6, y+2, y+8, z, z);
   world_addDoorBorder(x, y, z, TEXTURES_LIGHT);
 }
 
