@@ -45,21 +45,22 @@ function level_initLevel1() {
 
 
   // walls
-  world_addBlocks(-8, 16, 0, 10, 8, 8, TEXTURES_METAL_RIDGES);
-  world_addBlocks(-8, -8, 0, 10, -48, 10, TEXTURES_METAL_RIDGES);
-  world_addBlocks(16, 16, 0, 10, -48, 10, TEXTURES_METAL_RIDGES);
+  world_addBlocks(-8, 16, 0, 12, 8, 8, TEXTURES_SMOOTH_METAL);
+  world_addBlocks(-8, -8, 0, 12, -41, 10, TEXTURES_SMOOTH_METAL);
+  world_addBlocks(16, 16, 0, 12, -41, 10, TEXTURES_SMOOTH_METAL);
 
   // safe spaces
   world_addSafeSpace(4, 6, -80);
 
   // celings
-  world_addBlocks(-8, 16, 10, 10, -48, 10, TEXTURES_METAL_RIDGES);
+  world_addBlocks(-8, 16, 13, 13, -41, 10, TEXTURES_METAL_RIDGES);
 
-  // holes 
-  world_addDoorHoleXY(-8, 16, 0, 10, -32);
+
 
   // doors
-  world_addDoorHoleXY(-8, 16, 0, 10, -39);
-  door_add(4, 1, -40);
-  world_addDoorHoleXY(-8, 16, 0, 10, -41);
+  world_addDoorBorder(4, 1, -38, TEXTURES_METAL_PLATE_WITH_BOLTS);
+  world_addDoorHoleXY(4, 1, -39);
+  door_add(4, 2, -40);
+  world_addDoorHoleXY(4, 1, -41);
+  world_addDoorBorder(4, 1, -42, TEXTURES_METAL_PLATE_WITH_BOLTS);
 }

@@ -153,6 +153,7 @@ function game_update() {
   if (gameState === GAME_STATE_PLAYING) {
     player_update();
     nova_update();
+    door_update();
   }
 }
 

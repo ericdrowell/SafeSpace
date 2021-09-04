@@ -97,7 +97,7 @@ function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
   world_addGrateFloor(startX, endX, startY, startZ, endZ);
 
   // walls
-  let wallTexture = TEXTURES_METAL_PANELS;
+  let wallTexture = TEXTURES_METAL_PANEL;
   world_addBlocks(startX, endX, startY, endY, endZ, endZ, wallTexture);
   world_addBlocks(startX, endX, startY, endY, startZ, startZ, wallTexture);
   world_addBlocks(startX, startX, startY, endY, startZ, endZ, wallTexture);
@@ -149,57 +149,36 @@ function world_addBlock(x, y, z, texture) {
   };
 }
 
-function world_addDoorHoleXY(startX, endX, startY, endY, z) {
-  const mainHoleSize = 4;
-  const centerX = (endX+startX)/2;
-  const centerY = (endY+startY)/2;
+function world_addDoorBorder(x, y, z, texture) {
+  world_addBlocks(x-5, x-4, y+1, y+1, z, z, texture);
+  world_addBlocks(x+4, x+5, y+1, y+1, z, z, texture);
 
-  const wallTexture = TEXTURES_METAL_RIDGES;
+  world_addBlocks(x-6, x-5, y+2, y+2, z, z, texture);
+  world_addBlocks(x+5, x+6, y+2, y+2, z, z, texture);
 
-  world_addBlocks(startX, centerX-mainHoleSize-1, startY+1, startY+1, z, z, wallTexture);
-  world_addBlocks(centerX+mainHoleSize+1, endX, startY+1, startY+1, z, z, wallTexture);
-  world_addBlocks(startX, centerX-mainHoleSize-2, startY+2, startY+2, z, z, wallTexture);
-  world_addBlocks(centerX+mainHoleSize+2, endX, startY+2, startY+2, z, z, wallTexture);
-  world_addBlocks(startX, centerX-mainHoleSize-3, startY+3, startY+3, z, z, wallTexture);
-  world_addBlocks(centerX+mainHoleSize+3, endX, startY+3, startY+3, z, z, wallTexture);
+  world_addBlocks(x-7, x-6, y+3, y+3, z, z, texture);
+  world_addBlocks(x+6, x+7, y+3, y+3, z, z, texture);
 
-  world_addBlocks(startX, centerX-mainHoleSize-3, startY+7, startY+7, z, z, wallTexture);
-  world_addBlocks(centerX+mainHoleSize+3, endX, startY+7, startY+7, z, z, wallTexture);
-  world_addBlocks(startX, centerX-mainHoleSize-2, startY+8, startY+8, z, z, wallTexture);
-  world_addBlocks(centerX+mainHoleSize+2, endX, startY+8, startY+8, z, z, wallTexture);
-  world_addBlocks(startX, centerX-mainHoleSize-1, startY+9, startY+9, z, z, wallTexture);
-  world_addBlocks(centerX+mainHoleSize+1, endX, startY+9, startY+9, z, z, wallTexture);
+  // center
+  world_addBlocks(x-7, x-7, y+4, y+7, z, z, texture);
+  world_addBlocks(x+7, x+7, y+4, y+7, z, z, texture);
 
-  world_addBlocks(startX, centerX-7, centerY-1, centerY+1, z, z, wallTexture);
-  world_addBlocks(centerX+7, endX, centerY-1, centerY+1, z, z, wallTexture);
+  world_addBlocks(x-7, x-6, y+8, y+8, z, z, texture);
+  world_addBlocks(x+6, x+7, y+8, y+8, z, z, texture);
 
-  // add lights
+  world_addBlocks(x-6, x-5, y+9, y+9, z, z, texture);
+  world_addBlocks(x+5, x+6, y+9, y+9, z, z, texture);
 
-  world_addBlock(centerX-6, centerY+2, z, TEXTURES_LIGHT);
-  world_addBlock(centerX-6, centerY-2, z, TEXTURES_LIGHT);
-  world_addBlock(centerX-5, centerY+3, z, TEXTURES_LIGHT);
-  world_addBlock(centerX-5, centerY-3, z, TEXTURES_LIGHT);
-  world_addBlock(centerX-4, centerY+4, z, TEXTURES_LIGHT);
-  world_addBlock(centerX-4, centerY-4, z, TEXTURES_LIGHT);
+  world_addBlocks(x-5, x-4, y+10, y+10, z, z, texture);
+  world_addBlocks(x+4, x+5, y+10, y+10, z, z, texture);
 
-  world_addBlock(centerX+6, centerY+2, z, TEXTURES_LIGHT);
-  world_addBlock(centerX+6, centerY-2, z, TEXTURES_LIGHT);
-  world_addBlock(centerX+5, centerY+3, z, TEXTURES_LIGHT);
-  world_addBlock(centerX+5, centerY-3, z, TEXTURES_LIGHT);
-  world_addBlock(centerX+4, centerY+4, z, TEXTURES_LIGHT);
-  world_addBlock(centerX+4, centerY-4, z, TEXTURES_LIGHT);
+  // top bottom
+  world_addBlocks(x-4, x+4, y, y, z, z, texture);
+  world_addBlocks(x-4, x+4, y+11, y+11, z, z, texture);
+};
 
-  world_addBlocks(centerX-7, centerX-7, centerY-1, centerY+1, z, z, TEXTURES_LIGHT);
-  world_addBlocks(centerX+7, centerX+7, centerY-1, centerY+1, z, z, TEXTURES_LIGHT);
-
-  world_addBlocks(centerX-3, centerX+3, startY, startY, z, z, TEXTURES_LIGHT);
-  world_addBlocks(centerX-3, centerX+3, endY, endY, z, z, TEXTURES_LIGHT);
-
-
-
-
-
-
+function world_addDoorHoleXY(x, y, z) {
+  world_addDoorBorder(x, y, z, TEXTURES_LIGHT);
 }
 
 function world_removeBlocks(startX, endX, startY, endY, startZ, endZ) {

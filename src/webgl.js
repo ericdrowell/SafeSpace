@@ -362,6 +362,11 @@ function webgl_buildDoorBuffers() {
   
   for (let x=0; x<7; x++) {
     for (let y=0; y<10; y++) {
+      // carve out notch in door
+      if (x === 0 && y > 3 || x === 1 && y > 4 || x === 2 && y > 5) {
+        continue;
+      }
+
       // position buffer
       for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
         rawBuffers.position.push(CUBE_BUFFERS.position[n]+x*2);
@@ -389,11 +394,62 @@ function webgl_buildDoorBuffers() {
   };
 }
 
+function webgl_buildDoorEndBuffers() {
+  let rawBuffers = {
+    position: [],
+    texture: [],
+    index: []
+  };
+
+  let blockIndex = 0;
+
+  let blockPositions = [
+    0, 0, 
+    0, 1,
+    0, 2,
+    0, 3,
+    1, 4,
+    2, 5,
+    3, 6,
+    3, 7,
+    3, 8,
+    3, 9
+  ];
+  
+  for (let i=0; i<blockPositions.length; i+=2) {
+    // position buffer
+    for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
+      rawBuffers.position.push(CUBE_BUFFERS.position[n]+blockPositions[i]*2);
+      rawBuffers.position.push(CUBE_BUFFERS.position[n+1]+blockPositions[i+1]*2);
+      rawBuffers.position.push(CUBE_BUFFERS.position[n+2]);
+    }
+
+    // texture buffer
+    utils_concat(rawBuffers.texture, CUBE_BUFFERS.texture);
+
+    // index buffer
+    for (let n = 0; n < CUBE_BUFFERS.index.length; n++) {
+      rawBuffers.index.push(CUBE_BUFFERS.index[n] + (24 * blockIndex));
+    }
+
+    blockIndex++;
+    
+  }
+
+  // convert regular arrays to webgl buffers
+  doorEndBuffers = {
+    position: webgl_createArrayBuffer(sceneContext, rawBuffers.position),
+    texture: webgl_createArrayBuffer(sceneContext, rawBuffers.texture),
+    index: webgl_createElementArrayBuffer(sceneContext, rawBuffers.index)
+  };
+}
+
 function webgl_buildBuffers() {
   webgl_buildBlockBuffers(); // static
   webgl_buildFieldBuffers(); // static
   webgl_buildSphereBuffers(); // dynamic
   webgl_buildDoorBuffers(); // dynamic
+  webgl_buildDoorEndBuffers(); // dynamic
 }
 
 function webgl_render() {
@@ -451,8 +507,27 @@ function webgl_render() {
     let door = doors[d];
 
     webgl_save();
-    mat4.translate(mvMatrix, [door.x*2, door.y*2, door.z*2]);
+
+    mat4.translate(mvMatrix, [(door.x + door.offset)*2, door.y*2, door.z*2]);
     webgl_renderBlockElements(doorBuffers, textures[TEXTURES_STENCIL_PLATE].glTexture);
+
+    mat4.scale(mvMatrix, [-1, -1, 1]);
+    mat4.translate(mvMatrix, [door.offset*4, -9*2, 0]);
+    webgl_renderBlockElements(doorBuffers, textures[TEXTURES_STENCIL_PLATE].glTexture);
+
+    webgl_restore();
+  }
+  for (let d=0; d<doors.length; d++) {
+    let door = doors[d];
+
+    webgl_save();
+    mat4.translate(mvMatrix, [(door.x -1 + door.offset)*2, door.y*2, door.z*2]);
+    webgl_renderBlockElements(doorEndBuffers, textures[TEXTURES_CAUTION_STRIPES].glTexture);
+
+    mat4.scale(mvMatrix, [-1, -1, 1]);
+    mat4.translate(mvMatrix, [(door.offset-1)*4, -9*2, 0]);
+    webgl_renderBlockElements(doorEndBuffers, textures[TEXTURES_CAUTION_STRIPES_ALT].glTexture);
+
     webgl_restore();
   }
   

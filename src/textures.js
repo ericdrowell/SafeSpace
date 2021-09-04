@@ -3,12 +3,26 @@ const TEXTURES_METAL_GRATES = 0;
 const TEXTURES_METAL_PLATE = 1;
 const TEXTURES_METAL_RIDGES = 2;
 const TEXTURES_METAL_PLATE_WITH_BOLTS = 3;
-const TEXTURES_METAL_PANELS = 4;
-const TEXTURES_CONSTRUCTION_STRIPES = 5;
-const TEXTURES_LIGHT = 6;
-const TEXTURES_STENCIL_PLATE = 7;
+const TEXTURES_METAL_PANEL = 4;
+const TEXTURES_CAUTION_STRIPES = 5;
+const TEXTURES_CAUTION_STRIPES_ALT = 6;
+const TEXTURES_LIGHT = 7;
+const TEXTURES_STENCIL_PLATE = 8;
+const TEXTURES_SMOOTH_METAL = 9;
 
 function textures_init(callback) {
+  // -------------------------------------------------------------------
+  textures[TEXTURES_SMOOTH_METAL] = (function() {
+    textures_drawGrunge('#2d2c31', 20);
+    //textures_drawBorder('rgba(0, 0, 0, 0.3)', 0);
+
+    textures_addDepth(function(level) {
+      let color = level === 0 ? 'rgba(0, 0, 0, 0.3)': 'rgba(255, 255, 255, 0.05)'
+      textures_drawBorder(color, 3);
+    });
+
+    return textureCanvas.toDataURL();
+  })();
   // -------------------------------------------------------------------
   textures[TEXTURES_METAL_GRATES] = (function() {
     textures_drawGrunge('#161616', 20);
@@ -66,7 +80,7 @@ function textures_init(callback) {
   })();
 
   // -------------------------------------------------------------------
-  textures[TEXTURES_METAL_PANELS] = (function() {
+  textures[TEXTURES_METAL_PANEL] = (function() {
     textures_drawGrunge('#140f09', 20);
 
     // highlight
@@ -81,7 +95,7 @@ function textures_init(callback) {
   })();
 
   // -------------------------------------------------------------------
-  textures[TEXTURES_CONSTRUCTION_STRIPES] = (function() {
+  textures[TEXTURES_CAUTION_STRIPES] = (function() {
     textures_drawGrunge('#807218', 20);
 
     textureContext.fillStyle = 'rgba(0, 0, 0, 0.8)';
@@ -101,8 +115,58 @@ function textures_init(callback) {
     textureContext.lineTo(32, 16);
     textureContext.closePath();
     textureContext.fill();
+
+    // highlight
+    textureContext.fillStyle = 'rgba(255, 255, 255, 0.07)';
+    textureContext.fillRect(0, 0, 1, 32);
+  
+    // shadow
+    textureContext.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    textureContext.fillRect(31, 0, 1, 32);
   
     return textureCanvas.toDataURL();
+  })();
+
+  // -------------------------------------------------------------------
+  textures[TEXTURES_CAUTION_STRIPES_ALT] = (function() {
+    textures_drawGrunge('#807218', 20);
+
+    textureContext.save();
+
+    textureContext.translate(32, 32);
+    textureContext.scale(-1, -1);
+    
+    textureContext.fillStyle = 'rgba(0, 0, 0, 0.8)';
+  
+    textureContext.beginPath();
+    textureContext.moveTo(0, 0);
+    textureContext.lineTo(32, 32);
+    textureContext.lineTo(16, 32);
+    textureContext.lineTo(0, 16);
+    textureContext.closePath();
+    textureContext.fill();
+  
+  
+    textureContext.beginPath();
+    textureContext.moveTo(16, 0);
+    textureContext.lineTo(32, 0);
+    textureContext.lineTo(32, 16);
+    textureContext.closePath();
+    textureContext.fill();
+
+    // highlight
+    textureContext.fillStyle = 'rgba(255, 255, 255, 0.07)';
+    textureContext.fillRect(0, 0, 1, 32);
+  
+    // shadow
+    textureContext.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    textureContext.fillRect(31, 0, 1, 32);
+    
+    let dataUrl = textureCanvas.toDataURL();
+
+    textureContext.restore();
+  
+    return dataUrl;
   })();
 
   // -------------------------------------------------------------------
@@ -128,22 +192,17 @@ function textures_init(callback) {
     textures_drawGrunge('#1e1516', 20);
 
     textures_addDepth(function(level) {
-      let color = level === 0 ? 'rgba(0, 0, 0, 0.5)': 'rgba(59, 60, 62, 0.7)'
+      let color = level === 0 ? 'rgba(0, 0, 0, 0.3)': 'rgba(59, 60, 62, 0.5)'
       textures_drawBorder(color, 3);
 
-      textureContext.beginPath();
-      textureContext.moveTo(16, 4);
-      textureContext.lineTo(16, 28);
-      textureContext.lineWidth = 1;
-      textureContext.strokeStyle = color;
-      textureContext.stroke();
 
-      textureContext.beginPath();
-      textureContext.moveTo(17, 16);
-      textureContext.lineTo(27, 16);
-      textureContext.lineWidth = 1;
-      textureContext.strokeStyle = color;
-      textureContext.stroke();
+      textureContext.fillStyle = color;
+      textureContext.fillRect(16, 4, 1, 24);
+
+      textureContext.fillStyle = color;
+      textureContext.fillRect(16, 15, 12, 1);
+
+      //textureContext.stroke();
     });
 
 
@@ -208,9 +267,11 @@ function textures_drawBolt(x, y) {
 }
 
 function textures_drawBorder(color, inset) {
-  textureContext.lineWidth = 1;
-  textureContext.strokeStyle = color;
-  textureContext.strokeRect(inset, inset, 32-inset*2, 32-inset*2);
+  textureContext.fillStyle = color;
+  textureContext.fillRect(inset, inset, 1, 32-inset*2);
+  textureContext.fillRect(31-inset, inset, 1, 32-inset*2);
+  textureContext.fillRect(inset, inset, 32-inset*2, 1);
+  textureContext.fillRect(inset, 31-inset, 32-inset*2, 1);
 }
 
 function textures_drawTopLeftBorder(color) {
@@ -238,7 +299,7 @@ function textures_drawGrunge(color, maxChannelOffset) {
 
 function textures_addDepth(func) {
   textureContext.save();
-  textureContext.translate(2, 2);
+  textureContext.translate(1, 1);
   func(0);
   textureContext.restore();
 
