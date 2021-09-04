@@ -43,6 +43,9 @@ function world_addSphere(x, y, z) {
   });
 }
 
+function world_addReactor(x, y, z) {
+  world_addSphere(x, y, z);
+}
 
 function world_addSlope(startX, endX, endY, startZ, endZ, texture) {
   let y = endY;
@@ -94,7 +97,7 @@ function world_addTunnel(startX, endX, startY, endY, startZ, endZ, texture) {
 
 function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
   // floor
-  world_addGrateFloor(startX, endX, startY, startZ, endZ);
+  world_addFloor(startX, endX, startY, startZ, endZ);
 
   // walls
   let wallTexture = TEXTURES_METAL_PANEL;
@@ -135,7 +138,7 @@ function world_addFloor(startX, endX, y, startZ, endZ, texture) {
   }
 }
 
-function world_addGrateFloor(startX, endX, y, startZ, endZ) {
+function world_addFloor(startX, endX, y, startZ, endZ) {
   for (let x=startX; x<=endX; x++) {
     for (let z=startZ; z<=endZ; z++) {
       let texture = x % 8 === 0 || z % 8 === 0 ? TEXTURES_METAL_PLATE : TEXTURES_METAL_GRATES
@@ -189,6 +192,18 @@ function world_addDoorHoleXY(x, y, z) {
   world_removeBlocks(x-4, x+4, y, y+10, z, z);
   world_removeBlocks(x-6, x+6, y+2, y+8, z, z);
   world_addDoorBorder(x, y, z, TEXTURES_LIGHT);
+}
+
+function world_addCeiling(startX, endX, y, startZ, endZ) {
+  world_addBlocks(startX, endX, y, y, startZ, endZ, TEXTURES_METAL_RIDGES);
+}
+
+function world_addDoorXY(x, y, z) {
+  world_addDoorBorder(x, y-1, z+2, TEXTURES_METAL_PLATE_WITH_BOLTS);
+  world_addDoorHoleXY(x, y-1, z+1);
+  door_add(x, y, z);
+  world_addDoorHoleXY(x, y-1, z-1);
+  world_addDoorBorder(x, y-1, z-2, TEXTURES_METAL_PLATE_WITH_BOLTS);
 }
 
 function world_removeBlocks(startX, endX, startY, endY, startZ, endZ) {
