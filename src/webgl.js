@@ -457,7 +457,8 @@ function webgl_buildBuffers() {
 function webgl_render() {
   let viewAngle = 45; // 45 -> 90
   let minDist = 0.1;
-  let maxDist = 150; // 100
+  //let maxDist = 150; 
+  let maxDist = 300;
   mat4.perspective(viewAngle, sceneCanvas.width / sceneCanvas.height, minDist, maxDist, pMatrix);
   mat4.identity(mvMatrix);
 
@@ -490,7 +491,7 @@ function webgl_render() {
 
     webgl_save();
     mat4.translate(mvMatrix, [sphere.x*2, sphere.y*2, sphere.z*2]);
-    let scale = sphereRadii*2;
+    let scale = novaRadius*2;
     mat4.scale(mvMatrix, [scale,scale,scale]);
     let hasDepthMask = true;
     let speed = 0.0001;

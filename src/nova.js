@@ -1,41 +1,53 @@
 function nova_update() {
-  if (nova_isExploding) {
-    sphereRadii += elapsedTime / 1000 * NOVA_EXPAND_SPEED;
+  if (gameState === GAME_STATE_PLAYING) {
+    if (isNovaExploding) {
+      novaRadius += elapsedTime / 1000 * NOVA_EXPAND_SPEED;
 
-    if (sphereRadii >= NOVA_MAX_RADIUS) {
-      nova_reset();
-      
+      if (novaRadius >= NOVA_MAX_RADIUS) {
+        nova_reset(); 
+      }
+    }
+    else if (novaCountingDown) {
+      let lastElapsedTime = novaElapsedTime;
+      novaElapsedTime += elapsedTime;
+
+      // if change
+      if (Math.ceil(lastElapsedTime/1000) !== Math.ceil(novaElapsedTime/1000)) {
+        nova_processInterval()
+      }
     }
   }
 }
 
 function nova_explode() {
-  nova_isExploding = true;
+  novaElapsedTime = 0;
+  novaCountingDown = false;
+  isNovaExploding = true;
   soundEffects_play(SOUND_EFFECTS_NOVA_EXPLOSION);
   soundEffects_play(SOUND_EFFECTS_NOVA_RUMBLE); 
 }
 
 function nova_reset() {
-  nova_isExploding = false;
-  sphereRadii = SPHERE_START_RADIUS;
+  isNovaExploding = false;
+  novaRadius = SPHERE_START_RADIUS;
   soundEffects_play(SOUND_EFFECTS_NOVA_RESET);
-  music_play();
+  music_start();
+  nova_start();
+}
+
+function nova_processInterval() {
+  console.log(Math.ceil(novaElapsedTime/1000));
+  if (novaElapsedTime/1000 >= novaCountdownTime) {  
+    nova_explode();
+  }
+  else if (novaElapsedTime/1000 >= novaCountdownTime - 3) {
+    music_stop();
+    soundEffects_play(SOUND_EFFECTS_NOVA_COUNTDOWN); 
+  }
 }
 
 function nova_start() {
-  music_stop();
-  soundEffects_play(SOUND_EFFECTS_NOVA_COUNTDOWN);
-  let alarms = 1;
-  let interval = setInterval(function() {
-    if (alarms < 3) {
-      soundEffects_play(SOUND_EFFECTS_NOVA_COUNTDOWN);
-      alarms++;
-    }
-    else {
-      clearInterval(interval);
-      nova_explode();
-      
-    }
-  }, 2000);
+  novaElapsedTime = 0;
+  novaCountingDown = true;
 }
 

@@ -95,6 +95,11 @@ function world_addTunnel(startX, endX, startY, endY, startZ, endZ, texture) {
   }
 }
 
+function world_addSafeRoom(startX, endX, startY, endY, startZ, endZ) {
+  safeRooms.push([startX, endX, startY, endY, startZ, endZ]);
+  world_addRoom(startX, endX, startY, endY, startZ, endZ)
+}
+
 function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
   world_addFloor(startX, endX, startY, startZ, endZ);
   world_addCeiling(startX, endX, endY, startZ, endZ);

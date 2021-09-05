@@ -5,9 +5,7 @@ function player_init() {
     sideMovement: 0,
     straightMovement: 0,
     upVelocity: 0,
-    pitch: 0,
-    inField: false,
-    inNova: false,
+    pitch: 0
   };
 }
 
@@ -22,6 +20,18 @@ function player_inSafeSpace() {
       return true;
     }
   };
+
+  for (let n=0; n<safeRooms.length; n++) {
+    let safeRoom = safeRooms[n];
+    if (
+      player.x > safeRoom[0] && player.x < safeRoom[1]  &&
+      player.y > safeRoom[2] && player.y < safeRoom[3]  &&
+      player.z > safeRoom[4] && player.z < safeRoom[5]
+    ) {
+      return true;
+    }
+  };
+
   return false;
 }
 
@@ -43,7 +53,7 @@ function player_inNova() {
     const cx = nova.x;
     const cy = nova.y;
     const cz = nova.z;
-    const r = sphereRadii;
+    const r = novaRadius;
     if (Math.pow(( x-cx ),2) + Math.pow((y-cy),2) + Math.pow((z-cz),2) < r*r) {
       return true;
     }
@@ -54,30 +64,35 @@ function player_inNova() {
 
 function player_update() {
   // if entering safe space
-  if (!player.inField && player_inSafeSpace()) {
+  if (!isPlayerSafe && player_inSafeSpace()) {
     soundEffects_play(SOUND_EFFECTS_ENTER_SAFE_SPACE);
-    player.inField = true;
+    isPlayerSafe = true;
   }
   // if exiting safe space
-  else if (player.inField && !player_inSafeSpace()) {
+  else if (isPlayerSafe && !player_inSafeSpace()) {
     soundEffects_play(SOUND_EFFECTS_EXIT_SAFE_SPACE);
-    player.inField = false;
+    if (!playerEnteredLevel) {
+      nova_start();
+      playerEnteredLevel = true;
+    }
+    
+    isPlayerSafe = false;
   }
 
   // if entering nova
-  if (!player.inNova && player_inNova()) {
-    if (player.inField) {
+  if (!isPlayerInNova && player_inNova()) {
+    if (isPlayerSafe) {
       soundEffects_play(SOUND_EFFECTS_FIELD_PROTECT);
     }
     else {
       game_setState(GAME_STATE_DIED);
     }
 
-    player.inNova = true;
+    isPlayerInNova = true;
   }
   // if exiting nova
-  else if (player.inNova && !player_inNova()) {
-    player.inNova = false;
+  else if (isPlayerInNova && !player_inNova()) {
+    isPlayerInNova = false;
   }
 
   // handle moving forward and backward

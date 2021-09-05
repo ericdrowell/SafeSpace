@@ -17,7 +17,13 @@ void main(void) {
   vec3 pointLightPos = vec3(0, 0, 0);
   vec3 pointLightColor = vec3(1, 1, 1);
   float pointLightDist = length(pointLightPos - worldVertexPos.xyz);
-  float pointLightWeight = 3.0 * pow(0.97, pointLightDist);
+  //float pointLightWeight = 3.0 * pow(0.99, pointLightDist);
+  float pointLightWeight = 1500.0 / (pointLightDist*pointLightDist);
+
+  if (pointLightWeight > 4.0) {
+    pointLightWeight = 4.0;
+  }
+
   vec3 pointLight = pointLightColor * pointLightWeight; 
   vLightWeighting = pointLight;
 }

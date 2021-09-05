@@ -5,7 +5,8 @@ function music_init() {
   music_songData = zzfxM(...SONG);
 }
 
-function music_play() {
+function music_start() {
+  music_stop();
   music_audioNode = zzfxP(...music_songData);
   music_audioNode.loop = true;
 }

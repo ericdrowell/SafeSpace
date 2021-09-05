@@ -38,9 +38,9 @@ const DOOR_STATE_OPEN = 2;
 const DOOR_STATE_CLOSING = 3;
 const DOOR_OPEN_SPEED = 20; // units / s
 
-let level = 1;
-let nova_isExploding = false;
-let sphereRadii = SPHERE_START_RADIUS;
+let level = 0;
+let isNovaExploding = false;
+let novaRadius = SPHERE_START_RADIUS;
 let world = []; // world blocks
 let worldFields = [];
 let worldSpheres = [];
@@ -56,7 +56,6 @@ let elapsedTime = 0;
 let lastTime = 0;
 let now = 0;
 let gameState;
-let hasRendered = false;
 let viewportWidth = 0;
 let viewportHeight = 0;
 let player = {};
@@ -94,3 +93,13 @@ let titleTextEl;
 let doors = [];
 let doorBuffers = {};
 let doorEndBuffers = {};
+let safeRooms = [];
+let novaCountdownTime; 
+let novaTimerInterval;
+let novaElapsedTime;
+let novaCountingDown = false;
+let terminalMessageTimeout;
+let terminalCharTimeout;
+let isPlayerSafe = true;
+let isPlayerInNova = false;
+let playerEnteredLevel = false;

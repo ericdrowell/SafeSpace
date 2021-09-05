@@ -14,8 +14,8 @@ function game_init() {
 
   hud_init();
   userInputs_init();  
-  player_init();
   door_init();
+  // NOTE: have to init level to init title screen (rendered as a level)
   level_init();
   music_init();
   terminal_init();
@@ -27,11 +27,6 @@ function game_init() {
   
 
   game_loop();
-}
-
-function game_restart() {
-  player_init();
-  gameState = GAME_STATE_PLAYING;
 }
 
 function game_setViewportSize() {
@@ -99,17 +94,15 @@ function game_setState(nextState) {
   }
   // title -> level intro
   else if (nextState === GAME_STATE_LEVEL_INTRO) {
-    music_stop();
-    music_play();
+    level_init();
+    music_start();
     canvas2d_hide();
     terminal_show();
-    terminal_printMessages(0, 3);
+    terminal_printMessages(7, 10);
     soundEffects_play(SOUND_EFFECTS_DIALOG);
   }
   // level intro -> playing
   else if (prevState === GAME_STATE_LEVEL_INTRO) {
-    level_init();
-    //webgl_show();
     terminal_hide();
     canvas2d_show();
     game_requestPointerLock();
@@ -119,13 +112,14 @@ function game_setState(nextState) {
   else if (nextState === GAME_STATE_PAUSED) {
     canvas2d_hide();
     terminal_show();
+    terminal_printMessages(0, 2);
     music_stop();
     game_exitPointerLock();
     soundEffects_play(SOUND_EFFECTS_DIALOG);
   }
   // paused -> playing
   else if (prevState === GAME_STATE_PAUSED) {
-    music_play();
+    music_start();
     terminal_hide();
     canvas2d_show();
 
@@ -141,6 +135,7 @@ function game_setState(nextState) {
   else if (nextState === GAME_STATE_DIED) {
     canvas2d_hide();
     terminal_show();
+    terminal_printMessages(3, 4);
     music_stop();
     game_exitPointerLock();
     soundEffects_play(SOUND_EFFECTS_DIED);

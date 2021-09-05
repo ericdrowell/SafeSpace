@@ -8,4 +8,5 @@ uniform sampler2D sa; // uSampler
 void main(void) {
   vec4 textureColor = texture2D(sa, vTextureCoord);
   gl_FragColor = vec4(textureColor.rgb * vLightWeighting, 1);
+  //gl_FragColor = vec4(textureColor.rgb, 1);
 }
