@@ -7,7 +7,7 @@ function world_addSafeSpace(x, y, z) {
   const endZ = z + SAFE_SPACE_SIZE;
 
 
-  const texture = TEXTURES_METAL_PLATE_WITH_BOLTS;
+  const texture = TEXTURES_RUST;
   // bottom
   world_addBlocks(startX, endX, startY, startY, startZ, endZ, texture);
 
@@ -96,20 +96,12 @@ function world_addTunnel(startX, endX, startY, endY, startZ, endZ, texture) {
 }
 
 function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
-  // floor
   world_addFloor(startX, endX, startY, startZ, endZ);
-
-  // walls
-  let wallTexture = TEXTURES_METAL_PANEL;
-  world_addBlocks(startX, endX, startY, endY, endZ, endZ, wallTexture);
-  world_addBlocks(startX, endX, startY, endY, startZ, startZ, wallTexture);
-  world_addBlocks(startX, startX, startY, endY, startZ, endZ, wallTexture);
-  world_addBlocks(endX, endX, startY, endY, startZ, endZ, wallTexture);
-
-  // ceiling
-  world_addBlocks(startX, endX, endY, endY, startZ, endZ, TEXTURES_METAL_RIDGES);
-
-
+  world_addCeiling(startX, endX, endY, startZ, endZ);
+  world_addWallXY(startX, endX, startY, endY, startZ, startZ);
+  world_addWallXY(startX, endX, startY, endY, endZ, endZ);
+  world_addWallYZ(startX, startY, endY, startZ, endZ);
+  world_addWallYZ(endX, startY, endY, startZ, endZ);
 }
 
 function world_addBlocks(startX, endX, startY, endY, startZ, endZ, texture) {
@@ -123,11 +115,11 @@ function world_addBlocks(startX, endX, startY, endY, startZ, endZ, texture) {
 }
 
 function world_addWallXY(startX, endX, startY, endY, z) {
-  world_addBlocks(startX, endX, startY, endY, z, z, TEXTURES_SMOOTH_METAL);
+  world_addBlocks(startX, endX, startY, endY, z, z, TEXTURES_WALL);
 }
 
 function world_addWallYZ(x, startY, endY, startZ, endZ) {
-  world_addBlocks(x, x, startY, endY, startZ, endZ, TEXTURES_SMOOTH_METAL);
+  world_addBlocks(x, x, startY, endY, startZ, endZ, TEXTURES_WALL);
 }
 
 function world_addFloor(startX, endX, y, startZ, endZ, texture) {
@@ -141,7 +133,7 @@ function world_addFloor(startX, endX, y, startZ, endZ, texture) {
 function world_addFloor(startX, endX, y, startZ, endZ) {
   for (let x=startX; x<=endX; x++) {
     for (let z=startZ; z<=endZ; z++) {
-      let texture = x % 8 === 0 || z % 8 === 0 ? TEXTURES_METAL_PLATE : TEXTURES_METAL_GRATES
+      let texture = x % 8 === 0 || z % 8 === 0 ? TEXTURES_METAL : TEXTURES_METAL_GRATES
       world_addBlock(x, y, z, texture);
     }
   }
@@ -191,7 +183,7 @@ function world_addDoorBorder(x, y, z, texture) {
 function world_addDoorHoleXY(x, y, z) {
   world_removeBlocks(x-4, x+4, y, y+10, z, z);
   world_removeBlocks(x-6, x+6, y+2, y+8, z, z);
-  world_addDoorBorder(x, y, z, TEXTURES_LIGHT);
+  world_addDoorBorder(x, y, z, TEXTURES_LIGHT_BARS);
 }
 
 function world_addCeiling(startX, endX, y, startZ, endZ) {
@@ -199,11 +191,11 @@ function world_addCeiling(startX, endX, y, startZ, endZ) {
 }
 
 function world_addDoorXY(x, y, z) {
-  world_addDoorBorder(x, y-1, z+2, TEXTURES_METAL_PLATE_WITH_BOLTS);
+  world_addDoorBorder(x, y-1, z+2, TEXTURES_RUST);
   world_addDoorHoleXY(x, y-1, z+1);
   door_add(x, y, z);
   world_addDoorHoleXY(x, y-1, z-1);
-  world_addDoorBorder(x, y-1, z-2, TEXTURES_METAL_PLATE_WITH_BOLTS);
+  world_addDoorBorder(x, y-1, z-2, TEXTURES_RUST);
 }
 
 function world_removeBlocks(startX, endX, startY, endY, startZ, endZ) {

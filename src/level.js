@@ -30,17 +30,10 @@ function level_initLevel1() {
   player.z = 0;
   player.yaw = 0;
 
-  // floors
-  world_addFloor(-8, 16, 0, -40, 10);
-  world_addFloor(-28, 36, 0, -200, -41);
-
-  // walls
-  world_addWallXY(-9, 17, 0, 12, 9);
-  world_addWallXY(-9, 17, 0, 12, -39);
-  world_addWallXY(-9, 17, 0, 12, -41);
-
-  world_addWallYZ(-9, 0, 12, -41, 10);
-  world_addWallYZ(17, 0, 12, -41, 10);
+  // rooms
+  world_addRoom(-9, 17, 0, 13, -41, 9);
+  world_addRoom(-25, 33, 0, 24, -199, -41);
+  world_addRoom(-9, 17, 0, 13, -249, -199);
 
   // reactors
   world_addReactor(-8, 6, -70);
@@ -48,9 +41,11 @@ function level_initLevel1() {
   // safe spaces
   world_addSafeSpace(20, 6, -120);
 
-  // celings
-  world_addCeiling(-8, 16, 13, -41, 10);
-  
   // doors
+  world_addWallXY(-25, 33, 0, 13, -39);
   world_addDoorXY(4, 2, -40);
+  
+  world_addWallXY(-25, 33, 0, 13, -201);
+  world_addDoorXY(4, 2, -200);
+  
 }

@@ -1,25 +1,32 @@
 const TEXTURES_INVISIBLE    = -1;
 const TEXTURES_METAL_GRATES = 0;
-const TEXTURES_METAL_PLATE = 1;
+const TEXTURES_METAL = 1;
 const TEXTURES_METAL_RIDGES = 2;
-const TEXTURES_METAL_PLATE_WITH_BOLTS = 3;
+const TEXTURES_RUST = 3;
 const TEXTURES_METAL_PANEL = 4;
 const TEXTURES_CAUTION_STRIPES = 5;
 const TEXTURES_CAUTION_STRIPES_ALT = 6;
-const TEXTURES_LIGHT = 7;
-const TEXTURES_STENCIL_PLATE = 8;
-const TEXTURES_SMOOTH_METAL = 9;
+const TEXTURES_LIGHT_BARS = 7;
+const TEXTURES_DOOR = 8;
+const TEXTURES_WALL = 9;
 
 function textures_init(callback) {
   // -------------------------------------------------------------------
-  textures[TEXTURES_SMOOTH_METAL] = (function() {
+  textures[TEXTURES_WALL] = (function() {
     textures_drawGrunge('#161616', 20);
     //textures_drawBorder('rgba(0, 0, 0, 0.3)', 0);
 
-    textures_addDepth(function(level) {
-      let color = level === 0 ? 'rgba(0, 0, 0, 0.3)': 'rgba(255, 255, 255, 0.05)'
-      textures_drawBorder(color, 3);
-    });
+    // textures_addDepth(function(level) {
+    //   let color = level === 0 ? 'rgba(0, 0, 0, 0.3)': 'rgba(255, 255, 255, 0.05)'
+    //   textures_drawBorder(color, 3);
+    // });
+
+    textures_drawTopLeftBorder('rgba(255, 255, 255, 0.05)');
+    textures_drawBottomRightBorder('rgba(0, 0, 0, 0.3)');
+
+    
+
+    textures_drawBolts();
 
     return textureCanvas.toDataURL();
   })();
@@ -44,7 +51,7 @@ function textures_init(callback) {
   })();
 
   // -------------------------------------------------------------------
-  textures[TEXTURES_METAL_PLATE] = (function() {
+  textures[TEXTURES_METAL] = (function() {
     textures_drawGrunge('#080808', 20);
     return textureCanvas.toDataURL();
   })();
@@ -67,14 +74,12 @@ function textures_init(callback) {
   })();
 
   // -------------------------------------------------------------------
-  textures[TEXTURES_METAL_PLATE_WITH_BOLTS] = (function() {
+  textures[TEXTURES_RUST] = (function() {
     textures_drawGrunge('#2d2014', 20);
-    textures_drawBorder('rgba(0, 0, 0, 0.5)', 0);
-  
-    textures_drawBolt(5, 5);
-    textures_drawBolt(5, 27);
-    textures_drawBolt(27, 5);
-    textures_drawBolt(27, 27);
+    textures_drawTopLeftBorder('rgba(255, 255, 255, 0.1)');
+    textures_drawBottomRightBorder('rgba(0, 0, 0, 0.5)');
+
+    textures_drawBolts();
   
     return textureCanvas.toDataURL();
   })();
@@ -170,7 +175,7 @@ function textures_init(callback) {
   })();
 
   // -------------------------------------------------------------------
-  textures[TEXTURES_LIGHT] = (function() {
+  textures[TEXTURES_LIGHT_BARS] = (function() {
     textures_drawGrunge('#201b1b', 20);
     //textures_drawTopLeftBorder('rgba(255, 255, 255, 0.2)');
   
@@ -187,7 +192,7 @@ function textures_init(callback) {
   })();
 
   // -------------------------------------------------------------------
-  textures[TEXTURES_STENCIL_PLATE] = (function() {
+  textures[TEXTURES_DOOR] = (function() {
 
     textures_drawGrunge('#1e1516', 20);
 
@@ -276,8 +281,14 @@ function textures_drawBorder(color, inset) {
 
 function textures_drawTopLeftBorder(color) {
   textureContext.fillStyle = color;
-  textureContext.fillRect(1, 0, 30, 1); // top
-  textureContext.fillRect(0, 1, 1, 30); // left
+  textureContext.fillRect(0, 0, 31, 1); // top
+  textureContext.fillRect(0, 0, 1, 31); // left
+}
+
+function textures_drawBottomRightBorder(color) {
+  textureContext.fillStyle = color;
+  textureContext.fillRect(31, 1, 1, 31); // right
+  textureContext.fillRect(0, 31, 31, 1); // bottom
 }
 
 function textures_drawGrunge(color, maxChannelOffset) {
@@ -295,6 +306,13 @@ function textures_drawGrunge(color, maxChannelOffset) {
       textureContext.fillRect(x, y, 1, 1);
     }
   }
+}
+
+function textures_drawBolts() {
+  textures_drawBolt(5, 5);
+  textures_drawBolt(5, 27);
+  textures_drawBolt(27, 5);
+  textures_drawBolt(27, 27);
 }
 
 function textures_addDepth(func) {

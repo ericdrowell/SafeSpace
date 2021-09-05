@@ -511,11 +511,11 @@ function webgl_render() {
     webgl_save();
 
     mat4.translate(mvMatrix, [(door.x + door.offset)*2, door.y*2, door.z*2]);
-    webgl_renderBlockElements(doorBuffers, textures[TEXTURES_STENCIL_PLATE].glTexture);
+    webgl_renderBlockElements(doorBuffers, textures[TEXTURES_DOOR].glTexture);
 
     mat4.scale(mvMatrix, [-1, -1, 1]);
     mat4.translate(mvMatrix, [door.offset*4, -9*2, 0]);
-    webgl_renderBlockElements(doorBuffers, textures[TEXTURES_STENCIL_PLATE].glTexture);
+    webgl_renderBlockElements(doorBuffers, textures[TEXTURES_DOOR].glTexture);
 
     webgl_restore();
   }

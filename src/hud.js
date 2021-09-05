@@ -57,7 +57,7 @@ function hud_renderTitleScreen() {
   hudContext.textAlign = 'center';
 
   
-  // pattern = hudContext.createPattern(textures[TEXTURES_METAL_PLATE_WITH_BOLTS].image, 'repeat');
+  // pattern = hudContext.createPattern(textures[TEXTURES_RUST].image, 'repeat');
   // hudContext.fillStyle = pattern;
   // hudContext.fillRect(-180, -130, 360, 300);
 
