@@ -27,9 +27,9 @@ const OPTIMAL_VIEWPORT_WIDTH = 1300;
 const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
 const RAY_TRACE_INCREMENT = 0.3;
 const SAFE_SPACE_SIZE = 5;
-const SPHERE_START_RADIUS = 1;
-const NOVA_EXPAND_SPEED = 30; // per second
-const NOVA_MAX_RADIUS = 200; // seconds
+const NOVA_START_RADIUS = 1;
+const NOVA_EXPAND_SPEED = 10; // per second
+const NOVA_MAX_RADIUS = 200;
 const TERMINAL_PRINT_CHAR_DELAY = 10; // ms
 const TERMINAL_PRINT_DELAY = 2000; // ms
 const DOOR_STATE_CLOSED = 0;
@@ -39,11 +39,10 @@ const DOOR_STATE_CLOSING = 3;
 const DOOR_OPEN_SPEED = 20; // units / s
 
 let level = 0;
-let isNovaExploding = false;
-let novaRadius = SPHERE_START_RADIUS;
 let world = []; // world blocks
 let worldFields = [];
-let worldSpheres = [];
+let reactors = [];
+let novas = [];
 let worldBuffers = {};
 let fieldBuffers = {};
 let sphereBuffers = {};
@@ -94,12 +93,7 @@ let doors = [];
 let doorBuffers = {};
 let doorEndBuffers = {};
 let safeRooms = [];
-let novaCountdownTime; 
-let novaTimerInterval;
-let novaElapsedTime;
-let novaCountingDown = false;
 let terminalMessageTimeout;
 let terminalCharTimeout;
 let isPlayerSafe = true;
-let isPlayerInNova = false;
 let playerEnteredLevel = false;

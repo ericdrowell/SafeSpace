@@ -1,14 +1,13 @@
 function level_init() {
   world = {};
   worldFields = [];
-  worldSpheres = [];
+  reactors = [];
+  novas = [];
   doors = [];
   safeRooms = [];
   novaCountingDown = false;
   isNovaExploding = false;
   isPlayerSafe = true;
-  isPlayerInNova = false;
-  novaRadius = SPHERE_START_RADIUS;
   playerEnteredLevel = false;
 
   player_init();
@@ -31,7 +30,12 @@ function level_initTitleLevel() {
   novaCountdownTime = 6;
 
   world_addSafeSpace(0, -2, -26);
-  world_addSphere(0, 1.2, -1); // top sphere
+  nova_addBurst({
+    x: 0, 
+    y: 1.2, 
+    z: -1, 
+    radius: NOVA_START_RADIUS
+  }); 
 }
 
 function level_initLevel1() {
@@ -46,7 +50,7 @@ function level_initLevel1() {
   world_addSafeRoom(-9, 17, 0, 13, -249, -199);
 
   // reactors
-  world_addReactor(-8, 6, -180);
+  world_addReactor(-8, 6, -120, 5);
 
   // safe spaces
   world_addSafeSpace(20, 6, -120);

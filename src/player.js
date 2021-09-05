@@ -43,17 +43,17 @@ function player_nearDoor(door) {
   return dist < 20;
 }
 
-function player_inNova() {
-  for (let n=0; n<worldSpheres.length; n++) {
-    let nova = worldSpheres[n];
+function player_touchNovaBurst() {
+  for (let n=0; n<novas.length; n++) {
+    let novaBurst = novas[n];
 
     const x = player.x;
     const y = player.y;
     const z = player.z;
-    const cx = nova.x;
-    const cy = nova.y;
-    const cz = nova.z;
-    const r = novaRadius;
+    const cx = novaBurst.x;
+    const cy = novaBurst.y;
+    const cz = novaBurst.z;
+    const r = novaBurst.radius;
     if (Math.pow(( x-cx ),2) + Math.pow((y-cy),2) + Math.pow((z-cz),2) < r*r) {
       return true;
     }
@@ -72,7 +72,6 @@ function player_update() {
   else if (isPlayerSafe && !player_inSafeSpace()) {
     soundEffects_play(SOUND_EFFECTS_EXIT_SAFE_SPACE);
     if (!playerEnteredLevel) {
-      nova_start();
       playerEnteredLevel = true;
     }
     
@@ -80,20 +79,20 @@ function player_update() {
   }
 
   // if entering nova
-  if (!isPlayerInNova && player_inNova()) {
-    if (isPlayerSafe) {
-      soundEffects_play(SOUND_EFFECTS_FIELD_PROTECT);
-    }
-    else {
-      game_setState(GAME_STATE_DIED);
-    }
+  // if (!isPlayerInNova && player_inNova()) {
+  //   if (isPlayerSafe) {
+  //     soundEffects_play(SOUND_EFFECTS_FIELD_PROTECT);
+  //   }
+  //   else {
+  //     game_setState(GAME_STATE_DIED);
+  //   }
 
-    isPlayerInNova = true;
-  }
-  // if exiting nova
-  else if (isPlayerInNova && !player_inNova()) {
-    isPlayerInNova = false;
-  }
+  //   isPlayerInNova = true;
+  // }
+  // // if exiting nova
+  // else if (isPlayerInNova && !player_inNova()) {
+  //   isPlayerInNova = false;
+  // }
 
   // handle moving forward and backward
   if (player.straightMovement !== 0) {

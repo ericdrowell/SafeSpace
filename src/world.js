@@ -35,16 +35,14 @@ function world_addField(x, y, z) {
   });
 }
 
-function world_addSphere(x, y, z) {
-  worldSpheres.push({
+function world_addReactor(x, y, z, burstDelay) {
+  reactors.push({
     x: x,
     y: y,
-    z: z
+    z: z,
+    burstDelay: burstDelay,
+    timeToNextBurst: burstDelay
   });
-}
-
-function world_addReactor(x, y, z) {
-  world_addSphere(x, y, z);
 }
 
 function world_addSlope(startX, endX, endY, startZ, endZ, texture) {

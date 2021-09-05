@@ -97,7 +97,8 @@ function webgl_renderPerlinElements(buffers, color, perlinSize, hasDepthMask, sp
   // TODO: when depth mask is false, it enables transparencies, but webgl context copy to 2d canvas gets messed up
   // I could create separate sets of buffers for each field plane, and reorder them before each render
   // oh, I could also draw small at first, and then scale it up, not sure this would work though
-  sceneContext.depthMask(hasDepthMask);
+  //sceneContext.depthMask(hasDepthMask);
+  sceneContext.depthMask(false);
   sceneContext.enable(sceneContext.DEPTH_TEST);
   sceneContext.depthFunc(sceneContext.LESS);
 
@@ -485,13 +486,13 @@ function webgl_render() {
     fieldPerlinSize = 10;
   }
 
-  // render novas
-  for (let p=0; p<worldSpheres.length; p++) {
-    let sphere = worldSpheres[p];
+  // render nova bursts
+  for (let p=0; p<novas.length; p++) {
+    let novaBurst = novas[p];
 
     webgl_save();
-    mat4.translate(mvMatrix, [sphere.x*2, sphere.y*2, sphere.z*2]);
-    let scale = novaRadius*2;
+    mat4.translate(mvMatrix, [novaBurst.x*2, novaBurst.y*2, novaBurst.z*2]);
+    let scale = novaBurst.radius*2;
     mat4.scale(mvMatrix, [scale,scale,scale]);
     let hasDepthMask = true;
     let speed = 0.0001;
