@@ -35,13 +35,13 @@ function world_addField(x, y, z) {
   });
 }
 
-function world_addReactor(x, y, z, burstDelay) {
+function world_addReactor(x, y, z, timeToNextBurst, burstDelay) {
   reactors.push({
     x: x,
     y: y,
     z: z,
     burstDelay: burstDelay,
-    timeToNextBurst: burstDelay
+    timeToNextBurst: timeToNextBurst
   });
 
   nova_addBurst({

@@ -50,7 +50,7 @@ function level_initLevel1() {
   world_addSafeRoom(-9, 17, 0, 13, -249, -199);
 
   // reactors
-  world_addReactor(-8, 6, -120, 5);
+  world_addReactor(-8, 6, -120, 6, 6);
 
   // safe spaces
   world_addSafeSpace(20, 6, -120);
