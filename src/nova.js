@@ -14,32 +14,31 @@ function nova_update() {
       }
     });
 
-    novas.forEach(function(novaBurst) {
-      novaBurst.radius += elapsedTime / 1000 * NOVA_EXPAND_SPEED;
+    novas.forEach(function(nova) {
+      if (!nova.isCore) {
+        nova.radius += elapsedTime / 1000 * NOVA_EXPAND_SPEED;
 
-      if (novaBurst.radius > NOVA_MAX_RADIUS) {
-        console.log('clean up');
+        if (nova.radius > NOVA_MAX_RADIUS) {
+          console.log('clean up');
+        }
+      }
+
+      if (!nova.isPlayerIn && nova_isPlayerIn(nova)) {
+        if (isPlayerSafe) {
+          soundEffects_play(SOUND_EFFECTS_FIELD_PROTECT);
+        }
+        else {
+          game_setState(GAME_STATE_DIED);
+        }
+
+        nova.isPlayerIn = true;
+      }
+      // if exiting nova
+      else if (nova.isPlayerIn && !nova_isPlayerIn(nova)) {
+        nova.isPlayerIn = false;
       }
     });
   }
-
-  // if (gameState === GAME_STATE_PLAYING) {
-  //   if (isNovaExploding) {
-  //     novaRadius += elapsedTime / 1000 * NOVA_EXPAND_SPEED;
-
-  //     if (novaRadius >= NOVA_MAX_RADIUS) {
-  //       nova_reset(); 
-  //     }
-  //   }
-  //   else if (novaCountingDown) {
-  //     let lastElapsedTime = novaElapsedTime;
-  //     novaElapsedTime += elapsedTime;
-
-  //     if (novaElapsedTime/1000 >= novaCountdownTime) {  
-  //       nova_explode();
-  //     }
-  //   }
-  // }
 }
 
 function nova_addBurst(nova) {
@@ -47,10 +46,27 @@ function nova_addBurst(nova) {
     x: nova.x, 
     y: nova.y,
     z: nova.z,
-    radius: NOVA_START_RADIUS
+    radius: NOVA_START_RADIUS,
+    isCore: nova.isCore
   });
   
 }
 
+function nova_isPlayerIn(nova) {
+  const x = player.x;
+  const y = player.y;
+  const z = player.z;
+  const cx = nova.x;
+  const cy = nova.y;
+  const cz = nova.z;
+  const r = nova.radius;
+
+  if (Math.pow(( x-cx ),2) + Math.pow((y-cy),2) + Math.pow((z-cz),2) < r*r) {
+    return true;
+  }
+  else {
+    return false;
+  }
+}
 
 

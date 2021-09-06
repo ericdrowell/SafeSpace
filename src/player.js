@@ -43,25 +43,6 @@ function player_nearDoor(door) {
   return dist < 20;
 }
 
-function player_touchNovaBurst() {
-  for (let n=0; n<novas.length; n++) {
-    let novaBurst = novas[n];
-
-    const x = player.x;
-    const y = player.y;
-    const z = player.z;
-    const cx = novaBurst.x;
-    const cy = novaBurst.y;
-    const cz = novaBurst.z;
-    const r = novaBurst.radius;
-    if (Math.pow(( x-cx ),2) + Math.pow((y-cy),2) + Math.pow((z-cz),2) < r*r) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
 function player_update() {
   // if entering safe space
   if (!isPlayerSafe && player_inSafeSpace()) {

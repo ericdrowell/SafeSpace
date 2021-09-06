@@ -112,7 +112,7 @@ function game_setState(nextState) {
   else if (nextState === GAME_STATE_PAUSED) {
     canvas2d_hide();
     terminal_show();
-    terminal_printMessages(0, 2);
+    terminal_printMessages(0, 2, true);
     music_stop();
     game_exitPointerLock();
     soundEffects_play(SOUND_EFFECTS_DIALOG);
@@ -149,6 +149,9 @@ function game_update() {
     player_update();
     nova_update();
     door_update();
+    if (Math.random() < BUZZ_CHANCES) {
+      soundEffects_play(SOUND_EFFECTS_BUZZ);
+    }
   }
 }
 
@@ -159,14 +162,11 @@ function game_loop() {
     startTime = now;
   }
 
-  if (lastTime !== 0) {
+  if (lastTime > 0) {
     elapsedTime = now - lastTime;
+    game_update();
+    game_render();
   }
-  
-  totalElapsedTime = now - startTime;
-
-  game_update();
-  game_render();
 
   lastTime = now;
   window.requestAnimationFrame(game_loop);  

@@ -43,6 +43,13 @@ function world_addReactor(x, y, z, burstDelay) {
     burstDelay: burstDelay,
     timeToNextBurst: burstDelay
   });
+
+  nova_addBurst({
+    x: x,
+    y: y,
+    z: z,
+    isCore: true
+  });
 }
 
 function world_addSlope(startX, endX, endY, startZ, endZ, texture) {

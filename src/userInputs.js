@@ -115,14 +115,25 @@ function userInputs_handleMouseDown() {
     game_setState(GAME_STATE_LEVEL_INTRO);
   }
   else if (gameState === GAME_STATE_LEVEL_INTRO) {
-    game_setState(GAME_STATE_PLAYING);
+    if (terminalPrinting) {
+      terminal_finishPrinting();
+    }
+    else {
+      game_setState(GAME_STATE_PLAYING);
+    }
+    
   }
   else if (gameState === GAME_STATE_PLAYING) {
     // https://w3c.github.io/pointerlock/#dfn-engagement-gesture
     game_requestPointerLock()
   }
   else if (gameState === GAME_STATE_PAUSED) {
-    game_setState(GAME_STATE_PLAYING);
+    if (terminalPrinting) {
+      terminal_finishPrinting();
+    }
+    else {
+      game_setState(GAME_STATE_PLAYING);
+    }
   }
   else if (gameState === GAME_STATE_DIED) {
     game_setState(GAME_STATE_LEVEL_INTRO);

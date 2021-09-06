@@ -478,32 +478,12 @@ function webgl_render() {
     });
   } 
   
-  let spherePerlinSize = 30;
+  let spherePerlinSize = 100;
   let fieldPerlinSize = 10;
 
   if (gameState === GAME_STATE_TITLE) {
     spherePerlinSize = 150;
     fieldPerlinSize = 10;
-  }
-
-  // render nova bursts
-  for (let p=0; p<novas.length; p++) {
-    let novaBurst = novas[p];
-
-    webgl_save();
-    mat4.translate(mvMatrix, [novaBurst.x*2, novaBurst.y*2, novaBurst.z*2]);
-    let scale = novaBurst.radius*2;
-    mat4.scale(mvMatrix, [scale,scale,scale]);
-    let hasDepthMask = true;
-    let speed = 0.0001;
-
-    if (gameState === GAME_STATE_TITLE) {
-      hasDepthMask = false;
-      speed = 0.00002;
-    }
-
-    webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], spherePerlinSize, hasDepthMask, speed);
-    webgl_restore();
   }
 
   // render doors
@@ -532,6 +512,26 @@ function webgl_render() {
     mat4.translate(mvMatrix, [(door.offset-1)*4, -9*2, 0]);
     webgl_renderBlockElements(doorEndBuffers, textures[TEXTURES_CAUTION_STRIPES_ALT].glTexture);
 
+    webgl_restore();
+  }
+  
+  // render nova bursts
+  for (let p=0; p<novas.length; p++) {
+    let novaBurst = novas[p];
+
+    webgl_save();
+    mat4.translate(mvMatrix, [novaBurst.x*2, novaBurst.y*2, novaBurst.z*2]);
+    let scale = novaBurst.radius*2;
+    mat4.scale(mvMatrix, [scale,scale,scale]);
+    let hasDepthMask = true;
+    let speed = 0.0001;
+
+    if (gameState === GAME_STATE_TITLE) {
+      hasDepthMask = false;
+      speed = 0.00002;
+    }
+
+    webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], spherePerlinSize, hasDepthMask, speed);
     webgl_restore();
   }
   

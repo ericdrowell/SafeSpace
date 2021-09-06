@@ -37,6 +37,7 @@ const DOOR_STATE_OPENING = 1;
 const DOOR_STATE_OPEN = 2;
 const DOOR_STATE_CLOSING = 3;
 const DOOR_OPEN_SPEED = 20; // units / s
+const BUZZ_CHANCES = 0.01;
 
 let level = 0;
 let world = []; // world blocks
@@ -97,3 +98,5 @@ let terminalMessageTimeout;
 let terminalCharTimeout;
 let isPlayerSafe = true;
 let playerEnteredLevel = false;
+let terminalPrinting = false;
+let terminalRange = [];

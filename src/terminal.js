@@ -53,7 +53,7 @@ function terminal_printChar(text) {
   terminalTextEl.innerHTML += text;
 
 
-  soundEffects_play(SOUND_EFFECTS_TERMINAL_BLIP);
+  
   
 }
 
@@ -68,45 +68,77 @@ function terminal_newLine() {
   
 }
 
-function terminal_processTextArr(arr, callback) {
+function terminal_processTextArr(arr, isFast, callback) {
   if (arr.length <= 0) {
     callback();
   }
   else {
     terminal_printChar(arr.shift());
-    terminalCharTimeout = setTimeout(function() {
-      terminal_processTextArr(arr, callback)
-    }, TERMINAL_PRINT_CHAR_DELAY);
+    if (isFast) {
+      terminal_processTextArr(arr, isFast, callback)
+    }
+    else {
+      soundEffects_play(SOUND_EFFECTS_TERMINAL_BLIP);
+      terminalCharTimeout = setTimeout(function() {
+        terminal_processTextArr(arr, isFast, callback)
+      }, TERMINAL_PRINT_CHAR_DELAY);
+    }
   }
 }
 
-function terminal_printLine(text, callback) {
+function terminal_printLine(text, isFast, callback) {
   let arr = text.split('');
 
   terminal_newLine();
-  terminal_processTextArr(arr, callback);
+  terminal_processTextArr(arr, isFast, callback);
 }
 
-function terminal_printMessages(start, end) {
+function terminal_clearTimeouts() {
   if (terminalMessageTimeout) {
     clearTimeout(terminalMessageTimeout);
   }
   if (terminalCharTimeout) {
     clearTimeout(terminalCharTimeout);
   }
-
-  terminalTextEl.innerHTML = '';
-  _terminal_printMessages(start, end);
 }
 
-function _terminal_printMessages(start, end) {
+function terminal_printMessages(start, end, isFast) {
+  terminalRange = [start, end];
+  terminalPrinting = true;
+
+  terminal_clearTimeouts();
+
+  terminalTextEl.innerHTML = '';
+  _terminal_printMessages(start, end, isFast);
+
+  if (isFast) {
+    soundEffects_play(SOUND_EFFECTS_TERMINAL_BLIP);
+  }
+}
+
+function _terminal_printMessages(start, end, isFast) {
   let message = terminal_messages[start];
-  terminal_printLine(message, function() {
+
+  terminal_printLine(message, isFast, function() {
     if (start < end) {
-      terminalMessageTimeout = setTimeout(function() {
-        _terminal_printMessages(start+1, end);
-      }, TERMINAL_PRINT_DELAY);
+      if (isFast) {
+        _terminal_printMessages(start+1, end, isFast);
+      }
+      else {
+        terminalMessageTimeout = setTimeout(function() {
+          _terminal_printMessages(start+1, end, isFast);
+        }, TERMINAL_PRINT_DELAY);
+      }
+    }
+    else {
+      terminalPrinting = false;
     }
   });
 
+}
+
+function terminal_finishPrinting() {
+  terminal_clearTimeouts()
+  terminal_printMessages(terminalRange[0], terminalRange[1], true);
+  terminalPrinting = false;
 }
