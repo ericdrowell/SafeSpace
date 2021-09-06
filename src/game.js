@@ -164,6 +164,7 @@ function game_loop() {
 
   if (lastTime > 0) {
     elapsedTime = now - lastTime;
+    totalElapsedTime = now - startTime;
     game_update();
     game_render();
   }

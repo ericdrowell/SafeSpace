@@ -534,7 +534,7 @@ function webgl_render() {
     webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], spherePerlinSize, hasDepthMask, speed);
     webgl_restore();
   }
-  
+
   // render fields
   webgl_renderPerlinElements(fieldBuffers, [0, 0.5, 0.8], fieldPerlinSize, false, 0.0001);
 
