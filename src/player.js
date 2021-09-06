@@ -59,22 +59,6 @@ function player_update() {
     isPlayerSafe = false;
   }
 
-  // if entering nova
-  // if (!isPlayerInNova && player_inNova()) {
-  //   if (isPlayerSafe) {
-  //     soundEffects_play(SOUND_EFFECTS_FIELD_PROTECT);
-  //   }
-  //   else {
-  //     game_setState(GAME_STATE_DIED);
-  //   }
-
-  //   isPlayerInNova = true;
-  // }
-  // // if exiting nova
-  // else if (isPlayerInNova && !player_inNova()) {
-  //   isPlayerInNova = false;
-  // }
-
   // handle moving forward and backward
   if (player.straightMovement !== 0) {
     let direction = player.straightMovement === 1 ? -1 : 1;

@@ -7,9 +7,13 @@ function nova_update() {
         nova.timeToNextBurst = nova.burstDelay;
       }
       else {
+        let lastTime = nova.timeToNextBurst;
         nova.timeToNextBurst -= elapsedTime/1000;
         if (nova.timeToNextBurst < 0) {
           nova.timeToNextBurst = 0;
+        }
+        else if (Math.ceil(lastTime) !== Math.ceil(nova.timeToNextBurst) && Math.ceil(nova.timeToNextBurst) <= 2) {
+          soundEffects_play(SOUND_EFFECTS_NOVA_COUNTDOWN);
         }
       }
     });
@@ -28,7 +32,7 @@ function nova_update() {
           soundEffects_play(SOUND_EFFECTS_FIELD_PROTECT);
         }
         else {
-          game_setState(GAME_STATE_DIED);
+          //game_setState(GAME_STATE_DIED);
         }
 
         nova.isPlayerIn = true;

@@ -1,5 +1,5 @@
 const PIXEL_RATIO = (window && window.devicePixelRatio) || 1;
-const PLAYER_SPEED = 20; // units / s
+const PLAYER_SPEED = 30; // units / s
 const PLAYER_HEIGHT = 6;
 const PLAYER_STEP_SPEED = 300; // ms
 const GAME_STATE_TITLE = 0;
@@ -27,7 +27,7 @@ const OPTIMAL_VIEWPORT_WIDTH = 1300;
 const OPTIMAL_VIEWPORT_HEIGHT = OPTIMAL_VIEWPORT_WIDTH / GAME_ASPECT_RATIO;
 const RAY_TRACE_INCREMENT = 0.3;
 const SAFE_SPACE_SIZE = 5;
-const NOVA_START_RADIUS = 1;
+const NOVA_START_RADIUS = 2;
 const NOVA_EXPAND_SPEED = 10; // per second
 const NOVA_MAX_RADIUS = 200;
 const TERMINAL_PRINT_CHAR_DELAY = 10; // ms

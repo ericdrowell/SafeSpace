@@ -35,10 +35,10 @@ function world_addField(x, y, z) {
   });
 }
 
-function world_addReactor(x, y, z, timeToNextBurst, burstDelay) {
+function world_addReactor(x, startY, coreY, endY, z, timeToNextBurst, burstDelay) {
   reactors.push({
     x: x,
-    y: y,
+    y: coreY,
     z: z,
     burstDelay: burstDelay,
     timeToNextBurst: timeToNextBurst
@@ -46,10 +46,37 @@ function world_addReactor(x, y, z, timeToNextBurst, burstDelay) {
 
   nova_addBurst({
     x: x,
-    y: y,
+    y: coreY,
     z: z,
     isCore: true
   });
+
+  // bottom column
+  world_addBlocks(x-1, x+1, startY, coreY-3, z-1, z+1, TEXTURES_REACTOR);
+  // top column
+  world_addBlocks(x-1, x+1, coreY+3, endY, z-1, z+1, TEXTURES_REACTOR);
+
+  world_addReactorClaws(x, coreY-2, z, 2);
+  world_addReactorClaws(x, coreY-1, z, 3);
+  world_addReactorClaws(x, coreY+2, z, 3);
+  world_addReactorClaws(x, coreY+3, z, 2);
+
+  // bottom base
+  world_addBlocks(x-2, x+2, startY, startY, z-2, z+2, TEXTURES_CAUTION_STRIPES);
+  // top base
+  world_addBlocks(x-2, x+2, endY, endY, z-2, z+2, TEXTURES_CAUTION_STRIPES);
+  
+
+
+
+}
+
+function world_addReactorClaws(x, y, z, radius) {
+  world_addBlocks(x-radius, x-radius, y-1, y, z, z, TEXTURES_REACTOR);
+  world_addBlocks(x+radius, x+radius, y-1, y, z, z, TEXTURES_REACTOR);
+
+  world_addBlocks(x, x, y-1, y, z-radius, z-radius, TEXTURES_REACTOR);
+  world_addBlocks(x, x, y-1, y, z+radius, z+radius, TEXTURES_REACTOR);
 }
 
 function world_addSlope(startX, endX, endY, startZ, endZ, texture) {
@@ -100,18 +127,44 @@ function world_addTunnel(startX, endX, startY, endY, startZ, endZ, texture) {
   }
 }
 
-function world_addSafeRoom(startX, endX, startY, endY, startZ, endZ) {
+function world_addStartRoom(startX, endX, startY, endY, startZ, endZ) {
   safeRooms.push([startX, endX, startY, endY, startZ, endZ]);
-  world_addRoom(startX, endX, startY, endY, startZ, endZ)
+  world_addRoom(startX, endX, startY, endY, startZ, endZ);
+  world_removeBlocks(startX+1, endX-1, startY+1, endY-1, startZ, startZ);
+  world_removeBlocks(startX+1, endX-1, startY+1, endY-1, endZ, endZ);
+
+  // doors
+  world_addWallXY(startX, endX, startY, endY, endZ-1);
+  world_addDoor((endX+startX)/2, startY+2, endZ, false);
+
+  world_addWallXY(startX, endX, startY, endY, startZ+1);
+  world_addDoor((endX+startX)/2, startY+2, startZ, true);
+
+
+  
+}
+
+function world_addEndRoom(startX, endX, startY, endY, startZ, endZ) {
+  safeRooms.push([startX, endX, startY, endY, startZ, endZ]);
+  world_addRoom(startX, endX, startY, endY, startZ, endZ);
+  world_removeBlocks(startX+1, endX-1, startY+1, endY-1, startZ, startZ);
+  world_removeBlocks(startX+1, endX-1, startY+1, endY-1, endZ, endZ);
+
+  // doors
+  world_addWallXY(startX, endX, startY, endY, endZ-1);
+  world_addDoor((endX+startX)/2, startY+2, endZ, true);
+
+  world_addWallXY(startX, endX, startY, endY, startZ+1);
+  world_addDoor((endX+startX)/2, startY+2, startZ, false);
 }
 
 function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
-  world_addFloor(startX, endX, startY, startZ, endZ);
-  world_addCeiling(startX, endX, endY, startZ, endZ);
   world_addWallXY(startX, endX, startY, endY, startZ, startZ);
   world_addWallXY(startX, endX, startY, endY, endZ, endZ);
   world_addWallYZ(startX, startY, endY, startZ, endZ);
   world_addWallYZ(endX, startY, endY, startZ, endZ);
+  world_addFloor(startX, endX, startY, startZ, endZ);
+  world_addCeiling(startX, endX, endY, startZ, endZ);
 }
 
 function world_addBlocks(startX, endX, startY, endY, startZ, endZ, texture) {
@@ -190,7 +243,7 @@ function world_addDoorBorder(x, y, z, texture) {
   world_addBlocks(x-4, x+4, y+11, y+11, z, z, texture);
 };
 
-function world_addDoorHoleXY(x, y, z) {
+function world_addDoorHole(x, y, z) {
   world_removeBlocks(x-4, x+4, y, y+10, z, z);
   world_removeBlocks(x-6, x+6, y+2, y+8, z, z);
   world_addDoorBorder(x, y, z, TEXTURES_LIGHT_BARS);
@@ -200,12 +253,16 @@ function world_addCeiling(startX, endX, y, startZ, endZ) {
   world_addBlocks(startX, endX, y, y, startZ, endZ, TEXTURES_METAL_RIDGES);
 }
 
-function world_addDoorXY(x, y, z) {
+function world_addDoor(x, y, z, isActive) {
   world_addDoorBorder(x, y-1, z+2, TEXTURES_RUST);
-  world_addDoorHoleXY(x, y-1, z+1);
-  door_add(x, y, z);
-  world_addDoorHoleXY(x, y-1, z-1);
+  world_addDoorHole(x, y-1, z+1);
+  door_add(x, y, z, isActive);
+  world_addDoorHole(x, y-1, z-1);
   world_addDoorBorder(x, y-1, z-2, TEXTURES_RUST);
+
+  if (!isActive) {
+    world_addBlocks(x-10, x+10, y-10, y+10, z, z, TEXTURES_INVISIBLE);
+  }
 }
 
 function world_removeBlocks(startX, endX, startY, endY, startZ, endZ) {

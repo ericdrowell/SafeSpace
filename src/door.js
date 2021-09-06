@@ -2,13 +2,14 @@ function door_init() {
 
 }
 
-function door_add(x, y, z) {
+function door_add(x, y, z, isActive) {
   doors.push({
     x: x,
     y: y,
     z: z,
     offset: 0, // used for opening and closing
-    state: DOOR_STATE_CLOSED
+    state: DOOR_STATE_CLOSED,
+    isActive: isActive
   });
 }
 
@@ -16,8 +17,10 @@ function door_update() {
   doors.forEach(function(door) {
     // open doors if you are in range
     if (player_nearDoor(door) && door.state === DOOR_STATE_CLOSED) {
-      door.state = DOOR_STATE_OPENING;
-      soundEffects_play(SOUND_EFFECTS_DOOR_OPEN);
+      if (door.isActive) {
+        door.state = DOOR_STATE_OPENING;
+        soundEffects_play(SOUND_EFFECTS_DOOR_OPEN);
+      }
     }
     else if (!player_nearDoor(door) && door.state === DOOR_STATE_OPEN) {
       door.state = DOOR_STATE_CLOSING;

@@ -519,17 +519,21 @@ function webgl_render() {
   for (let p=0; p<novas.length; p++) {
     let novaBurst = novas[p];
 
-    webgl_save();
-    mat4.translate(mvMatrix, [novaBurst.x*2, novaBurst.y*2, novaBurst.z*2]);
-    let scale = novaBurst.radius*2;
-    mat4.scale(mvMatrix, [scale,scale,scale]);
     let hasDepthMask = true;
     let speed = 0.0001;
+    let scale = novaBurst.radius*2;
 
     if (gameState === GAME_STATE_TITLE) {
       hasDepthMask = false;
       speed = 0.00002;
+      scale = 2;
     }
+
+    webgl_save();
+    mat4.translate(mvMatrix, [novaBurst.x*2, novaBurst.y*2, novaBurst.z*2]);
+    
+    mat4.scale(mvMatrix, [scale,scale,scale]);
+
 
     webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], spherePerlinSize, hasDepthMask, speed);
     webgl_restore();

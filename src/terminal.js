@@ -110,10 +110,6 @@ function terminal_printMessages(start, end, isFast) {
 
   terminalTextEl.innerHTML = '';
   _terminal_printMessages(start, end, isFast);
-
-  if (isFast) {
-    soundEffects_play(SOUND_EFFECTS_TERMINAL_BLIP);
-  }
 }
 
 function _terminal_printMessages(start, end, isFast) {
@@ -132,6 +128,7 @@ function _terminal_printMessages(start, end, isFast) {
     }
     else {
       terminalPrinting = false;
+      soundEffects_play(SOUND_EFFECTS_TERMINAL_END);
     }
   });
 

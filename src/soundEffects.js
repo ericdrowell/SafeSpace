@@ -15,9 +15,11 @@ const SOUND_EFFECTS_TERMINAL_NEW_LINE =    function(){zzfx(...[1.03,0,207,,.04,,
 const SOUND_EFFECTS_DOOR_OPEN =            function(){zzfx(...[1.59,,260,.24,,.05,,.7,64,,135,.22,.01,.1,,,.07,,.01,.54])};   
 const SOUND_EFFECTS_DOOR_CLOSE =           function(){zzfx(...[1.86,,191,.05,.17,.01,1,2.28,,-81,476,,,.2,163,,.04,.33])}; 
 const SOUND_EFFECTS_BUZZ =                 function(){zzfx(...[1.05,.5,201,.09,.04,.08,1,1.87,,-25,,,,,55,,,.4,.01])}; 
+const SOUND_EFFECTS_TERMINAL_END =         function(){zzfx(...[,,345,.2,.03,.07,,2.62,-0.2,,193,.11,.21,,40,,,.42,.01])}; 
+const SOUND_EFFECTS_NOVA_COUNTDOWN =       function(){zzfx(1.84,.05,74,.02,.14,.85,0,1.27,.6,.7,0,0,0,.4,-55,.4,.42,.86,.08,0)};
 
 // not used yet
-// const SOUND_EFFECTS_NOVA_COUNTDOWN =       function(){zzfx(1.84,.05,74,.02,.14,.85,0,1.27,.6,.7,0,0,0,.4,-55,.4,.42,.86,.08,0)};
+
 // const SOUND_EFFECTS_NOVA_RESET =           function(){zzfx(...[1.06,,105,.06,.2,.69,1,.77,-8.4,,-37,.07,.05,,,,,.58,.09,.25])};
 
 // const SOUND_EFFECTS_NOVA_RUMBLE =          function(){zzfx(...[,,538,1,.09,1,4,2.06,,-0.2,474,.04,,.6,.1,.5,,,6])};

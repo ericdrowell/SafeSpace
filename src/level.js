@@ -45,21 +45,15 @@ function level_initLevel1() {
   player.yaw = 0;
 
   // rooms
-  world_addSafeRoom(-9, 17, 0, 13, -41, 9);
   world_addRoom(-25, 33, 0, 24, -199, -41);
-  world_addSafeRoom(-9, 17, 0, 13, -249, -199);
+
+  world_addStartRoom(-9, 17, 0, 13, -40, 8);
+  world_addEndRoom(-9, 17, 0, 13, -249, -200);
 
   // reactors
-  world_addReactor(-8, 6, -120, 6, 6);
+  world_addReactor(-8, 0, 10, 24, -120, 6, 12);
 
   // safe spaces
   world_addSafeSpace(20, 6, -120);
-
-  // doors
-  world_addWallXY(-25, 33, 0, 13, -39);
-  world_addDoorXY(4, 2, -40);
-  
-  world_addWallXY(-25, 33, 0, 13, -201);
-  world_addDoorXY(4, 2, -200);
   
 }
