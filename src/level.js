@@ -47,8 +47,8 @@ function level_initLevel1() {
   // rooms
   world_addRoom(-25, 33, 0, 24, -199, -41);
 
-  world_addStartRoom(-9, 17, 0, 13, -40, 8);
-  world_addEndRoom(-9, 17, 0, 13, -249, -200);
+  world_addStartRoom(-9, 17, 0, 13, -40, 8, false, true);
+  world_addStartRoom(-9, 17, 0, 13, -249, -200, true, false);
 
   // reactors
   world_addReactor(-8, 0, 10, 24, -120, 6, 12);

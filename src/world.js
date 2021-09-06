@@ -127,7 +127,7 @@ function world_addTunnel(startX, endX, startY, endY, startZ, endZ, texture) {
   }
 }
 
-function world_addStartRoom(startX, endX, startY, endY, startZ, endZ) {
+function world_addStartRoom(startX, endX, startY, endY, startZ, endZ, firstDoorActive, secondDoorActive) {
   safeRooms.push([startX, endX, startY, endY, startZ, endZ]);
   world_addRoom(startX, endX, startY, endY, startZ, endZ);
   world_removeBlocks(startX+1, endX-1, startY+1, endY-1, startZ, startZ);
@@ -135,27 +135,13 @@ function world_addStartRoom(startX, endX, startY, endY, startZ, endZ) {
 
   // doors
   world_addWallXY(startX, endX, startY, endY, endZ-1);
-  world_addDoor((endX+startX)/2, startY+2, endZ, false);
+  world_addDoor((endX+startX)/2, startY+2, endZ, firstDoorActive);
 
   world_addWallXY(startX, endX, startY, endY, startZ+1);
-  world_addDoor((endX+startX)/2, startY+2, startZ, true);
+  world_addDoor((endX+startX)/2, startY+2, startZ, secondDoorActive);
 
 
   
-}
-
-function world_addEndRoom(startX, endX, startY, endY, startZ, endZ) {
-  safeRooms.push([startX, endX, startY, endY, startZ, endZ]);
-  world_addRoom(startX, endX, startY, endY, startZ, endZ);
-  world_removeBlocks(startX+1, endX-1, startY+1, endY-1, startZ, startZ);
-  world_removeBlocks(startX+1, endX-1, startY+1, endY-1, endZ, endZ);
-
-  // doors
-  world_addWallXY(startX, endX, startY, endY, endZ-1);
-  world_addDoor((endX+startX)/2, startY+2, endZ, true);
-
-  world_addWallXY(startX, endX, startY, endY, startZ+1);
-  world_addDoor((endX+startX)/2, startY+2, startZ, false);
 }
 
 function world_addRoom(startX, endX, startY, endY, startZ, endZ) {

@@ -3,18 +3,17 @@
 # TODOs
 
 ## Weekend 4
-* die screen
-* computer terminal model
 * platforms
-* wall tunnels
 * hud with center point
-* broken doors
 * screen rumble
 
 ## Stretch Goals
+* point light effects
+* wall tunnels
+* computer terminal model
 * perlin noise lava / holes in floor
 * player shadow
-* point light effects / geometry normals
+
 
 # Ideas
 * Lights flash on with electiricity sound effect from time to time to help you see far away
