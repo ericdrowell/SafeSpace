@@ -127,6 +127,27 @@ function world_addTunnel(startX, endX, startY, endY, startZ, endZ, texture) {
   }
 }
 
+function world_addPlatform(startX, endX, startY, endY, startZ, endZ) {
+  world_addWallXY(startX, endX, startY, endY, startZ, startZ);
+  world_addWallXY(startX, endX, startY, endY, endZ, endZ);
+  world_addWallYZ(startX, startY, endY, startZ, endZ);
+  world_addWallYZ(endX, startY, endY, startZ, endZ);
+  world_addFrame(startX, endX, endY, startZ, endZ);
+  world_addFloor(startX+1, endX-1, endY, startZ+1, endZ-1);
+}
+
+function world_addFrame(startX, endX, y, startZ, endZ) {
+  world_addBlocks(startX, endX, y, y, startZ, endZ, TEXTURES_CAUTION_STRIPES);
+}
+
+function world_addSlope(startX, endX, endY, startZ, endZ) {
+  let y = endY;
+  for (let x = startX; x <= endX; x++) {
+    world_addBlocks(x, x, y, y, startZ, endZ, TEXTURES_METAL_GRATES); 
+    y--;
+  }
+}
+
 function world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, isStartRoom) {
   world_addRoom(startX, endX, startY, endY, startZ, endZ);
   world_removeBlocks(startX+1, endX-1, startY+1, endY-1, startZ, startZ);
@@ -137,17 +158,7 @@ function world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, isSta
   world_addDoor((endX+startX)/2, startY+2, endZ, isStartRoom);
 
   world_addWallXY(startX, endX, startY, endY, startZ+1);
-  world_addDoor((endX+startX)/2, startY+2, startZ, !isStartRoom);
-
-
-  if (isStartRoom) {
-    startZone = [startX, endX, startY, endY, endZ, endZ+10];
-  }
-  else {
-    endZone = [startX, endX, startY, endY, startZ+20, startZ+30];
-  }
-
-  
+  world_addDoor((endX+startX)/2, startY+2, startZ, !isStartRoom);  
 }
 
 function world_addRoom(startX, endX, startY, endY, startZ, endZ) {

@@ -41,16 +41,31 @@ function level_initLevel1() {
   player.z = 0;
   player.yaw = Math.PI;
 
-  // rooms
-  world_addRoom(-25, 33, 0, 24, 41, 199);
+  // main rooms
+  world_addRoom(-25, 33, -10, 24, 41, 199);
 
+  // platforms
+  world_addPlatform(-25, 33, -10, 0, 41, 71);
+  world_addPlatform(-25, 33, -10, 0, 191, 199);
+  world_addPlatform(14, 23, -10, 1, 83, 105);
+  world_addPlatform(10, 16, -10, 2, 99, 112);
+  world_addPlatform(-14, -2, -10, 4, 111, 123);
+  world_addPlatform(-20, -6, -10, -1, 140, 147);
+  world_addPlatform(-15, 0, -10, 0, 161, 175);
+  
+
+  // transition rooms
   world_addTransitionRoom(-9, 17, 0, 13, -8, 40, true);
   world_addTransitionRoom(-9, 17, 0, 13, 200, 249, false);
 
+  startZone = [-25, 33, 0, 13, 90, 90+10];
+  endZone = [-9, 17, 0, 13, 200+20, 200+30];
+
+
   // reactors
-  world_addReactor(20, 0, 10, 24, 164, 4, 12);
+  world_addReactor(20, -10, 10, 24, 164, 0, 12);
 
   // safe spaces
-  world_addSafeSpace(-8, 6, 116);
+  world_addSafeSpace(-9, 10, 116);
   
 }

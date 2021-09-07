@@ -12,7 +12,7 @@ function nova_update() {
         if (nova.timeToNextBurst < 0) {
           nova.timeToNextBurst = 0;
         }
-        else if (Math.ceil(lastTime) !== Math.ceil(nova.timeToNextBurst) && Math.ceil(nova.timeToNextBurst) <= 2) {
+        else if (Math.ceil(lastTime) !== Math.ceil(nova.timeToNextBurst) && Math.ceil(nova.timeToNextBurst) <= 3) {
           soundEffects_play(SOUND_EFFECTS_NOVA_COUNTDOWN);
         }
       }
