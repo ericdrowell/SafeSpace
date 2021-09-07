@@ -10,7 +10,7 @@ const terminal_messages = [
   /* 6 */"Click to Play Again", 
   /* 7 */"LEVEL 1",
   /* 8 */"Dr. Heisenberg, there's no time to explain.  You must leave the ship at once.  The fusion reactors are melting down.  I've created a SAFE SPACE that protects you from radioactive bursts.  Make your way to LEVEL 13.  HURRY!!", // 8
-  /* 9 */"Controls:#[WASD] _Run#[Mouse] Look#[Space] Jump & Double Jump#[Esc] __Pause",
+  /* 9 */"Controls:#[WASD] _Run#[Mouse] Look#[Space] Jump#[Esc] __Pause",
   /* 10 */"Click to Start"
 ];
 

@@ -4,11 +4,7 @@ function level_init() {
   reactors = [];
   novas = [];
   doors = [];
-  safeRooms = [];
-  novaCountingDown = false;
-  isNovaExploding = false;
-  isPlayerSafe = true;
-  playerEnteredLevel = false;
+  dieZones = [];
 
   player_init();
 
@@ -34,7 +30,8 @@ function level_initTitleLevel() {
     x: 0, 
     y: 1.2, 
     z: -1, 
-    radius: NOVA_START_RADIUS
+    radius: NOVA_START_RADIUS,
+    isCore: true
   }); 
 }
 
@@ -47,8 +44,8 @@ function level_initLevel1() {
   // rooms
   world_addRoom(-25, 33, 0, 24, -199, -41);
 
-  world_addStartRoom(-9, 17, 0, 13, -40, 8, false, true);
-  world_addStartRoom(-9, 17, 0, 13, -249, -200, true, false);
+  world_addTransitionRoom(-9, 17, 0, 13, -40, 8, true);
+  world_addTransitionRoom(-9, 17, 0, 13, -249, -200, false);
 
   // reactors
   world_addReactor(-8, 0, 10, 24, -120, 6, 12);

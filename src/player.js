@@ -7,6 +7,13 @@ function player_init() {
     upVelocity: 0,
     pitch: 0
   };
+
+  isPlayerSafe = false;
+  playerEnteredLevel = false;
+  bobble = 0;
+  pitchBobble = 0;
+  bobbleTime = 0;
+  pitchBobbleTime = 0;
 }
 
 function player_inSafeSpace() {
@@ -16,17 +23,6 @@ function player_inSafeSpace() {
       player.x > field.x - SAFE_SPACE_SIZE && player.x < field.x + SAFE_SPACE_SIZE &&
       player.y > field.y - SAFE_SPACE_SIZE && player.y < field.y + SAFE_SPACE_SIZE &&
       player.z > field.z - SAFE_SPACE_SIZE && player.z < field.z + SAFE_SPACE_SIZE
-    ) {
-      return true;
-    }
-  };
-
-  for (let n=0; n<safeRooms.length; n++) {
-    let safeRoom = safeRooms[n];
-    if (
-      player.x > safeRoom[0] && player.x < safeRoom[1]  &&
-      player.y > safeRoom[2] && player.y < safeRoom[3]  &&
-      player.z > safeRoom[4] && player.z < safeRoom[5]
     ) {
       return true;
     }
@@ -43,6 +39,12 @@ function player_nearDoor(door) {
   return dist < 20;
 }
 
+function player_inZone(zone) {
+  return player.x >= zone[0] && player.x <= zone[1] &&
+         player.y >= zone[2] && player.y <= zone[3] &&
+         player.z >= zone[4] && player.z <= zone[5];
+}
+
 function player_update() {
   // if entering safe space
   if (!isPlayerSafe && player_inSafeSpace()) {
@@ -51,11 +53,7 @@ function player_update() {
   }
   // if exiting safe space
   else if (isPlayerSafe && !player_inSafeSpace()) {
-    soundEffects_play(SOUND_EFFECTS_EXIT_SAFE_SPACE);
-    if (!playerEnteredLevel) {
-      playerEnteredLevel = true;
-    }
-    
+    soundEffects_play(SOUND_EFFECTS_EXIT_SAFE_SPACE);    
     isPlayerSafe = false;
   }
 
@@ -71,6 +69,17 @@ function player_update() {
     let direction = player.sideMovement === 1 ? 1 : -1;
     let distEachFrame = direction * PLAYER_SPEED * elapsedTime / 1000;
     world_moveObject(player, distEachFrame * Math.sin(player.yaw + Math.PI / 2), 0, distEachFrame * Math.cos(player.yaw + Math.PI / 2));
+  }
+
+  // handle zones
+  if (player_inZone(startZone)) {
+    if (!playerEnteredLevel) {
+      soundEffects_play(SOUND_EFFECTS_EXIT_SAFE_SPACE);
+      playerEnteredLevel = true;
+    }
+  }
+  if (player_inZone(endZone)) {
+    game_setState(GAME_STATE_WIN);
   }
 
   if (!player.isAirborne) { 
@@ -99,7 +108,7 @@ function player_update() {
 };
 
 function player_jump() {
-  if (player_jumpNum < 2) {
+  if (player_jumpNum < 1) {
     player.upVelocity = JUMP_SPEED;
     player.isAirborne = true;
     player_jumpNum++;

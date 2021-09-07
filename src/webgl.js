@@ -531,9 +531,7 @@ function webgl_render() {
 
     webgl_save();
     mat4.translate(mvMatrix, [novaBurst.x*2, novaBurst.y*2, novaBurst.z*2]);
-    
     mat4.scale(mvMatrix, [scale,scale,scale]);
-
 
     webgl_renderPerlinElements(sphereBuffers, [0.8, 0, 0], spherePerlinSize, hasDepthMask, speed);
     webgl_restore();

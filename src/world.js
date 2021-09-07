@@ -127,19 +127,25 @@ function world_addTunnel(startX, endX, startY, endY, startZ, endZ, texture) {
   }
 }
 
-function world_addStartRoom(startX, endX, startY, endY, startZ, endZ, firstDoorActive, secondDoorActive) {
-  safeRooms.push([startX, endX, startY, endY, startZ, endZ]);
+function world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, isStartRoom) {
   world_addRoom(startX, endX, startY, endY, startZ, endZ);
   world_removeBlocks(startX+1, endX-1, startY+1, endY-1, startZ, startZ);
   world_removeBlocks(startX+1, endX-1, startY+1, endY-1, endZ, endZ);
 
   // doors
   world_addWallXY(startX, endX, startY, endY, endZ-1);
-  world_addDoor((endX+startX)/2, startY+2, endZ, firstDoorActive);
+  world_addDoor((endX+startX)/2, startY+2, endZ, !isStartRoom);
 
   world_addWallXY(startX, endX, startY, endY, startZ+1);
-  world_addDoor((endX+startX)/2, startY+2, startZ, secondDoorActive);
+  world_addDoor((endX+startX)/2, startY+2, startZ, isStartRoom);
 
+
+  if (isStartRoom) {
+    startZone = [startX, endX, startY, endY, startZ-10, startZ];
+  }
+  else {
+    endZone = [startX, endX, startY, endY, endZ-30, endZ-20];
+  }
 
   
 }

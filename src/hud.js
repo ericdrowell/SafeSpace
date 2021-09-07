@@ -1,6 +1,3 @@
-function hud_init() {
-
-}
 
 function hud_render() {
   hudContext.clearRect(0, 0, viewportWidth, viewportHeight);

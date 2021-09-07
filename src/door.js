@@ -1,6 +1,3 @@
-function door_init() {
-
-}
 
 function door_add(x, y, z, isActive) {
   doors.push({

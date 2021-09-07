@@ -32,7 +32,7 @@ function nova_update() {
           soundEffects_play(SOUND_EFFECTS_FIELD_PROTECT);
         }
         else {
-          //game_setState(GAME_STATE_DIED);
+          game_setState(GAME_STATE_DIED);
         }
 
         nova.isPlayerIn = true;

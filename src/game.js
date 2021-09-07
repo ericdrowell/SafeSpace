@@ -9,16 +9,11 @@ function game_init() {
   game_setViewportSize();
   canvas2d_init()
   webgl_init();
-
-  game_setState(GAME_STATE_TITLE);
-
-  hud_init();
   userInputs_init();  
-  door_init();
-  // NOTE: have to init level to init title screen (rendered as a level)
-  level_init();
   music_init();
   terminal_init();
+
+  game_setState(GAME_STATE_TITLE);
 
   textures_init(function() {
     texturesReady = true;
@@ -90,7 +85,11 @@ function game_setState(nextState) {
   // state transition scenarios
 
   if (nextState === GAME_STATE_TITLE) {
-
+    level_init();
+    music_stop();
+    terminal_hide();
+    canvas2d_show();
+    game_exitPointerLock();
   }
   // title -> level intro
   else if (nextState === GAME_STATE_LEVEL_INTRO) {
@@ -139,6 +138,15 @@ function game_setState(nextState) {
     music_stop();
     game_exitPointerLock();
     soundEffects_play(SOUND_EFFECTS_DIED);
+  }
+  // playing -> win
+  else if (nextState === GAME_STATE_WIN) {
+    canvas2d_hide();
+    terminal_show();
+    terminal_printMessages(5, 6);
+    music_stop();
+    game_exitPointerLock();
+    soundEffects_play(SOUND_EFFECTS_WIN);
   }
 
   

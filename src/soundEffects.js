@@ -17,6 +17,7 @@ const SOUND_EFFECTS_DOOR_CLOSE =           function(){zzfx(...[1.86,,191,.05,.17
 const SOUND_EFFECTS_BUZZ =                 function(){zzfx(...[1.05,.5,201,.09,.04,.08,1,1.87,,-25,,,,,55,,,.4,.01])}; 
 const SOUND_EFFECTS_TERMINAL_END =         function(){zzfx(...[,,345,.2,.03,.07,,2.62,-0.2,,193,.11,.21,,40,,,.42,.01])}; 
 const SOUND_EFFECTS_NOVA_COUNTDOWN =       function(){zzfx(1.84,.05,74,.02,.14,.85,0,1.27,.6,.7,0,0,0,.4,-55,.4,.42,.86,.08,0)};
+const SOUND_EFFECTS_WIN =                  function(){zzfx(...[1.3,,17,.1,.24,.33,,1.8,,-0.1,70,.03,.09,,,,.09,.98,.09])};
 
 // not used yet
 
