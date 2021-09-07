@@ -134,17 +134,17 @@ function world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, isSta
 
   // doors
   world_addWallXY(startX, endX, startY, endY, endZ-1);
-  world_addDoor((endX+startX)/2, startY+2, endZ, !isStartRoom);
+  world_addDoor((endX+startX)/2, startY+2, endZ, isStartRoom);
 
   world_addWallXY(startX, endX, startY, endY, startZ+1);
-  world_addDoor((endX+startX)/2, startY+2, startZ, isStartRoom);
+  world_addDoor((endX+startX)/2, startY+2, startZ, !isStartRoom);
 
 
   if (isStartRoom) {
-    startZone = [startX, endX, startY, endY, startZ-10, startZ];
+    startZone = [startX, endX, startY, endY, endZ, endZ+10];
   }
   else {
-    endZone = [startX, endX, startY, endY, endZ-30, endZ-20];
+    endZone = [startX, endX, startY, endY, startZ+20, startZ+30];
   }
 
   
