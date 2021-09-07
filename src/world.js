@@ -61,13 +61,8 @@ function world_addReactor(x, startY, coreY, endY, z, timeToNextBurst, burstDelay
   world_addReactorClaws(x, coreY+2, z, 3);
   world_addReactorClaws(x, coreY+3, z, 2);
 
-  // bottom base
-  world_addBlocks(x-2, x+2, startY, startY, z-2, z+2, TEXTURES_CAUTION_STRIPES);
-  // top base
-  world_addBlocks(x-2, x+2, endY, endY, z-2, z+2, TEXTURES_CAUTION_STRIPES);
-  
-
-
+  world_addFrame(x-2, x+2, startY, z-2, z+2);
+  world_addFrame(x-2, x+2, endY, z-2, z+2);
 
 }
 
@@ -79,12 +74,17 @@ function world_addReactorClaws(x, y, z, radius) {
   world_addBlocks(x, x, y-1, y, z+radius, z+radius, TEXTURES_REACTOR);
 }
 
-function world_addSlope(startX, endX, endY, startZ, endZ, texture) {
-  let y = endY;
-  for (let x = startX; x <= endX; x++) {
-    world_addBlocks(x, x, y, y, startZ, endZ, texture); 
-    y--;
+function world_addStairs(startX, endX, startY, z, startZDepth) {
+  let y = startY+1;
+  let zDepth = startZDepth;
+  while (zDepth > 0) {
+    world_addBlocks(startX, endX, y, y, z, z+zDepth, TEXTURES_REACTOR); 
+    world_addBlocks(startX, endX, y, y, z+zDepth, z+zDepth, TEXTURES_CAUTION_STRIPES);
+    y++;
+    zDepth--;
   }
+
+  world_addFrame(startX-1, endX+1, startY, z-1, z+startZDepth);
 }
 
 function world_addRing(x, y, z, texture) {
@@ -134,6 +134,7 @@ function world_addPlatform(startX, endX, startY, endY, startZ, endZ) {
   world_addWallYZ(endX, startY, endY, startZ, endZ);
   world_addFrame(startX, endX, endY, startZ, endZ);
   world_addFloor(startX+1, endX-1, endY, startZ+1, endZ-1);
+  world_addFrame(startX-1, endX+1, startY, startZ-1, endZ+1);
 }
 
 function world_addFrame(startX, endX, y, startZ, endZ) {

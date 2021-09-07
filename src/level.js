@@ -50,8 +50,9 @@ function level_initLevel1() {
   world_addPlatform(14, 23, -10, 1, 83, 105);
   world_addPlatform(10, 16, -10, 2, 99, 112);
   world_addPlatform(-14, -2, -10, 4, 111, 123);
-  world_addPlatform(-20, -6, -10, -1, 140, 147);
+  world_addPlatform(-24, -5, -10, -1, 140, 147);
   world_addPlatform(-15, 0, -10, 0, 161, 175);
+  world_addPlatform(-25, -15, -10, 0, 71, 73);
   
 
   // transition rooms
@@ -67,5 +68,8 @@ function level_initLevel1() {
 
   // safe spaces
   world_addSafeSpace(-9, 10, 116);
+
+  // stairs
+  world_addStairs(-25, -15, -10, 73, 9);
   
 }
