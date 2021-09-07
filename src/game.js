@@ -157,6 +157,7 @@ function game_update() {
     player_update();
     nova_update();
     door_update();
+    
     if (Math.random() < BUZZ_CHANCES) {
       soundEffects_play(SOUND_EFFECTS_BUZZ);
     }
