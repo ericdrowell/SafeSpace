@@ -136,9 +136,19 @@ function userInputs_handleMouseDown() {
     }
   }
   else if (gameState === GAME_STATE_DIED) {
-    game_setState(GAME_STATE_LEVEL_INTRO);
+    if (terminalPrinting) {
+      terminal_finishPrinting();
+    }
+    else {
+      game_setState(GAME_STATE_LEVEL_INTRO);
+    }
   }
   else if (gameState === GAME_STATE_WIN) {
-    game_setState(GAME_STATE_TITLE);
+    if (terminalPrinting) {
+      terminal_finishPrinting();
+    }
+    else {
+      game_setState(GAME_STATE_TITLE);
+    }
   }
 }
