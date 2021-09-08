@@ -23,7 +23,6 @@ function level_initTitleLevel() {
   player.y = -PLAYER_HEIGHT; // eye level
   player.z = 0;
   player.yaw = Math.PI;
-  novaCountdownTime = 6;
 
   world_addSafeSpace(0, -2, 26);
   nova_addBurst({
@@ -60,7 +59,7 @@ function level_initLevel1() {
   world_addTransitionRoom(-9, 17, 0, 13, 200, 249, false);
 
   startZone = [-25, 33, 0, 13, 90, 90+10];
-  endZone = [-9, 17, 0, 13, 200+20, 200+30];
+  endZone = [-9, 17, 0, 13, 200+10, 200+20];
 
 
   // reactors
@@ -71,5 +70,10 @@ function level_initLevel1() {
 
   // stairs
   world_addStairs(-25, -15, -10, 73, 9);
+
+  // crates
+  world_addCrate(14, 1, 20);
+  world_addCrate(13, 1, 25);
+  world_addCrate(14, 5, 23);
   
 }

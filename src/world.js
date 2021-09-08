@@ -8,23 +8,30 @@ function world_addSafeSpace(x, y, z) {
 
 
   const texture = TEXTURES_RUST;
-  // bottom
-  world_addBlocks(startX, endX, startY, startY, startZ, endZ, texture);
 
-  // side beams
-  world_addBlocks(startX, startX, startY+1, endY, startZ, startZ, texture);
-  world_addBlocks(endX, endX, startY+1, endY, startZ, startZ, texture);
-  world_addBlocks(startX, startX, startY+1, endY, endZ, endZ, texture);
-  world_addBlocks(endX, endX, startY+1, endY, endZ, endZ, texture);
+  world_addBlocks(startX, endX, startY, endY, startZ, endZ, texture);
+  world_removeBlocks(startX, endX, startY+1, endY-1, startZ+1, endZ-1);
+  world_removeBlocks(startX+1, endX-1, startY+1, endY, startZ+1, endZ-1);
+  world_removeBlocks(startX+1, endX-1, startY+1, endY-1, startZ, endZ);
 
-  // top beams
-  world_addBlocks(startX, startX, endY, endY, startZ+1, endZ-1, texture);
-  world_addBlocks(endX, endX, endY, endY, startZ+1, endZ-1, texture);
-  world_addBlocks(startX+1, endX-1, endY, endY, startZ, startZ, texture);
-  world_addBlocks(startX+1, endX-1, endY, endY, endZ, endZ, texture);
 
   // fields
   world_addField(x, y, z);
+}
+
+function world_addCrate(x, y, z) {
+  const crateSize = 1;
+  const startX = x - crateSize;
+  const endX = x + crateSize + 1;
+  const startY = y;
+  const endY = y + crateSize*2 + 1;
+  const startZ = z - crateSize;
+  const endZ = z + crateSize + 1;
+
+  world_addBlocks(startX, endX, startY, endY, startZ, endZ, TEXTURES_GREEN_METAL);
+  world_addBlocks(startX+1, endX-1, startY+1, endY-1, startZ, endZ, TEXTURES_METAL_RIDGES);
+  world_addBlocks(startX+1, endX-1, startY, endY, startZ+1, endZ-1, TEXTURES_METAL_RIDGES);
+  world_addBlocks(startX, endX, startY+1, endY-1, startZ+1, endZ-1, TEXTURES_METAL_RIDGES);
 }
 
 function world_addField(x, y, z) {
@@ -52,9 +59,9 @@ function world_addReactor(x, startY, coreY, endY, z, timeToNextBurst, burstDelay
   });
 
   // bottom column
-  world_addBlocks(x-1, x+1, startY, coreY-3, z-1, z+1, TEXTURES_REACTOR);
+  world_addBlocks(x-1, x+1, startY, coreY-3, z-1, z+1, TEXTURES_NINE_BOLT_METAL);
   // top column
-  world_addBlocks(x-1, x+1, coreY+3, endY, z-1, z+1, TEXTURES_REACTOR);
+  world_addBlocks(x-1, x+1, coreY+3, endY, z-1, z+1, TEXTURES_NINE_BOLT_METAL);
 
   world_addReactorClaws(x, coreY-2, z, 2);
   world_addReactorClaws(x, coreY-1, z, 3);
@@ -67,18 +74,18 @@ function world_addReactor(x, startY, coreY, endY, z, timeToNextBurst, burstDelay
 }
 
 function world_addReactorClaws(x, y, z, radius) {
-  world_addBlocks(x-radius, x-radius, y-1, y, z, z, TEXTURES_REACTOR);
-  world_addBlocks(x+radius, x+radius, y-1, y, z, z, TEXTURES_REACTOR);
+  world_addBlocks(x-radius, x-radius, y-1, y, z, z, TEXTURES_NINE_BOLT_METAL);
+  world_addBlocks(x+radius, x+radius, y-1, y, z, z, TEXTURES_NINE_BOLT_METAL);
 
-  world_addBlocks(x, x, y-1, y, z-radius, z-radius, TEXTURES_REACTOR);
-  world_addBlocks(x, x, y-1, y, z+radius, z+radius, TEXTURES_REACTOR);
+  world_addBlocks(x, x, y-1, y, z-radius, z-radius, TEXTURES_NINE_BOLT_METAL);
+  world_addBlocks(x, x, y-1, y, z+radius, z+radius, TEXTURES_NINE_BOLT_METAL);
 }
 
 function world_addStairs(startX, endX, startY, z, startZDepth) {
   let y = startY+1;
   let zDepth = startZDepth;
   while (zDepth > 0) {
-    world_addBlocks(startX, endX, y, y, z, z+zDepth, TEXTURES_REACTOR); 
+    world_addBlocks(startX, endX, y, y, z, z+zDepth, TEXTURES_NINE_BOLT_METAL); 
     world_addBlocks(startX, endX, y, y, z+zDepth, z+zDepth, TEXTURES_CAUTION_STRIPES);
     y++;
     zDepth--;
@@ -187,14 +194,6 @@ function world_addWallXY(startX, endX, startY, endY, z) {
 
 function world_addWallYZ(x, startY, endY, startZ, endZ) {
   world_addBlocks(x, x, startY, endY, startZ, endZ, TEXTURES_WALL);
-}
-
-function world_addFloor(startX, endX, y, startZ, endZ, texture) {
-  for (let x=startX; x<=endX; x++) {
-    for (let z=startZ; z<=endZ; z++) {
-      world_addBlock(x, y, z, texture);
-    }
-  }
 }
 
 function world_addFloor(startX, endX, y, startZ, endZ) {

@@ -14,22 +14,17 @@ function hud_render() {
   hudContext.restore();
 }
 
-function hud_renderTitle(x, y) {
+function hud_renderTitle() {
+  hudContext.save();
+  hudContext.translate(0, 6);
+  hudContext.scale(1, 1.25);
   hudContext.textBaseline = 'middle';
-  hudContext.font = '100 170px impact';
-  hudContext.fillText('SAFE', x, y);
+  hudContext.font = '100 140px impact';
+  hudContext.fillText('SAFE', 0, 0);
 
-  hudContext.font = '100 120px impact';
-  hudContext.fillText('SPACE', x, y + 130);
-
-  // draw box top
-  // hudContext.lineWidth = 10;
-  // hudContext.beginPath();
-  // hudContext.moveTo(x -180, y); 
-  // hudContext.lineTo(x -180, y - 100); 
-  // hudContext.lineTo(x + 180, y - 100); 
-  // hudContext.lineTo(x + 180, y); 
-  // hudContext.stroke();
+  hudContext.font = '100 100px impact';
+  hudContext.fillText('SPACE', 0, 0 + 100);
+  hudContext.restore();
 }
 
 function hud_renderTitleScreen() {
@@ -93,16 +88,16 @@ function hud_renderTitleScreen() {
   // hud_renderTitle(-4, 26);
 
   hudContext.fillStyle = hudContext.strokeStyle = 'rgba(89, 143, 196, .6)';
-  hud_renderTitle(0, 30);
+  hud_renderTitle();
   //hudContext.restore();
 
   hudContext.font = '100 23px verdana';
 
   hudContext.fillStyle = '#2d0f0b';
-  hudContext.fillText('@ericdrowell JS13K 2021', 1, 303);
+  hudContext.fillText('@ericdrowell JS13K 2021', 1, 307);
 
   hudContext.fillStyle = '#543125';
-  hudContext.fillText('@ericdrowell JS13K 2021', -1, 301);
+  hudContext.fillText('@ericdrowell JS13K 2021', -1, 309);
 
 
 

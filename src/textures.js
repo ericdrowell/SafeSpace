@@ -7,9 +7,10 @@ const TEXTURES_METAL_PANEL = 4;
 const TEXTURES_CAUTION_STRIPES = 5;
 const TEXTURES_CAUTION_STRIPES_ALT = 6;
 const TEXTURES_LIGHT_BARS = 7;
-const TEXTURES_DOOR = 8;
+const TEXTURES_FIB_METAL = 8;
 const TEXTURES_WALL = 9;
-const TEXTURES_REACTOR = 10;
+const TEXTURES_NINE_BOLT_METAL = 10;
+const TEXTURES_GREEN_METAL = 11;
 
 function textures_init(callback) {
   // -------------------------------------------------------------------
@@ -93,8 +94,19 @@ function textures_init(callback) {
   })();
 
   // -------------------------------------------------------------------
+  textures[TEXTURES_GREEN_METAL] = (function() {
+    textures_drawGrunge('#0c0c01', 20);
+    textures_drawTopLeftBorder('rgba(255, 255, 255, 0.1)');
+    textures_drawBottomRightBorder('rgba(0, 0, 0, 0.5)');
+
+    textures_drawBolts();
+  
+    return textureCanvas.toDataURL();
+  })();
+
+  // -------------------------------------------------------------------
   textures[TEXTURES_METAL_PANEL] = (function() {
-    textures_drawGrunge('#140f09', 20);
+    textures_drawGrunge('#080808', 20);
 
     // highlight
     textureContext.fillStyle = 'rgba(255, 255, 255, 0.07)';
@@ -144,7 +156,7 @@ function textures_init(callback) {
   })();
 
   // -------------------------------------------------------------------
-  textures[TEXTURES_REACTOR] = (function() {
+  textures[TEXTURES_NINE_BOLT_METAL] = (function() {
     textures_drawGrunge('#111111', 20);
     //textures_drawTopLeftBorder('rgba(255, 255, 255, 0.2)');
   
@@ -169,7 +181,7 @@ function textures_init(callback) {
   })();
 
   // -------------------------------------------------------------------
-  textures[TEXTURES_DOOR] = (function() {
+  textures[TEXTURES_FIB_METAL] = (function() {
 
     textures_drawGrunge('#1e1516', 20);
 
