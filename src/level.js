@@ -75,5 +75,9 @@ function level_initLevel1() {
   world_addCrate(14, 1, 20);
   world_addCrate(13, 1, 25);
   world_addCrate(14, 5, 23);
+
+  world_addCrate(-13, 1, 44);
+  world_addCrate(-18, 1, 44);
+  world_addCrate(-22, 1, 45);
   
 }

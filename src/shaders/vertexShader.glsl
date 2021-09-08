@@ -18,7 +18,7 @@ void main(void) {
   vec3 pointLightPos = vec3(0, 0, 0);
   vec3 pointLightColor = vec3(1, 1, 1);
   float pointLightDist = length(pointLightPos - worldVertexPos.xyz);
-  float pointLightWeight = 1500.0 / (pointLightDist*pointLightDist);
+  float pointLightWeight = 3000.0 / (pointLightDist*pointLightDist);
 
   if (pointLightWeight > 4.0) {
     pointLightWeight = 4.0;
@@ -31,7 +31,8 @@ void main(void) {
   
   // flashlight
   glPos.y /= (16.0/9.0);
-  if (length(pointLightPos.xy - glPos.xy) > 30.0) {
+  float zAxisDist = length(pointLightPos.xy - glPos.xy);
+  if (zAxisDist > 30.0) {
     pointLight *= 0.1;
   }
   vLightWeighting = pointLight;

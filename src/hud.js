@@ -5,10 +5,11 @@ function hud_render() {
   hudContext.save();
   hudContext.scale(viewportScale, viewportScale);
 
-  
-
   if (gameState === GAME_STATE_TITLE) {
     hud_renderTitleScreen();
+  }
+  else if (gameState === GAME_STATE_PLAYING) {
+    hud_renderMain();
   }
 
   hudContext.restore();
@@ -48,62 +49,54 @@ function hud_renderTitleScreen() {
   
   hudContext.textAlign = 'center';
 
-  
-  // pattern = hudContext.createPattern(textures[TEXTURES_RUST].image, 'repeat');
-  // hudContext.fillStyle = pattern;
-  // hudContext.fillRect(-180, -130, 360, 300);
-
-  // highlighted text
-  // hudContext.fillStyle = hudContext.strokeStyle = 'rgba(255, 255, 255, 0.2)'
-  // hud_renderTitle(-2, -32);
-
-  // shadowed text
-  // hudContext.fillStyle = hudContext.strokeStyle = 'rgba(0, 0, 0, 0.7)'
-  // hud_renderTitle(0, -20);
-
-  // main textured text
-  // hudContext.save();
-  // hudContext.shadowColor='red';
-  // hudContext.shadowBlur=20;
-  // hudContext.lineWidth=5;
-  // hudContext.fillStyle = 'transparent';
-  // hud_renderTitle(0, 30);
-  // hudContext.restore();
-  //pattern = hudContext.createPattern(textures[TEXTURES_BLUE_PLATE].image, 'repeat');
-
-
-  // gradient = hudContext.createLinearGradient(0, -150, 0, 200);
-
-  // // Add three color stops
-  // gradient.addColorStop(0, '#d41a1c');
-  // gradient.addColorStop(.5, '#0080cd');
-  // // gradient.addColorStop(.6, '#d41a1c');
-  // // gradient.addColorStop(.9, '#0080cd');
-  // gradient.addColorStop(1, '#0080cd');
-
-  // hudContext.fillStyle = gradient;
-
-
-  // hudContext.fillStyle = hudContext.strokeStyle = 'rgba(255, 255, 255, 1)';
-  // hud_renderTitle(-4, 26);
-
-  hudContext.fillStyle = hudContext.strokeStyle = 'rgba(89, 143, 196, .6)';
+  hudContext.fillStyle = hudContext.strokeStyle = 'rgba(133, 172, 210, .6)';
   hud_renderTitle();
-  //hudContext.restore();
 
   hudContext.font = '100 23px verdana';
 
-  hudContext.fillStyle = '#2d0f0b';
-  hudContext.fillText('@ericdrowell JS13K 2021', 1, 307);
+  hudContext.fillStyle = '#34161a';
+  hudContext.fillText('@ericdrowell JS13K 2021', 1, 310);
 
-  hudContext.fillStyle = '#543125';
-  hudContext.fillText('@ericdrowell JS13K 2021', -1, 309);
+  hudContext.fillStyle = '#523c3b';
+  hudContext.fillText('@ericdrowell JS13K 2021', -1, 308);
 
 
 
   hudContext.restore();
 
 
+}
+
+function hud_renderMain() {
+  hudContext.save();
+
+  hudContext.translate(OPTIMAL_VIEWPORT_WIDTH/2, OPTIMAL_VIEWPORT_HEIGHT/2);
+
+  // center rings
+  hudContext.lineWidth = 2;
+  hudContext.strokeStyle = 'rgba(106, 187, 109, 0.2)';
+  hudContext.beginPath();
+  
+  hudContext.arc(0, 0, 20, 0, Math.PI*2);
+  hudContext.stroke();
+
+  hudContext.beginPath();
+  hudContext.arc(0, 0, 30, 0, Math.PI*2);
+  hudContext.stroke();
+
+  // peripheral
+  const border = 20;
+  const halfWidth = OPTIMAL_VIEWPORT_WIDTH/2-border;
+  const halfHeight = OPTIMAL_VIEWPORT_HEIGHT/2-border;
+  hudContext.beginPath();
+  hudContext.moveTo(halfWidth, 0);
+  hudContext.quadraticCurveTo(halfWidth, halfHeight, 0, halfHeight);
+  hudContext.quadraticCurveTo(-halfWidth, halfHeight, -halfWidth, 0);
+  hudContext.quadraticCurveTo(-halfWidth, -halfHeight, 0, -halfHeight);
+  hudContext.quadraticCurveTo(halfWidth, -halfHeight, halfWidth, 0);
+  hudContext.stroke();
+
+  hudContext.restore();
 }
 
 

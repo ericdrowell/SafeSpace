@@ -7,7 +7,7 @@ function world_addSafeSpace(x, y, z) {
   const endZ = z + SAFE_SPACE_SIZE;
 
 
-  const texture = TEXTURES_RUST;
+  const texture = TEXTURES_NINE_BOLT_METAL;
 
   world_addBlocks(startX, endX, startY, endY, startZ, endZ, texture);
   world_removeBlocks(startX, endX, startY+1, endY-1, startZ+1, endZ-1);

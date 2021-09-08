@@ -88,7 +88,7 @@ function textures_init(callback) {
     textures_drawTopLeftBorder('rgba(255, 255, 255, 0.1)');
     textures_drawBottomRightBorder('rgba(0, 0, 0, 0.5)');
 
-    textures_drawBolts();
+    textures_drawBoltTexture();
   
     return textureCanvas.toDataURL();
   })();
