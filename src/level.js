@@ -58,12 +58,12 @@ function level_initLevel1() {
   world_addTransitionRoom(-9, 17, 0, 13, -8, 40, true);
   world_addTransitionRoom(-9, 17, 0, 13, 200, 249, false);
 
-  startZone = [-25, 33, 0, 13, 90, 90+10];
+  startZone = [-25, 33, 0, 13, 80, 80+10];
   endZone = [-9, 17, 0, 13, 200+10, 200+20];
 
 
   // reactors
-  world_addReactor(20, -10, 10, 24, 164, 0, 12);
+  world_addReactor(20, -10, 10, 24, 164, 4, 12);
 
   // safe spaces
   world_addSafeSpace(-9, 10, 116);
