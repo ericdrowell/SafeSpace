@@ -15,14 +15,14 @@
     }
   },
   "scripts": {
-    "prod": "npm run create-dist && npm run minify-glsl && npm run build && node scripts/wrap.js && npm run minify && node scripts/replace.js && npm run html && npm run zip",
+    "prod": "npm run create-dist && npm run minify-glsl && npm run build && node scripts/wrap.js && npm run terser && node scripts/replace.js && npm run html && npm run zip",
     "dev": "npm run create-dist && cp ./src/shaders/* ./dist/shaders && npm run build && cp ./dist/game-concatenated.js ./dist/safe-space.min.js && node scripts/replace.js && npm run html",
     "build": "node scripts/buildShaders && npm run concat",
     "coverage": "npm run create-dist && cp ./src/shaders/* ./dist/shaders && npm run build && npm run instrument && cp ./dist/nyc/dist/game-concatenated.js ./dist/safe-space.min.js && node scripts/replace.js && npm run html",
     "jshint": "jshint ./src/*.js",
     "create-dist": "rm -rf ./dist && mkdir ./dist && mkdir ./dist/shaders",
     "closure": "google-closure-compiler --compilation_level=ADVANCED --js=./dist/game-wrapped.js --js_output_file=./dist/safe-space.min.js",
-    "minify": "terser ./dist/game-wrapped.js -c passes=1 -m -o ./dist/safe-space.min.js",
+    "terser": "terser ./dist/game-wrapped.js -c passes=2 -m -o ./dist/safe-space.min.js",
     "concat": "concat -o ./dist/game-concatenated.js ./src/*.js ./lib/*.js ./dist/shaders/*.js",
     "html": "html-minifier --collapse-whitespace ./dist/index-uncompressed.html -o ./dist/index.html",
     "watch": "npm-watch",

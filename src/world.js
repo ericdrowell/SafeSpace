@@ -176,6 +176,17 @@ function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
   world_addWallYZ(endX, startY, endY, startZ, endZ);
   world_addFloor(startX, endX, startY, startZ, endZ, true);
   world_addCeiling(startX, endX, endY, startZ, endZ);
+  world_addPipes(endX-2, endY-2, startZ, endZ);
+  world_addDuct(startX+3, endY-3, startZ, endZ);
+}
+
+function world_addPipes(x, y, startZ, endZ) {
+  world_addBlocks(x, x, y, y, startZ, endZ, TEXTURES_RED_PIPE);
+  world_addBlocks(x, x, y-2, y-2, startZ, endZ, TEXTURES_BLUE_PIPE);
+}
+
+function world_addDuct(x, y, startZ, endZ) {
+  world_addBlocks(x-1, x+1, y-1, y+1, startZ, endZ, TEXTURES_METAL_DUCT);
 }
 
 function world_addBlocks(startX, endX, startY, endY, startZ, endZ, texture) {

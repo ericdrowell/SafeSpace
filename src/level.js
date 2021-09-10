@@ -55,8 +55,8 @@ function level_initLevel1() {
   
 
   // transition rooms
-  world_addTransitionRoom(-9, 17, 0, 13, -8, 40, true);
-  world_addTransitionRoom(-9, 17, 0, 13, 200, 249, false);
+  world_addTransitionRoom(-10, 18, 0, 17, -8, 40, true);
+  world_addTransitionRoom(-10, 18, 0, 17, 200, 249, false);
 
   startZone = [-25, 33, 0, 13, 80, 80+10];
   endZone = [-9, 17, 0, 13, 200+10, 200+20];

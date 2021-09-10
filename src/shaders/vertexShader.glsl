@@ -32,8 +32,17 @@ void main(void) {
   // flashlight
   glPos.y /= (16.0/9.0);
   float zAxisDist = length(pointLightPos.xy - glPos.xy);
-  if (zAxisDist > 30.0) {
+  if (zAxisDist > 30.0 && zAxisDist < 33.0) {
+    // xAxisDist = 30, pointLight = 1.0
+    // xAxisDist = 33, pointLight = 0.1
+    // determine equation of line given two points
+    // slope = (y2-y1) / (x2-x1)
+    pointLight *= -0.3 * zAxisDist + 10.0;
+  }
+  else if (zAxisDist > 33.0) {
     pointLight *= 0.1;
   }
+
+
   vLightWeighting = pointLight;
 }

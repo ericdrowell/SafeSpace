@@ -3,18 +3,19 @@
 const terminal_messages = [
   /* 0 */"PAUSED", 
   /* 1 */"Controls:#[WASD] _Run#[Mouse] Look#[Space] Jump & Double Jump#[Esc] __Pause",
-  /* 2 */"Click to Continue", 
+  /* 2 */"CLICK TO CONTINUE", 
   /* 3 */"YOU DIED...", 
-  /* 4 */"Click to Play Again", 
+  /* 4 */"CLICK TO PLAY AGAIN", 
   /* 5 */"YOU WON!",
-  /* 6 */"Click to Play Again", 
+  /* 6 */"CLICK TO PLAY AGAIN", 
   /* 7 */"LEVEL 1",
   /* 8 */"Dr. Heisenberg, there's no time to explain.  You must leave the ship at once.  The fusion reactors are melting down and we've lost power.  I've created a SAFE SPACE that protects you from radioactive bursts.  Enter it, wait for the burst to pass, and then make your way to the INFIRMARY.  HURRY!!", // 8
   /* 9 */"Controls:#[WASD] _Run#[Mouse] Look#[Space] Jump#[Esc] __Pause",
-  /* 10 */"Click to Start"
+  /* 10 */"CLICK TO START"
 ];
 
 function terminal_init() {
+  let cursorEl = document.getElementById('cursor');
   terminalEl = document.getElementById('terminal');
   terminalTextEl = document.getElementById('terminalText');
 
@@ -32,6 +33,10 @@ function terminal_init() {
 
   terminalEl.style.width = viewportWidth + 'px';
   terminalEl.style.height = viewportHeight + 'px';
+
+  terminalEl.style.fontSize = Math.round(viewportHeight * .02) + 'px';
+  cursorEl.style.height = Math.round(viewportHeight * .02) + 'px';
+  cursorEl.style.width = Math.round(viewportHeight * .015) + 'px';
 }
 
 function terminal_show() {

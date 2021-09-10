@@ -4,7 +4,6 @@ function title_update() {
 
     if (titleStartLeft <= 0) {
       titleStartLeft = TITLE_START_DURATION;
-      console.log(titleStartLeft);
     }
   }
 }
@@ -52,6 +51,11 @@ function title_render() {
   hudContext.fillText('SPACE', 0, 0 + 100);
   hudContext.restore();
 
+
+  hudContext.fillStyle = '#482422';
+  hudContext.fillRect(-150, 285, 300, 30);
+
+
   hudContext.font = '100 23px verdana';
 
   hudContext.fillStyle = '#280f14';
@@ -68,8 +72,6 @@ function title_render() {
     hudContext.globalAlpha = 0.7;
     hudContext.fillText('CLICK TO START', 0, 240);
     hudContext.restore();
-
-    
   }
 
   hudContext.restore();
