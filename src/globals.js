@@ -38,6 +38,8 @@ const DOOR_STATE_OPEN = 2;
 const DOOR_STATE_CLOSING = 3;
 const DOOR_OPEN_SPEED = 20; // units / s
 const BUZZ_CHANCES = 0.01;
+const TITLE_START_OFF_TIME = 1000; // ms
+const TITLE_START_DURATION = 2000; // ms total title start cycle, includes on and off 
 
 let level = 0;
 let world = []; // world blocks
@@ -102,3 +104,4 @@ let terminalRange = [];
 let startZone;
 let endZone;
 let dieZones = [];
+let titleStartLeft;

@@ -174,7 +174,7 @@ function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
   world_addWallXY(startX, endX, startY, endY, endZ, endZ);
   world_addWallYZ(startX, startY, endY, startZ, endZ);
   world_addWallYZ(endX, startY, endY, startZ, endZ);
-  world_addFloor(startX, endX, startY, startZ, endZ);
+  world_addFloor(startX, endX, startY, startZ, endZ, true);
   world_addCeiling(startX, endX, endY, startZ, endZ);
 }
 
@@ -197,9 +197,10 @@ function world_addWallYZ(x, startY, endY, startZ, endZ) {
 }
 
 function world_addFloor(startX, endX, y, startZ, endZ) {
+  let hasFloorPattern = endX - startX > 16 && endZ - startZ > 16;
   for (let x=startX; x<=endX; x++) {
     for (let z=startZ; z<=endZ; z++) {
-      let texture = x % 8 === 0 || z % 8 === 0 ? TEXTURES_METAL : TEXTURES_METAL_GRATES
+      let texture = (hasFloorPattern && (x % 8 === 0 || z % 8 === 0)) ? TEXTURES_METAL : TEXTURES_METAL_GRATES
       world_addBlock(x, y, z, texture);
     }
   }

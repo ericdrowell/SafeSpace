@@ -9,7 +9,7 @@ const terminal_messages = [
   /* 5 */"YOU WON!",
   /* 6 */"Click to Play Again", 
   /* 7 */"LEVEL 1",
-  /* 8 */"Dr. Heisenberg, there's no time to explain.  You must leave the ship at once.  The fusion reactors are melting down.  I've created a SAFE SPACE that protects you from radioactive bursts.  Enter it, wait for the burst to pass, and then make your way to the INFIRMARY.  HURRY!!", // 8
+  /* 8 */"Dr. Heisenberg, there's no time to explain.  You must leave the ship at once.  The fusion reactors are melting down and we've lost power.  I've created a SAFE SPACE that protects you from radioactive bursts.  Enter it, wait for the burst to pass, and then make your way to the INFIRMARY.  HURRY!!", // 8
   /* 9 */"Controls:#[WASD] _Run#[Mouse] Look#[Space] Jump#[Esc] __Pause",
   /* 10 */"Click to Start"
 ];

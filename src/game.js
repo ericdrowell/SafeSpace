@@ -45,14 +45,15 @@ function game_setViewportSize() {
 
 function game_render() {
   if (texturesReady) {
-    // TODO: should use dirty flag instead of looking at state
-    if (gameState === GAME_STATE_PLAYING || gameState === GAME_STATE_TITLE) {
+    if (gameState === GAME_STATE_TITLE) {
+      webgl_render(); 
+      title_render();
+    }
+
+    if (gameState === GAME_STATE_PLAYING) {
       webgl_render(); 
       hud_render();
     }
-
-    
-
   }
 };
 
@@ -85,6 +86,7 @@ function game_setState(nextState) {
   // state transition scenarios
 
   if (nextState === GAME_STATE_TITLE) {
+    title_init();
     level_init();
     music_stop();
     terminal_hide();
@@ -153,10 +155,15 @@ function game_setState(nextState) {
 }
 
 function game_update() {  
-  if (gameState === GAME_STATE_PLAYING) {
+  if (gameState === GAME_STATE_TITLE) {
+    title_update();
+  }
+  else if (gameState === GAME_STATE_PLAYING) {
+    
     player_update();
     nova_update();
     door_update();
+    
     
     if (Math.random() < BUZZ_CHANCES) {
       soundEffects_play(SOUND_EFFECTS_BUZZ);
