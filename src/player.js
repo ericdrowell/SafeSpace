@@ -40,9 +40,7 @@ function player_nearDoor(door) {
 }
 
 function player_inZone(zone) {
-  return player.x >= zone[0] && player.x <= zone[1] &&
-         player.y >= zone[2] && player.y <= zone[3] &&
-         player.z >= zone[4] && player.z <= zone[5];
+  return player.z > zone;
 }
 
 function player_update() {
@@ -83,7 +81,6 @@ function player_update() {
   // handle zones
   if (player_inZone(startZone)) {
     if (!playerEnteredLevel) {
-      soundEffects_play(SOUND_EFFECTS_EXIT_SAFE_SPACE);
       playerEnteredLevel = true;
     }
   }

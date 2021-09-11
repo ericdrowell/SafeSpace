@@ -66,9 +66,9 @@ function title_render() {
 
   if (titleStartLeft < TITLE_START_OFF_TIME) {
     hudContext.save();
-    hudContext.font = '100 38px monospace';
+    hudContext.font = '100 38px arial';
     hudContext.scale(1, 1);
-    hudContext.fillStyle = 'white';
+    hudContext.fillStyle = '#d3ce83';
     hudContext.globalAlpha = 0.7;
     hudContext.fillText('CLICK TO START', 0, 240);
     hudContext.restore();

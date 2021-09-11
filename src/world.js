@@ -101,8 +101,8 @@ function world_addStairs(startX, endX, startY, z, startZDepth, zDirection) {
 }
 
 function world_addPlatform(startX, endX, startY, endY, startZ, endZ) {
-  world_addWallXY(startX, endX, startY, endY, startZ, startZ);
-  world_addWallXY(startX, endX, startY, endY, endZ, endZ);
+  world_addWallXY(startX, endX, startY, endY, startZ);
+  world_addWallXY(startX, endX, startY, endY, endZ);
   world_addWallYZ(startX, startY, endY, startZ, endZ);
   world_addWallYZ(endX, startY, endY, startZ, endZ);
   world_addFrame(startX, endX, endY, startZ, endZ);
@@ -116,10 +116,12 @@ function world_addFrame(startX, endX, y, startZ, endZ) {
 
 function world_addStartRoom(startX, endX, startY, endY, startZ, endZ) {
   world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, true);
+  startZone = endZ + 30;
 }
 
 function world_addEndRoom(startX, endX, startY, endY, startZ, endZ) {
   world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, false);
+  endZone = startZ + 10;
 }
 
 function world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, isStartRoom) {
