@@ -174,7 +174,7 @@ function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
   world_addWallXY(startX, endX, startY, endY, endZ, endZ);
   world_addWallYZ(startX, startY, endY, startZ, endZ);
   world_addWallYZ(endX, startY, endY, startZ, endZ);
-  world_addFloor(startX, endX, startY, startZ, endZ, true);
+  world_addFloor(startX, endX, startY, startZ, endZ);
   world_addCeiling(startX, endX, endY, startZ, endZ);
   world_addPipes(endX-2, endY-2, startZ, endZ);
   world_addDuct(startX+3, endY-3, startZ, endZ);

@@ -53,16 +53,16 @@ function title_render() {
 
 
   hudContext.fillStyle = '#482422';
-  hudContext.fillRect(-150, 285, 300, 30);
+  hudContext.fillRect(-150, 291, 300, 22);
 
 
   hudContext.font = '100 23px verdana';
 
   hudContext.fillStyle = '#280f14';
-  hudContext.fillText('@ericdrowell JS13K 2021', 1, 310);
+  hudContext.fillText('@ericdrowell JS13K 2021', 1, 312);
 
   hudContext.fillStyle = '#523c3b';
-  hudContext.fillText('@ericdrowell JS13K 2021', -1, 308);
+  hudContext.fillText('@ericdrowell JS13K 2021', -1, 310);
 
   if (titleStartLeft < TITLE_START_OFF_TIME) {
     hudContext.save();

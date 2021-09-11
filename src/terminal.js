@@ -11,8 +11,21 @@ const terminal_messages = [
   /* 7 */"LEVEL 1",
   /* 8 */"Dr. Heisenberg, there's no time to explain.  You must leave the ship at once.  The fusion reactors are melting down and we've lost power.  I've created a SAFE SPACE that protects you from radioactive bursts.  Enter it, wait for the burst to pass, and then make your way to the INFIRMARY.  HURRY!!", // 8
   /* 9 */"Controls:#[WASD] _Run#[Mouse] Look#[Space] Jump#[Esc] __Pause",
-  /* 10 */"CLICK TO START"
+  /* 10 */"CLICK TO START",
+  /* 11 */"LEVEL 2",
+  /* 12 */"The radioactive levels have destabilized in the INFIRMARY.  It's no longer safe.  I've sealed the doors.  We've got to get you out of here IMMEDIATELY.",
+  /* 13 */"I found an alternative route.  As fast as you can, make your way to the ENGINE ROOM before the hydraulics bridge collapses.  The lower deck is rapidly filling up with an unidentified poisonous gas.  Avoid at all costs.  GO NOW!",
+  /* 14 */"CLICK TO START",
 ];
+
+const terminal_levelToRange = {
+  1: [7, 10],
+  2: [11, 14]
+};
+
+function terminal_getRangeFromLevel() {
+  return terminal_levelToRange[level];
+}
 
 function terminal_init() {
   let cursorEl = document.getElementById('cursor');

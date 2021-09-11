@@ -105,3 +105,4 @@ let startZone;
 let endZone;
 let dieZones = [];
 let titleStartLeft;
+//let footBuffers;

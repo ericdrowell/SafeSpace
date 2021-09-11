@@ -11,8 +11,11 @@ function level_init() {
   if (gameState === GAME_STATE_TITLE) {
     level_initTitleLevel();
   }
-  else {
-    level_initLevel1()
+  else if (level === 1) {
+    level_initLevel1();
+  }
+  else if (level === 2) {
+    level_initLevel2();
   }
 
   webgl_buildBuffers();
@@ -80,4 +83,14 @@ function level_initLevel1() {
   world_addCrate(-18, 1, 44);
   world_addCrate(-22, 1, 45);
   
+}
+
+function level_initLevel2() {
+  player.x = 0;
+  player.y = 0;
+  player.z = 0;
+  player.yaw = Math.PI;
+
+  // transition rooms
+  world_addTransitionRoom(-10, 18, 0, 17, -8, 40, true);
 }

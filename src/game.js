@@ -92,14 +92,17 @@ function game_setState(nextState) {
     terminal_hide();
     canvas2d_show();
     game_exitPointerLock();
+    level = 2;
   }
-  // title -> level intro
+  // title/playing -> level intro
   else if (nextState === GAME_STATE_LEVEL_INTRO) {
+    game_exitPointerLock();
     level_init();
     music_start();
     canvas2d_hide();
     terminal_show();
-    terminal_printMessages(7, 10);
+    let range = terminal_getRangeFromLevel();
+    terminal_printMessages(range[0], range[1]);
     soundEffects_play(SOUND_EFFECTS_DIALOG);
   }
   // level intro -> playing
@@ -148,7 +151,7 @@ function game_setState(nextState) {
     terminal_printMessages(5, 6);
     music_stop();
     game_exitPointerLock();
-    soundEffects_play(SOUND_EFFECTS_WIN);
+    
   }
 
   

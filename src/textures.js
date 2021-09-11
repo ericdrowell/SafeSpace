@@ -13,6 +13,7 @@ const TEXTURES_NINE_BOLT_METAL = 10;
 const TEXTURES_GREEN_METAL = 11;
 const TEXTURES_RED_PIPE = 12;
 const TEXTURES_BLUE_PIPE = 13;
+//const TEXTURES_GREEN = 14;
 
 function textures_init(callback) {
   // -------------------------------------------------------------------
@@ -60,6 +61,12 @@ function textures_init(callback) {
     
     return textureCanvas.toDataURL();
   })();
+
+  // -------------------------------------------------------------------
+  // textures[TEXTURES_GREEN] = (function() {
+  //   textures_drawRect(0, 0, 32, 32, '#08300a');
+  //   return textureCanvas.toDataURL();
+  // })();
 
   // -------------------------------------------------------------------
   textures[TEXTURES_METAL] = (function() {

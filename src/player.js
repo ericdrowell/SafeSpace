@@ -79,7 +79,16 @@ function player_update() {
     }
   }
   if (player_inZone(endZone)) {
-    game_setState(GAME_STATE_WIN);
+    soundEffects_play(SOUND_EFFECTS_WIN);
+    // if last level, you won the game
+    if (level === 2) {
+      game_setState(GAME_STATE_WIN);
+    }
+    // otherwise go to next intro
+    else {
+      level++;
+      game_setState(GAME_STATE_LEVEL_INTRO);
+    }
   }
 
   if (!player.isAirborne) { 
