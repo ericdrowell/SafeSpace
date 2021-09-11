@@ -59,22 +59,18 @@ function level_initLevel1() {
   world_addPlatform(-15, 0, -10, 0, 161, 175);
   world_addPlatform(-25, -15, -10, 0, 71, 73);
   
-
   // transition rooms
-  world_addTransitionRoom(-10, 18, 0, 17, -8, 40, true);
-  world_addTransitionRoom(-10, 18, 0, 17, 200, 249, false);
-
-
-
+  world_addStartRoom(-10, 18, 0, 17, -8, 40);
+  world_addEndRoom(-10, 18, 0, 17, 200, 249);
 
   // reactors
-  world_addReactor(20, -10, 10, 24, 164, 4, 12);
+  world_addReactor(20, -10, 10, 24, 164, 4, 20);
 
   // safe spaces
   world_addSafeSpace(-9, 10, 116);
 
   // stairs
-  world_addStairs(-25, -15, -10, 73, 9);
+  world_addStairs(-25, -15, -10, 73, 9, 1);
 
   // crates
   world_addCrate(14, 1, 20);
@@ -96,8 +92,30 @@ function level_initLevel2() {
   endZone = [-9, 17, 0, 13, 200+10, 200+20];
 
   // main rooms
-  world_addPoisonRoom(-25, 33, -30, 24, 71, 199);
+  world_addPoisonRoom(-25, 50, -30, 24, 71, 199);
+
+
+  // stairs
+  world_addStairs(-25, -18, 0, 103, 10, -1);
+
+  // platforms
+  world_addPlatform(-25, 33, -30, 0, 72, 82);
+  world_addPlatform(-25, -17, -30, 0, 82, 110);
+  world_addPlatform(-25, -18, 0, 10, 102, 110);
+  world_addPlatform(-25, -18, -30, 5, 130, 140);
+
+
 
   // transition rooms
-  world_addTransitionRoom(-10, 10, 0, 17, -8, 70, true);
+  world_addStartRoom(-10, 10, 0, 17, -8, 70);
+
+
+
+  // reactors
+  world_addReactor(0, -30, 10, 24, 100, 400, 10);
+
+  // safe spaces
+  world_addSafeSpace(8, 0, 140);
+
+
 }

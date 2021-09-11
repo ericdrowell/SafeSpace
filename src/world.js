@@ -81,17 +81,23 @@ function world_addReactorClaws(x, y, z, radius) {
   world_addBlocks(x, x, y-1, y, z+radius, z+radius, TEXTURES_NINE_BOLT_METAL);
 }
 
-function world_addStairs(startX, endX, startY, z, startZDepth) {
+function world_addStairs(startX, endX, startY, z, startZDepth, zDirection) {
   let y = startY+1;
   let zDepth = startZDepth;
   while (zDepth > 0) {
-    world_addBlocks(startX, endX, y, y, z, z+zDepth, TEXTURES_NINE_BOLT_METAL); 
-    world_addBlocks(startX, endX, y, y, z+zDepth, z+zDepth, TEXTURES_CAUTION_STRIPES);
+    if (zDirection === 1) {
+      world_addBlocks(startX, endX, y, y, z, z+zDepth, TEXTURES_WALL); 
+      world_addBlocks(startX, endX, y, y, z+zDepth, z+zDepth, TEXTURES_CAUTION_STRIPES);
+    }
+    else {
+      world_addBlocks(startX, endX, y, y, z-zDepth, z, TEXTURES_WALL); 
+      world_addBlocks(startX, endX, y, y, z-zDepth, z-zDepth, TEXTURES_CAUTION_STRIPES);
+    }
     y++;
     zDepth--;
   }
 
-  world_addFrame(startX-1, endX+1, startY, z-1, z+startZDepth);
+  world_addFrame(startX-1, endX+1, startY, z-1, z+startZDepth*zDirection);
 }
 
 function world_addPlatform(startX, endX, startY, endY, startZ, endZ) {
@@ -106,6 +112,14 @@ function world_addPlatform(startX, endX, startY, endY, startZ, endZ) {
 
 function world_addFrame(startX, endX, y, startZ, endZ) {
   world_addBlocks(startX, endX, y, y, startZ, endZ, TEXTURES_CAUTION_STRIPES);
+}
+
+function world_addStartRoom(startX, endX, startY, endY, startZ, endZ) {
+  world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, true);
+}
+
+function world_addEndRoom(startX, endX, startY, endY, startZ, endZ) {
+  world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, false);
 }
 
 function world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, isStartRoom) {
