@@ -4,7 +4,7 @@ function level_init() {
   reactors = [];
   novas = [];
   doors = [];
-  dieZones = [];
+  poisonPlanes = [];
 
   player_init();
 
@@ -42,6 +42,9 @@ function level_initLevel1() {
   player.y = 0.5;
   player.z = 0;
   player.yaw = Math.PI;
+  startZone = [-25, 33, 0, 13, 80, 80+10];
+  endZone = [-9, 17, 0, 13, 200+10, 200+20];
+  poisonPlanes = [];
 
   // main rooms
   world_addRoom(-25, 33, -10, 24, 41, 199);
@@ -61,8 +64,7 @@ function level_initLevel1() {
   world_addTransitionRoom(-10, 18, 0, 17, -8, 40, true);
   world_addTransitionRoom(-10, 18, 0, 17, 200, 249, false);
 
-  startZone = [-25, 33, 0, 13, 80, 80+10];
-  endZone = [-9, 17, 0, 13, 200+10, 200+20];
+
 
 
   // reactors
@@ -90,7 +92,12 @@ function level_initLevel2() {
   player.y = 0;
   player.z = 0;
   player.yaw = Math.PI;
+  startZone = [-25, 25, 0, 13, 80, 80+10];
+  endZone = [-9, 17, 0, 13, 200+10, 200+20];
+
+  // main rooms
+  world_addPoisonRoom(-25, 33, -30, 24, 71, 199);
 
   // transition rooms
-  world_addTransitionRoom(-10, 18, 0, 17, -8, 40, true);
+  world_addTransitionRoom(-10, 10, 0, 17, -8, 70, true);
 }

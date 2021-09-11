@@ -1,0 +1,40 @@
+html, body {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  height: 100%;
+}
+#terminal {
+  position: fixed;
+  display: none;
+  background-color: black;
+  background-image: radial-gradient(rgba(0, 150, 0, 0.8), black 120%);
+  height: 100vh;
+  margin: 0;
+  overflow: hidden;
+  padding: 5vw;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: Inconsolata, monospace;
+  text-shadow: 0 0 5px #C8C8C8;
+  box-sizing: border-box;
+}
+#terminal::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px);
+  pointer-events: none;
+}
+#cursor {
+  background-color: rgba(255, 255, 255, 0.7);
+  margin-bottom: -2px;
+  display: inline-block;
+  box-shadow: 0 0 5px #C8C8C8;
+}
+#terminalText {
+  user-select: none;
+}

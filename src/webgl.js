@@ -322,37 +322,37 @@ function webgl_buildFieldBuffers() {
   };
 }
 
-// function webgl_buildFootBuffers() {
-//   let rawBuffers = {
-//     position: [],
-//     texture: [],
-//     index: []
-//   };
+function webgl_buildGenericCubeBuffers() {
+  let rawBuffers = {
+    position: [],
+    texture: [],
+    index: []
+  };
 
 
-//   // position buffer
-//   for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
-//     rawBuffers.position.push(CUBE_BUFFERS.position[n]);
-//     rawBuffers.position.push(CUBE_BUFFERS.position[n+1]);
-//     rawBuffers.position.push(CUBE_BUFFERS.position[n+2]);
-//   }
+  // position buffer
+  for (let n = 0; n < CUBE_BUFFERS.position.length; n+=3) {
+    rawBuffers.position.push(CUBE_BUFFERS.position[n]);
+    rawBuffers.position.push(CUBE_BUFFERS.position[n+1]);
+    rawBuffers.position.push(CUBE_BUFFERS.position[n+2]);
+  }
 
-//   // texture buffer
-//   utils_concat(rawBuffers.texture, CUBE_BUFFERS.texture);
+  // texture buffer
+  utils_concat(rawBuffers.texture, CUBE_BUFFERS.texture);
 
-//   // index buffer
-//   for (let n = 0; n < CUBE_BUFFERS.index.length; n++) {
-//     rawBuffers.index.push(CUBE_BUFFERS.index[n]);
-//   }
+  // index buffer
+  for (let n = 0; n < CUBE_BUFFERS.index.length; n++) {
+    rawBuffers.index.push(CUBE_BUFFERS.index[n]);
+  }
   
 
-//   // convert regular arrays to webgl buffers
-//   footBuffers = {
-//     position: webgl_createArrayBuffer(sceneContext, rawBuffers.position),
-//     texture: webgl_createArrayBuffer(sceneContext, rawBuffers.texture),
-//     index: webgl_createElementArrayBuffer(sceneContext, rawBuffers.index)
-//   };
-// }
+  // convert regular arrays to webgl buffers
+  genericCubeBuffer = {
+    position: webgl_createArrayBuffer(sceneContext, rawBuffers.position),
+    texture: webgl_createArrayBuffer(sceneContext, rawBuffers.texture),
+    index: webgl_createElementArrayBuffer(sceneContext, rawBuffers.index)
+  };
+}
 
 function webgl_buildSphereBuffers() {
   let rawBuffers = {
@@ -486,7 +486,7 @@ function webgl_buildBuffers() {
   webgl_buildSphereBuffers(); // dynamic
   webgl_buildDoorBuffers(); // dynamic
   webgl_buildDoorEndBuffers(); // dynamic
-  //webgl_buildFootBuffers(); // dynamic
+  webgl_buildGenericCubeBuffers(); // dynamic
 }
 
 function webgl_render() {
@@ -499,21 +499,6 @@ function webgl_render() {
 
   sceneContext.viewport(0, 0, sceneCanvas.width, sceneCanvas.height);
   sceneContext.clear(sceneContext.COLOR_BUFFER_BIT | sceneContext.DEPTH_BUFFER_BIT | sceneContext.STENCIL_BUFFER_BIT);
-
-
-
-  // render foot
-  // webgl_save();
-  // mat4.rotate(mvMatrix, -player.pitch, [1, 0, 0]);
-  // mat4.rotate(mvMatrix, -player.yaw, [0, 1, 0]);
-  // mat4.translate(mvMatrix, [0, -PLAYER_HEIGHT, 0]);
-  // mat4.scale(mvMatrix, [0.3, 0.3, 0.3]);
-  // webgl_renderBlockElements(footBuffers, textures[TEXTURES_GREEN].glTexture);
-
-  // mat4.rotate(mvMatrix, Math.PI/4, [0, 1, 0]);
-  // webgl_renderBlockElements(footBuffers, textures[TEXTURES_GREEN].glTexture);
-
-  // webgl_restore();
 
 
 
@@ -592,4 +577,14 @@ function webgl_render() {
   webgl_renderPerlinElements(fieldBuffers, [0, 0.5, 0.8], fieldPerlinSize, false, 0.0001);
 
   
+  // render poison
+  poisonPlanes.forEach(function(plane) {
+    webgl_save();
+    
+    mat4.translate(mvMatrix, [plane.x*2, plane.y*2, plane.z*2]);
+    mat4.scale(mvMatrix, [plane.scaleX, 1, plane.scaleZ]);
+
+    webgl_renderPerlinElements(genericCubeBuffer, [0, 1, 0], 10, false, 0.0001);
+    webgl_restore();
+  });
 }

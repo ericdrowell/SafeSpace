@@ -103,6 +103,6 @@ let terminalPrinting = false;
 let terminalRange = [];
 let startZone;
 let endZone;
-let dieZones = [];
 let titleStartLeft;
-//let footBuffers;
+let poisonPlanes = [];
+let genericCubeBuffer;

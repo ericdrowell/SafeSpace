@@ -94,46 +94,6 @@ function world_addStairs(startX, endX, startY, z, startZDepth) {
   world_addFrame(startX-1, endX+1, startY, z-1, z+startZDepth);
 }
 
-function world_addRing(x, y, z, texture) {
-  // bottom of ring
-  world_addBlocks(x, x, y, y, z-2, z+2, texture);
-
-  // far side
-  world_addBlocks(x, x, y+3, y+7, z-5, z-5, texture);
-
-  // top of ring
-  world_addBlocks(x, x, y+10, y+10, z-2, z+2, texture);
-
-  // near side
-  world_addBlocks(x, x, y+3, y+7, z+5, z+5, texture);
-
-  // fillers
-  world_addBlock(x, y+1, z-3, texture);
-  world_addBlock(x, y+2, z-4, texture);
-
-  world_addBlock(x, y+1, z+3, texture);
-  world_addBlock(x, y+2, z+4, texture);
-
-  world_addBlock(x, y+8, z-4, texture);
-  world_addBlock(x, y+9, z-3, texture);
-
-  world_addBlock(x, y+8, z+4, texture);
-  world_addBlock(x, y+9, z+3, texture);
-}
-
-function world_addTunnel(startX, endX, startY, endY, startZ, endZ, texture) {
-  let diffX = endX - startX;
-  let diffY = endY - startY;
-  let diffZ = endZ - startZ;
-
-  for (let x=startX; x<=endX; x++) {
-    let y = Math.round(startY + (((x - startX) / diffX) * diffY));
-    let z = Math.round(startZ + (((x - startX) / diffX) * diffZ));
-
-    world_addRing(x, y, z, texture);
-  }
-}
-
 function world_addPlatform(startX, endX, startY, endY, startZ, endZ) {
   world_addWallXY(startX, endX, startY, endY, startZ, startZ);
   world_addWallXY(startX, endX, startY, endY, endZ, endZ);
@@ -146,14 +106,6 @@ function world_addPlatform(startX, endX, startY, endY, startZ, endZ) {
 
 function world_addFrame(startX, endX, y, startZ, endZ) {
   world_addBlocks(startX, endX, y, y, startZ, endZ, TEXTURES_CAUTION_STRIPES);
-}
-
-function world_addSlope(startX, endX, endY, startZ, endZ) {
-  let y = endY;
-  for (let x = startX; x <= endX; x++) {
-    world_addBlocks(x, x, y, y, startZ, endZ, TEXTURES_METAL_GRATES); 
-    y--;
-  }
 }
 
 function world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, isStartRoom) {
@@ -169,15 +121,31 @@ function world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, isSta
   world_addDoor((endX+startX)/2, startY+2, startZ, !isStartRoom);  
 }
 
-function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
+function world_addRoomWallsCeiling(startX, endX, startY, endY, startZ, endZ) {
   world_addWallXY(startX, endX, startY, endY, startZ, startZ);
   world_addWallXY(startX, endX, startY, endY, endZ, endZ);
   world_addWallYZ(startX, startY, endY, startZ, endZ);
   world_addWallYZ(endX, startY, endY, startZ, endZ);
-  world_addFloor(startX, endX, startY, startZ, endZ);
   world_addCeiling(startX, endX, endY, startZ, endZ);
   world_addPipes(endX-2, endY-2, startZ, endZ);
   world_addDuct(startX+3, endY-3, startZ, endZ);
+}
+
+function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
+  world_addRoomWallsCeiling(startX, endX, startY, endY, startZ, endZ)
+  world_addFloor(startX, endX, startY, startZ, endZ);
+}
+
+function world_addPoisonRoom(startX, endX, startY, endY, startZ, endZ) {
+  world_addRoomWallsCeiling(startX, endX, startY, endY, startZ, endZ);
+
+  poisonPlanes.push({
+    x: (startX + endX)/2,
+    y: startY+5,
+    z: (startZ + endZ)/2,
+    scaleX: startX-endX, 
+    scaleZ: endZ-startZ
+  });
 }
 
 function world_addPipes(x, y, startZ, endZ) {

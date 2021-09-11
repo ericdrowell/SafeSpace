@@ -71,6 +71,15 @@ function player_update() {
     world_moveObject(player, distEachFrame * Math.sin(player.yaw + Math.PI / 2), 0, distEachFrame * Math.cos(player.yaw + Math.PI / 2));
   }
 
+  // handle poison
+  for (let n=0; n<poisonPlanes.length; n++) {
+    let plane = poisonPlanes[n];
+    if (player.y < plane.y) {
+      game_setState(GAME_STATE_DIED);
+      break;
+    }  
+  }
+
   // handle zones
   if (player_inZone(startZone)) {
     if (!playerEnteredLevel) {

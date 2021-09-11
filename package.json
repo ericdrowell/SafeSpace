@@ -32,13 +32,14 @@
     "report": "nyc report --reporter=lcov --reporter=html --temp-dir ./coverage"
   },
   "devDependencies": {
+    "clean-css": "^5.1.5",
     "concat": "^1.0.3",
     "glsl-minifier": "0.0.13",
     "google-closure-compiler": "^20190819.0.0",
     "html-minifier": "^3.5.20",
     "jshint": "^2.9.6",
     "npm-watch": "^0.3.0",
-    "nyc": "^14.1.1",
+    "nyc": "^15.1.0",
     "terser": "^5.7.1"
   }
 }
