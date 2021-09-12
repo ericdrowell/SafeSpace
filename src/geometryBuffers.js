@@ -11,7 +11,7 @@ const CUBE_BUFFERS = {
   texture: [    
     0, 0, 1, 0, 1, 1, 0, 1, // Front face   
     1, 0, 1, 1, 0, 1, 0, 0, // Back face   
-    0, 1, 0, 0, 1, 0, 1, 1, // Top face    
+    1, 1, 0, 1, 0, 0, 1, 0, // Top face    
     0, 1, 0, 0, 1, 0, 1, 1, // Bottom face   
     1, 0, 1, 1, 0, 1, 0, 0, // Right face    
     0, 0, 1, 0, 1, 1, 0, 1 // Left face

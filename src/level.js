@@ -41,31 +41,31 @@ function level_initTitleLevel() {
 function level_initLevel1() {
   player.x = 4;
   player.y = 0.5;
-  player.z = 0;
+  player.z = -10;
   player.yaw = Math.PI;
   poisonPlanes = [];
 
   // main rooms
-  world_addRoom(-25, 33, -10, 24, 41, 260);
+  world_addRoom(-27, 38, -10, 24, 41, 260);
 
   // platforms
-  world_addPlatform(-25, 33, -10, 0, 41, 71);
-  world_addPlatform(-25, 33, -10, 0, 220, 260);
-  world_addPlatform(28, 33, -10, 1, 83, 105);
+  world_addPlatform(-27, 34, -10, 0, 41, 71);
+  world_addPlatform(-27, 34, -10, 0, 220, 260);
+  world_addPlatform(28, 34, -10, 1, 83, 105);
   world_addPlatform(10, 16, -10, 2, 102, 112);
   world_addPlatform(-14, -2, -10, 4, 111, 123);
   world_addPlatform(-14, -5, -10, -1, 140, 147);
   world_addPlatform(0, 15, -10, 0, 161, 175);
-  world_addPlatform(-25, -15, -10, 0, 71, 73);
-  world_addPlatform(28, 33, -10, 1, 180, 200);
+  world_addPlatform(-27, -15, -10, 0, 71, 73);
+  world_addPlatform(28, 34, -10, 1, 180, 200);
 
   // walls
-  world_addWallXY(10, 33, 0, 24, 240);
+  world_addWallXY(10, 34, 0, 24, 240);
   world_addWallYZ(10, 0, 24, 240, 260);
   
   // transition rooms
-  world_addStartRoom(-10, 18, 0, 17, -8, 40);
-  world_addEndRoom(-20, 8, 0, 17, 261, 300);
+  world_addStartRoom(-11, 19, 0, 17, -18, 40);
+  world_addEndRoom(-16, 4, 0, 18, 261, 339);
 
   // reactors
   world_addReactor(15, -10, 10, 24, 190, 4, 20);
@@ -74,7 +74,7 @@ function level_initLevel1() {
   world_addSafeSpace(-9, 10, 116);
 
   // stairs
-  world_addStairs(-25, -15, -10, 73, 9, 1);
+  world_addStairs(-23, -15, -10, 73, 9, 1);
 
   // crates
   world_addThreeCratePileYZ(13, 1, 23);
@@ -96,7 +96,7 @@ function level_initLevel2() {
   player.yaw = Math.PI;
 
   // main rooms
-  world_addPoisonRoom(-25, 50, -30, 24, 71, 294);
+  world_addPoisonRoom(-28, 53, -30, 27, 71, 294);
 
 
   // stairs
@@ -120,7 +120,7 @@ function level_initLevel2() {
 
 
   // transition rooms
-  world_addStartRoom(-10, 10, 0, 17, -8, 70);
+  world_addStartRoom(-10, 10, 0, 18, -8, 70);
   world_addEndRoom(18-10, 18+10, 2, 17, 295, 330);
 
   // reactors

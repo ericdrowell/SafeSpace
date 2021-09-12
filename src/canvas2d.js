@@ -51,7 +51,7 @@ function canvas2d_initCanvas(canvas, width, height) {
   
 
 // function canvas2d_pixelate() {
-//   let size = 4 * viewportScale,
+//   let size = 3 * viewportScale,
 //   w = Math.floor(sceneCanvas.width / size),
 //   h = Math.ceil(sceneCanvas.height / size);
 

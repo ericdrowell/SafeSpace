@@ -30,8 +30,12 @@ function textures_init(callback) {
     textures_drawBottomRightBorder('rgba(0, 0, 0, 0.3)');
 
     
+    for (let y=0; y<4; y++) {
+      textures_drawBolt(5, 5+y*8);
+      textures_drawBolt(28, 5+y*8);
+    }
+    
 
-    textures_drawBolts();
 
     return textureCanvas.toDataURL();
   })();
@@ -108,7 +112,7 @@ function textures_init(callback) {
 
   // -------------------------------------------------------------------
   textures[TEXTURES_RUST] = (function() {
-    textures_drawGrunge('#2d2014', 20);
+    textures_drawGrunge('#251808', 20);
     textures_drawTopLeftBorder('rgba(255, 255, 255, 0.1)');
     textures_drawBottomRightBorder('rgba(0, 0, 0, 0.5)');
 
@@ -282,12 +286,12 @@ function textures_drawPipeRidges() {
 
 function textures_drawBolt(x, y) {
   textureContext.beginPath();
-  textureContext.arc(x, y, 2, 0, Math.PI*2, false);
+  textureContext.arc(x, y, 1.5, 0, Math.PI*2, false);
   textureContext.fillStyle = 'rgba(0, 0, 0, 0.5)';
   textureContext.fill();
 
   textureContext.beginPath();
-  textureContext.arc(x-1, y-1, 2, 0, Math.PI*2, false);
+  textureContext.arc(x-1, y-1, 1.5, 0, Math.PI*2, false);
   textureContext.fillStyle = 'rgba(255, 255, 255, 0.1)';
   textureContext.fill();
 }

@@ -47,12 +47,16 @@ function game_render() {
   if (texturesReady) {
     if (gameState === GAME_STATE_TITLE) {
       webgl_render(); 
+      //canvas2d_copyWebgl();
       title_render();
+      //canvas2d_pixelate();
     }
 
     if (gameState === GAME_STATE_PLAYING) {
       webgl_render(); 
+      //canvas2d_copyWebgl();
       hud_render();
+      //canvas2d_pixelate();
     }
   }
 };
