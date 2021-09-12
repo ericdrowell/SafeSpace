@@ -121,7 +121,7 @@ function level_initLevel2() {
 
   // transition rooms
   world_addStartRoom(-10, 10, 0, 18, -8, 70);
-  world_addEndRoom(18-10, 18+10, 2, 17, 295, 330);
+  world_addEndRoom(8, 28, 2, 20, 295, 330);
 
   // reactors
   world_addReactor(-3, -30, 10, 24, 100, 5, 8);

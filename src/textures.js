@@ -82,7 +82,7 @@ function textures_init(callback) {
   textures[TEXTURES_METAL_RIDGES] = (function() {
     textures_drawGrunge('#080808', 20);
 
-    for (let n=0; n<5; n++) {
+    for (let n=1; n<4; n++) {
       // highlight
       textureContext.fillStyle = 'rgba(255, 255, 255, 0.07)';
       textureContext.fillRect(5 + n*5, 2, 1, 27);
@@ -91,6 +91,11 @@ function textures_init(callback) {
       textureContext.fillStyle = 'rgba(0, 0, 0, 0.2)';
       textureContext.fillRect(5 + n*5+1, 3, 1, 27);
     }
+
+    textures_drawBolts();
+
+    textures_drawTopLeftBorder('rgba(255, 255, 255, 0.05)');
+    textures_drawBottomRightBorder('rgba(0, 0, 0, 0.3)');
   
     return textureCanvas.toDataURL();
   })();

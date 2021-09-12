@@ -4,6 +4,7 @@ attribute vec2 tc; // aTextureCoord
 uniform mat4 mv; // uMVMatrix
 uniform mat4 pm; // uPMatrix
 uniform float t;
+uniform float lightPower;
 
 varying vec2 vTextureCoord;
 varying vec3 vLightWeighting;
@@ -18,7 +19,7 @@ void main(void) {
   vec3 pointLightPos = vec3(0, 0, 0);
   vec3 pointLightColor = vec3(1, 1, 1);
   float pointLightDist = length(pointLightPos - worldVertexPos.xyz);
-  float pointLightWeight = 10000.0 / (pointLightDist*pointLightDist);
+  float pointLightWeight = lightPower / (pointLightDist*pointLightDist);
 
   if (pointLightWeight > 6.0) {
     pointLightWeight = 6.0;

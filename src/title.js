@@ -52,7 +52,7 @@ function title_render() {
   hudContext.restore();
 
 
-  hudContext.fillStyle = '#482422';
+  hudContext.fillStyle = '#582f2d';
   hudContext.fillRect(-150, 246, 300, 22);
 
 
@@ -61,7 +61,7 @@ function title_render() {
   hudContext.fillStyle = '#280f14';
   hudContext.fillText('@ericdrowell JS13K 2021', 1, 267);
 
-  hudContext.fillStyle = '#523c3b';
+  hudContext.fillStyle = '#785e57';
   hudContext.fillText('@ericdrowell JS13K 2021', -1, 265);
 
   if (titleStartLeft < TITLE_START_OFF_TIME) {

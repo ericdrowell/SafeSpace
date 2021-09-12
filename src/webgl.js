@@ -34,6 +34,7 @@ function webgl_renderBlockElements(buffers, texture) {
 
   webgl_setUniformLocation(shaderProgram, sceneContext, 'mv'); // move matrix
   webgl_setUniformLocation(shaderProgram, sceneContext, 'pm'); // perspective matrix
+  webgl_setUniformLocation(shaderProgram, sceneContext, 'lightPower');
 
   // const blendingColor = [0.0, 1.0, 0.0];
   // const blendingAlpha = 0.5;
@@ -76,6 +77,8 @@ function webgl_renderBlockElements(buffers, texture) {
   // set uniforms
   sceneContext.uniformMatrix4fv(shaderProgram.pm, false, pMatrix);
   sceneContext.uniformMatrix4fv(shaderProgram.mv, false, mvMatrix);
+  let lightPower = gameState === GAME_STATE_TITLE ? 4000 : 10000;
+  sceneContext.uniform1f(shaderProgram.lightPower, lightPower);
 
   // draw elements
   sceneContext.drawElements(sceneContext.TRIANGLES, buffers.index.numElements, sceneContext.UNSIGNED_SHORT, 0);

@@ -255,11 +255,24 @@ function world_addDoorBorder(x, y, z, texture) {
 function world_addCeiling(startX, endX, y, startZ, endZ) {
   world_addBlocks(startX, endX, y, y, startZ, endZ, TEXTURES_METAL_RIDGES);
 
+  // ridges
   for (let z=startZ; z<endZ; z++) {
     if (z%8===0) {
       world_addBlocks(startX, endX, y-2, y, z, z, TEXTURES_METAL_RIDGES);
     }
   }
+
+  // lights
+  for (let x=startX; x<endX; x++) {
+    for (let z=startZ; z<endZ; z++) {
+      if ((z+4)%32===0 && (x+4)%16 === 0) {
+        world_addBlocks(x-2, x+2, y-1, y-1, z-2, z+2, TEXTURES_WALL);
+        world_addBlocks(x-1, x+1, y-1, y-1, z-1, z+1, TEXTURES_LIGHT_BARS);
+      }
+    }
+  }
+
+
 }
 
 function world_addDoor(x, y, z, isActive) {
