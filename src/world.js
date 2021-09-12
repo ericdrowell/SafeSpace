@@ -168,7 +168,7 @@ function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
   world_addWallYZ(startX, startY, endY, startZ, endZ);
   world_addWallYZ(endX, startY, endY, startZ, endZ);
   world_addCeiling(startX, endX, endY, startZ, endZ);
-  world_addPipes(endX-2, endY-2, startZ, endZ);
+  world_addPipes(endX-1, endY-2, startZ, endZ);
   world_addDuct(startX+3, endY-3, startZ, endZ);
   world_addFloor(startX, endX, startY, startZ, endZ);
 }
@@ -180,14 +180,16 @@ function world_addPoisonRoom(startX, endX, startY, endY, startZ, endZ) {
     x: (startX + endX)/2,
     y: startY+3,
     z: (startZ + endZ)/2,
-    scaleX: startX-endX, 
-    scaleZ: endZ-startZ
+    scale: Math.max(startX-endX, endZ-startZ)
   });
 }
 
 function world_addPipes(x, y, startZ, endZ) {
   world_addBlocks(x, x, y, y, startZ, endZ, TEXTURES_RED_PIPE);
   world_addBlocks(x, x, y-2, y-2, startZ, endZ, TEXTURES_BLUE_PIPE);
+
+  world_addBlocks(x, x, y-8, y-8, startZ, endZ, TEXTURES_RED_PIPE);
+  world_addBlocks(x, x, y-10, y-10, startZ, endZ, TEXTURES_BLUE_PIPE);
 }
 
 function world_addDuct(x, y, startZ, endZ) {

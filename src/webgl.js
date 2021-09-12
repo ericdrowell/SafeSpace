@@ -583,9 +583,9 @@ function webgl_render() {
     
     mat4.translate(mvMatrix, [plane.x*2, plane.y*2, plane.z*2]);
     // 4.9 so bottom poison layer doesn't flicker with floor layer
-    mat4.scale(mvMatrix, [plane.scaleX, 4.9, plane.scaleZ]);
+    mat4.scale(mvMatrix, [plane.scale, 4.9, plane.scale]);
 
-    webgl_renderPerlinElements(genericCubeBuffer, [0, 1, 0], 10, false, 0.0001);
+    webgl_renderPerlinElements(genericCubeBuffer, [0, 1, 0], 20, false, 0.000005);
     webgl_restore();
   });
 }
