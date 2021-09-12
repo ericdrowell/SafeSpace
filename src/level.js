@@ -175,7 +175,7 @@ function level_initLevel3() {
   // x, startY, coreY, endY, z, timeToNextBurst, burstDelay
   world_addReactor(0, -1, 10, 20, 200, 4, 4);
 
-  world_addReactor(10, -1, 10, 20, 250, 300, 4);
-  world_addReactor(-10, -1, 10, 20, 300, 300, 4);
-  world_addReactor(10, -1, 10, 20, 350, 300, 4);
+  world_addReactor(10, -1, 10, 20, 250, 9, 4);
+  world_addReactor(-10, -1, 10, 20, 300, 10, 4);
+  world_addReactor(10, -1, 10, 20, 350, 12, 4);
 }
