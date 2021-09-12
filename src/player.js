@@ -121,7 +121,14 @@ function player_update() {
   let distEachFrame = player.upVelocity * elapsedTime / 1000;
   world_moveObject(player, 0, distEachFrame, 0);  
 
-  console.log(Math.round(player.x), Math.round(player.y), Math.round(player.z));
+  // handle rumble
+  if (novaRumbleLeft > 0) {
+    let offset = RUMBLE_MAX_OFFSET * novaRumbleLeft/NOVA_RUMBLE_DURATION;
+    player.x += (Math.random() * offset - offset/2);
+    player.z += (Math.random() * offset - offset/2);
+  }
+
+  //console.log(Math.round(player.x), Math.round(player.y), Math.round(player.z));
 };
 
 function player_jump() {

@@ -23,7 +23,7 @@ function title_render() {
 
   hudContext.save();
 
-  let gradient = hudContext.createRadialGradient(OPTIMAL_VIEWPORT_WIDTH/2,-700,0, OPTIMAL_VIEWPORT_WIDTH/2, -700, 1000);
+  let gradient = hudContext.createRadialGradient(OPTIMAL_VIEWPORT_WIDTH/2,-750,0, OPTIMAL_VIEWPORT_WIDTH/2, -750, 1000);
 
   // Add three color stops
   gradient.addColorStop(0, 'rgba(255, 0, 0, 1)');
@@ -39,10 +39,10 @@ function title_render() {
   
   hudContext.textAlign = 'center';
 
-  hudContext.fillStyle = hudContext.strokeStyle = 'rgba(133, 172, 210, .6)';
+  hudContext.fillStyle = hudContext.strokeStyle = 'rgba(133, 172, 210, .7)';
   hudContext.save();
-  hudContext.translate(0, 6);
-  hudContext.scale(1.3, 1.3);
+  hudContext.translate(0, -23);
+  hudContext.scale(1.3, 1.6);
   hudContext.textBaseline = 'middle';
   hudContext.font = '100 140px impact';
   hudContext.fillText('SAFE', 0, 0);
@@ -53,24 +53,28 @@ function title_render() {
 
 
   hudContext.fillStyle = '#482422';
-  hudContext.fillRect(-150, 291, 300, 22);
+  hudContext.fillRect(-150, 246, 300, 22);
 
 
   hudContext.font = '100 23px verdana';
 
   hudContext.fillStyle = '#280f14';
-  hudContext.fillText('@ericdrowell JS13K 2021', 1, 312);
+  hudContext.fillText('@ericdrowell JS13K 2021', 1, 267);
 
   hudContext.fillStyle = '#523c3b';
-  hudContext.fillText('@ericdrowell JS13K 2021', -1, 310);
+  hudContext.fillText('@ericdrowell JS13K 2021', -1, 265);
 
   if (titleStartLeft < TITLE_START_OFF_TIME) {
     hudContext.save();
-    hudContext.font = '100 38px arial';
+    hudContext.font = '100 38px monospace';
+    hudContext.translate(0, 320);
     hudContext.scale(1, 1);
-    hudContext.fillStyle = '#899fbc';
-    hudContext.globalAlpha = 0.7;
-    hudContext.fillText('CLICK TO START', 0, 240);
+    hudContext.fillStyle = '#be0406';
+    hudContext.shadowColor = 'rgba(190, 0, 0, 0.8)';
+    hudContext.shadowBlur = 7;
+    hudContext.fillText('CLICK TO START', 0, 0);
+
+
     hudContext.restore();
   }
 

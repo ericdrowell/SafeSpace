@@ -4,6 +4,8 @@ function nova_update() {
       if (nova.timeToNextBurst === 0) {
         nova_addBurst(nova);
         soundEffects_play(SOUND_EFFECTS_NOVA_EXPLOSION);
+        soundEffects_play(SOUND_EFFECTS_RUMBLE);
+        novaRumbleLeft = NOVA_RUMBLE_DURATION;
         nova.timeToNextBurst = nova.burstDelay;
       }
       else {
@@ -18,12 +20,17 @@ function nova_update() {
       }
     });
 
+    let newNovas = [];
+
     novas.forEach(function(nova) {
-      if (!nova.isCore) {
+      if (nova.isCore) {
+        newNovas.push(nova);
+      }
+      else {
         nova.radius += elapsedTime / 1000 * NOVA_EXPAND_SPEED;
 
-        if (nova.radius > NOVA_MAX_RADIUS) {
-          console.log('clean up');
+        if (nova.radius < NOVA_MAX_RADIUS) {
+          newNovas.push(nova);
         }
       }
 
@@ -42,6 +49,18 @@ function nova_update() {
         nova.isPlayerIn = false;
       }
     });
+
+    // update novas with filtered out list
+    novas = newNovas;
+
+    // update rumble
+    if (novaRumbleLeft > 0) {
+      novaRumbleLeft -= elapsedTime;
+
+      if (novaRumbleLeft < 0) {
+        novaRumbleLeft = 0;
+      }
+    }
   }
 }
 

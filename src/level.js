@@ -5,6 +5,7 @@ function level_init() {
   novas = [];
   doors = [];
   poisonPlanes = [];
+  novaRumbleLeft = 0;
 
   player_init();
 
@@ -27,10 +28,10 @@ function level_initTitleLevel() {
   player.z = 0;
   player.yaw = Math.PI;
 
-  world_addSafeSpace(0, -2, 26);
+  world_addSafeSpace(0, -1, 26);
   nova_addBurst({
     x: 0, 
-    y: 1.2, 
+    y: 1.25, 
     z: 1, 
     radius: NOVA_START_RADIUS,
     isCore: true
@@ -123,7 +124,7 @@ function level_initLevel2() {
   world_addEndRoom(18-10, 18+10, 2, 17, 295, 330);
 
   // reactors
-  world_addReactor(-3, -30, 10, 24, 100, 4, 8);
+  world_addReactor(-3, -30, 10, 24, 100, 5, 8);
 
   // safe spaces
   world_addSafeSpace(8, 0, 140);

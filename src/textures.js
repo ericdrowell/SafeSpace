@@ -269,14 +269,14 @@ function textures_drawRect(x, y, width, height, color) {
 }
 
 function textures_drawPipeRidges() {
-  for (let n=0; n<8; n++) {
+  for (let n=0; n<4; n++) {
     // highlight
-    textureContext.fillStyle = 'rgba(255, 255, 255, 0.07)';
-    textureContext.fillRect(1 + n*4, 0, 1, 32);
+    textureContext.fillStyle = 'rgba(255, 255, 255, 0.05)';
+    textureContext.fillRect(n*8, 0, 4, 32);
   
     // shadow
-    textureContext.fillStyle = 'rgba(0, 0, 0, 0.2)';
-    textureContext.fillRect(1 + n*4+1, 0, 1, 32);
+    textureContext.fillStyle = 'rgba(0, 0, 0, 0.5)';
+    textureContext.fillRect(2 + n*8, 0, 4, 32);
   }
 }
 

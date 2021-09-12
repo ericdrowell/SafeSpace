@@ -29,7 +29,7 @@ const RAY_TRACE_INCREMENT = 0.3;
 const SAFE_SPACE_SIZE = 5;
 const NOVA_START_RADIUS = 2;
 const NOVA_EXPAND_SPEED = 20; // per second
-const NOVA_MAX_RADIUS = 200;
+const NOVA_MAX_RADIUS = 500;
 const TERMINAL_PRINT_CHAR_DELAY = 10; // ms
 const TERMINAL_PRINT_DELAY = 2000; // ms
 const DOOR_STATE_CLOSED = 0;
@@ -40,6 +40,8 @@ const DOOR_OPEN_SPEED = 20; // units / s
 const BUZZ_CHANCES = 0.01;
 const TITLE_START_OFF_TIME = 1000; // ms
 const TITLE_START_DURATION = 2000; // ms total title start cycle, includes on and off 
+const NOVA_RUMBLE_DURATION = 2000; // ms
+const RUMBLE_MAX_OFFSET = 0.3;
 
 let level = 0;
 let world = []; // world blocks
@@ -106,3 +108,4 @@ let endZone;
 let titleStartLeft;
 let poisonPlanes = [];
 let genericCubeBuffer;
+let novaRumbleLeft;
