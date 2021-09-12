@@ -18,7 +18,7 @@ const TEXTURES_BLUE_PIPE = 13;
 function textures_init(callback) {
   // -------------------------------------------------------------------
   textures[TEXTURES_WALL] = (function() {
-    textures_drawGrunge('#161616', 20);
+    textures_drawGrunge('#161616');
     //textures_drawBorder('rgba(0, 0, 0, 0.3)', 0);
 
     // textures_addDepth(function(level) {
@@ -41,7 +41,7 @@ function textures_init(callback) {
   })();
   // -------------------------------------------------------------------
   textures[TEXTURES_METAL_GRATES] = (function() {
-    textures_drawGrunge('#161616', 20);
+    textures_drawGrunge('#161616');
     
     textureContext.lineWidth = 4;
     textureContext.lineCap = 'round';
@@ -74,15 +74,15 @@ function textures_init(callback) {
 
   // -------------------------------------------------------------------
   textures[TEXTURES_METAL] = (function() {
-    textures_drawGrunge('#080808', 20);
+    textures_drawGrunge('#080808');
     return textureCanvas.toDataURL();
   })();
 
   // -------------------------------------------------------------------
   textures[TEXTURES_METAL_RIDGES] = (function() {
-    textures_drawGrunge('#080808', 20);
+    textures_drawGrunge('#080808');
 
-    for (let n=1; n<4; n++) {
+    for (let n=0; n<5; n++) {
       // highlight
       textureContext.fillStyle = 'rgba(255, 255, 255, 0.07)';
       textureContext.fillRect(5 + n*5, 2, 1, 27);
@@ -92,17 +92,17 @@ function textures_init(callback) {
       textureContext.fillRect(5 + n*5+1, 3, 1, 27);
     }
 
-    textures_drawBolts();
+    //textures_drawBolts();
 
-    textures_drawTopLeftBorder('rgba(255, 255, 255, 0.05)');
-    textures_drawBottomRightBorder('rgba(0, 0, 0, 0.3)');
+    // textures_drawTopLeftBorder('rgba(255, 255, 255, 0.05)');
+    // textures_drawBottomRightBorder('rgba(0, 0, 0, 0.3)');
   
     return textureCanvas.toDataURL();
   })();
 
   // -------------------------------------------------------------------
   textures[TEXTURES_RED_PIPE] = (function() {
-    textures_drawGrunge('#2d0304', 20);
+    textures_drawGrunge('#2d0304');
     textures_drawPipeRidges();
     return textureCanvas.toDataURL();
   })();
@@ -110,14 +110,14 @@ function textures_init(callback) {
 
   // -------------------------------------------------------------------
   textures[TEXTURES_BLUE_PIPE] = (function() {
-    textures_drawGrunge('#03082d', 20);
+    textures_drawGrunge('#03082d');
     textures_drawPipeRidges();
     return textureCanvas.toDataURL();
   })();
 
   // -------------------------------------------------------------------
   textures[TEXTURES_RUST] = (function() {
-    textures_drawGrunge('#251808', 20);
+    textures_drawGrunge('#251808');
     textures_drawTopLeftBorder('rgba(255, 255, 255, 0.1)');
     textures_drawBottomRightBorder('rgba(0, 0, 0, 0.5)');
 
@@ -128,7 +128,7 @@ function textures_init(callback) {
 
   // -------------------------------------------------------------------
   textures[TEXTURES_GREEN_METAL] = (function() {
-    textures_drawGrunge('#0c0c01', 20);
+    textures_drawGrunge('#0c0c01');
     textures_drawTopLeftBorder('rgba(255, 255, 255, 0.1)');
     textures_drawBottomRightBorder('rgba(0, 0, 0, 0.5)');
 
@@ -139,7 +139,7 @@ function textures_init(callback) {
 
   // -------------------------------------------------------------------
   textures[TEXTURES_METAL_DUCT] = (function() {
-    textures_drawGrunge('#393939', 20);
+    textures_drawGrunge('#393939');
     textures_drawTopLeftBorder('rgba(255, 255, 255, 0.1)');
     textures_drawBottomRightBorder('rgba(0, 0, 0, 0.5)');
 
@@ -169,7 +169,7 @@ function textures_init(callback) {
 
   // -------------------------------------------------------------------
   textures[TEXTURES_LIGHT_BARS] = (function() {
-    textures_drawGrunge('#201b1b', 20);
+    textures_drawGrunge('#201b1b');
     //textures_drawTopLeftBorder('rgba(255, 255, 255, 0.2)');
   
     textures_drawRect(3, 5, 3, 22, 'rgba(255, 255, 255, 0.2)');
@@ -186,7 +186,7 @@ function textures_init(callback) {
 
   // -------------------------------------------------------------------
   textures[TEXTURES_NINE_BOLT_METAL] = (function() {
-    textures_drawGrunge('#111111', 20);
+    textures_drawGrunge('#111111');
     //textures_drawTopLeftBorder('rgba(255, 255, 255, 0.2)');
   
     textures_drawTopLeftBorder('rgba(255, 255, 255, 0.05)');
@@ -212,7 +212,7 @@ function textures_init(callback) {
   // -------------------------------------------------------------------
   textures[TEXTURES_FIB_METAL] = (function() {
 
-    textures_drawGrunge('#1e1516', 20);
+    textures_drawGrunge('#1e1516');
 
     textures_addDepth(function(level) {
       let color = level === 0 ? 'rgba(0, 0, 0, 0.3)': 'rgba(59, 60, 62, 0.5)'
@@ -321,8 +321,9 @@ function textures_drawBottomRightBorder(color) {
   textureContext.fillRect(0, 31, 31, 1); // bottom
 }
 
-function textures_drawGrunge(color, maxChannelOffset) {
+function textures_drawGrunge(color) {
   let rgb = textures_hexToRgb(color);
+  let maxChannelOffset = 20;
   
   for (let x=0; x<32; x++) {
     for (let y=0; y<32; y++) {
@@ -339,7 +340,7 @@ function textures_drawGrunge(color, maxChannelOffset) {
 }
 
 function textures_drawStripes() {
-  textures_drawGrunge('#807218', 20);
+  textures_drawGrunge('#807218');
 
   textureContext.fillStyle = 'rgba(0, 0, 0, 0.8)';
 

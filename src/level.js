@@ -60,8 +60,8 @@ function level_initLevel1() {
   world_addPlatform(28, 34, -10, 1, 180, 200);
 
   // walls
-  world_addWallXY(10, 34, 0, 24, 240);
-  world_addWallYZ(10, 0, 24, 240, 260);
+  world_addBlocks(10, 34, 0, 24, 240, 240, TEXTURES_WALL);
+  world_addBlocks(10, 10, 0, 24, 240, 260, TEXTURES_WALL);
   
   // transition rooms
   world_addStartRoom(-11, 19, 0, 17, -18, 40);
@@ -85,7 +85,7 @@ function level_initLevel1() {
   world_addThreeCratesXY(5, 1, 170);
   world_addThreeCratesXY(25, 1, 236);
   world_addThreeCratePileYZ(-23, 1, 231);
-  world_addThreeCratePileYZ(7, 1, 249);
+  world_addThreeCratePileYZ(5, 1, 249);
   
 }
 

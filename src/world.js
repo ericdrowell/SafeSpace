@@ -101,10 +101,11 @@ function world_addStairs(startX, endX, startY, z, startZDepth, zDirection) {
 }
 
 function world_addPlatform(startX, endX, startY, endY, startZ, endZ) {
-  world_addWallXY(startX, endX, startY, endY, startZ);
-  world_addWallXY(startX, endX, startY, endY, endZ);
-  world_addWallYZ(startX, startY, endY, startZ, endZ);
-  world_addWallYZ(endX, startY, endY, startZ, endZ);
+  world_addBlocks(startX, endX, startY, endY, startZ, startZ, TEXTURES_WALL);
+  world_addBlocks(startX, endX, startY, endY, endZ, endZ, TEXTURES_WALL);
+  world_addBlocks(startX, startX, startY, endY, startZ, endZ, TEXTURES_WALL);
+  world_addBlocks(endX, endX, startY, endY, startZ, endZ, TEXTURES_WALL);
+
   world_addFrame(startX, endX, endY, startZ, endZ);
   world_addFloor(startX+1, endX-1, endY, startZ+1, endZ-1);
   world_addFrame(startX-1, endX+1, startY, startZ-1, endZ+1);
@@ -209,17 +210,17 @@ function world_addBlocks(startX, endX, startY, endY, startZ, endZ, texture) {
 }
 
 function world_addWallXY(startX, endX, startY, endY, z) {
-  world_addBlocks(startX, endX, startY, endY, z, z, TEXTURES_WALL);
+  world_addBlocks(startX, endX, startY, endY, z, z, TEXTURES_METAL_RIDGES);
 }
 
 function world_addWallYZ(x, startY, endY, startZ, endZ) {
-  world_addBlocks(x, x, startY, endY, startZ, endZ, TEXTURES_WALL);
+  world_addBlocks(x, x, startY, endY, startZ, endZ, TEXTURES_METAL_RIDGES);
 }
 
 function world_addWallRidgesYZ(x, startY, endY, startZ, endZ) {
   for (let z = startZ; z<endZ; z++) {
     if (z % 8 ===0) {
-      world_addBlocks(x, x+1, startY, endY, z, z, TEXTURES_METAL_RIDGES);
+      world_addBlocks(x, x+1, startY, endY, z, z, TEXTURES_WALL);
     }
   }
 }
@@ -258,7 +259,7 @@ function world_addCeiling(startX, endX, y, startZ, endZ) {
   // ridges
   for (let z=startZ; z<endZ; z++) {
     if (z%8===0) {
-      world_addBlocks(startX, endX, y-2, y, z, z, TEXTURES_METAL_RIDGES);
+      world_addBlocks(startX, endX, y-2, y, z, z, TEXTURES_WALL);
     }
   }
 
