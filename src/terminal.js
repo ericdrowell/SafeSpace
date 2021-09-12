@@ -16,11 +16,15 @@ const terminal_messages = [
   /* 12 */"The radioactive levels in the INFIRMARY have destabilized.  It's no longer safe.  I've sealed the doors.  We've got to get you out another way IMMEDIATELY.",
   /* 13 */"I found an alternative route.  As fast as you can, make your way to the ENGINE ROOM before the hydraulics bridge collapses.  The lower deck is rapidly filling up with poisonous gas.  Avoid at all costs.  GO NOW!!",
   /* 14 */"CLICK TO START",
+  /* 15 */"LEVEL 3",
+  /* 16 */"Dr. Heisenberg, you're almost there.  The ship is moments away from exploding.  Make your way to Bay 13, I have an escape pod waiting for you.  HURRY!",
+  /* 17 */"CLICK TO START",
 ];
 
 const terminal_levelToRange = {
   1: [7, 10],
-  2: [11, 14]
+  2: [11, 14],
+  3: [15, 17]
 };
 
 function terminal_getRangeFromLevel() {

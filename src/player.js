@@ -87,7 +87,7 @@ function player_update() {
   if (player_inZone(endZone)) {
     soundEffects_play(SOUND_EFFECTS_WIN);
     // if last level, you won the game
-    if (level === 2) {
+    if (level === 3) {
       game_setState(GAME_STATE_WIN);
     }
     // otherwise go to next intro
@@ -128,7 +128,7 @@ function player_update() {
     player.z += (Math.random() * offset - offset/2);
   }
 
-  //console.log(Math.round(player.x), Math.round(player.y), Math.round(player.z));
+  console.log(Math.round(player.x), Math.round(player.y), Math.round(player.z));
 };
 
 function player_jump() {

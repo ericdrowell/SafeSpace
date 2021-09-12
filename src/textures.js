@@ -1,6 +1,6 @@
 const TEXTURES_INVISIBLE    = -1;
 const TEXTURES_METAL_GRATES = 0;
-const TEXTURES_METAL = 1;
+const TEXTURES_BLUE_PIPE = 1;
 const TEXTURES_METAL_RIDGES = 2;
 const TEXTURES_RUST = 3;
 const TEXTURES_METAL_DUCT = 4;
@@ -12,8 +12,6 @@ const TEXTURES_WALL = 9;
 const TEXTURES_NINE_BOLT_METAL = 10;
 const TEXTURES_GREEN_METAL = 11;
 const TEXTURES_RED_PIPE = 12;
-const TEXTURES_BLUE_PIPE = 13;
-//const TEXTURES_GREEN = 14;
 
 function textures_init(callback) {
   // -------------------------------------------------------------------
@@ -63,18 +61,6 @@ function textures_init(callback) {
     });
 
     
-    return textureCanvas.toDataURL();
-  })();
-
-  // -------------------------------------------------------------------
-  // textures[TEXTURES_GREEN] = (function() {
-  //   textures_drawRect(0, 0, 32, 32, '#08300a');
-  //   return textureCanvas.toDataURL();
-  // })();
-
-  // -------------------------------------------------------------------
-  textures[TEXTURES_METAL] = (function() {
-    textures_drawGrunge('#080808');
     return textureCanvas.toDataURL();
   })();
 

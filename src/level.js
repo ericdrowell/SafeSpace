@@ -18,6 +18,9 @@ function level_init() {
   else if (level === 2) {
     level_initLevel2();
   }
+  else if (level === 3) {
+    level_initLevel3();
+  }
 
   webgl_buildBuffers();
 }
@@ -121,7 +124,7 @@ function level_initLevel2() {
 
   // transition rooms
   world_addStartRoom(-10, 10, 0, 18, -8, 70);
-  world_addEndRoom(8, 28, 2, 20, 295, 330);
+  world_addEndRoom(8, 28, 2, 20, 295, 345);
 
   // reactors
   world_addReactor(-3, -30, 10, 24, 100, 5, 8);
@@ -141,4 +144,38 @@ function level_initLevel2() {
   world_addThreeCratePileYZ(28, -1, 230);
 
 
+}
+
+function level_initLevel3() {
+  player.x = 0;
+  player.y = 0;
+  player.z = 8;
+  player.yaw = Math.PI;
+
+  // main rooms
+  world_addPoisonRoom(-20, 20, -15, 20, 51, 410);
+
+  // platforms  
+  world_addPlatform(-20, 20, -15, 0, 50, 70);
+  world_addPyramidPlatform(10, -15, 1, 92);
+  world_addCrate(-5, -10, 110);
+  world_addPyramidPlatform(-10, -15, -3, 140);
+  world_addCrate(5, -10, 140);
+  world_addPlatform(4, 16, -15, -4, 159, 171);
+  world_addPlatform(-17, 17, -15, -1, 190, 410);
+
+  // safe spaces
+  world_addSafeSpace(10, 2, 165);
+
+  // transition rooms
+  world_addStartRoom(-10, 10, 0, 18, 0, 50);
+  world_addEndRoom(-12, 12, -1, 18, 411, 440);
+
+  // reactors
+  // x, startY, coreY, endY, z, timeToNextBurst, burstDelay
+  world_addReactor(0, -1, 10, 20, 200, 4, 4);
+
+  world_addReactor(10, -1, 10, 20, 250, 300, 4);
+  world_addReactor(-10, -1, 10, 20, 300, 300, 4);
+  world_addReactor(10, -1, 10, 20, 350, 300, 4);
 }

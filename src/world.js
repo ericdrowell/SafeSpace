@@ -176,6 +176,11 @@ function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
   world_addFloor(startX, endX, startY, startZ, endZ);
 }
 
+function world_addPyramidPlatform(x, startY, endY, z) {
+  world_addPlatform(x-5, x+5, startY, endY-4, z-5, z+5);
+  world_addPlatform(x-4, x+4, endY-4, endY, z-4, z+4);
+}
+
 function world_addPoisonRoom(startX, endX, startY, endY, startZ, endZ) {
   world_addRoom(startX, endX, startY, endY, startZ, endZ);
 
