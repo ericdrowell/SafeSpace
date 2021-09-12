@@ -13,7 +13,7 @@ const terminal_messages = [
   /* 9 */"Controls:#[WASD] _Run#[Mouse] Look#[Space] Jump#[Esc] __Pause",
   /* 10 */"CLICK TO START",
   /* 11 */"LEVEL 2",
-  /* 12 */"The radioactive levels in the INFIRMARY have destabilized.  It's no longer safe.  I've sealed the doors.  We've got to get you out IMMEDIATELY.",
+  /* 12 */"The radioactive levels in the INFIRMARY have destabilized.  It's no longer safe.  I've sealed the doors.  We've got to get you out another way IMMEDIATELY.",
   /* 13 */"I found an alternative route.  As fast as you can, make your way to the ENGINE ROOM before the hydraulics bridge collapses.  The lower deck is rapidly filling up with poisonous gas.  Avoid at all costs.  GO NOW!!",
   /* 14 */"CLICK TO START",
 ];

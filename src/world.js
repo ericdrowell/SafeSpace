@@ -119,6 +119,31 @@ function world_addStartRoom(startX, endX, startY, endY, startZ, endZ) {
   startZone = endZ + 30;
 }
 
+function world_addThreeCratesXY(x, y, z) {
+  world_addCrate(x+5, y, z);
+  world_addCrate(x, y, z);
+  world_addCrate(x-4, y, z+1);
+}
+
+function world_addTwoCratesYZ(x, y, z) {
+  world_addCrate(x+1, y, z-2);
+  world_addCrate(x, y, z+3);
+}
+
+function world_addThreeCratePileYZ(x, y, z) {
+  world_addTwoCratesYZ(x, y, z)
+  world_addCrate(x+1, y+4, z);
+}
+
+function world_addCratesPile(x, y, z) {
+  world_addThreeCratesXY(x-1, y, z-4)
+  world_addThreeCratesXY(x+1, y, z)
+  world_addThreeCratesXY(x, y, z+5);
+
+  world_addThreeCratePileYZ(x-2, y+4, z);
+  world_addThreeCratePileYZ(x+2, y+4, z-1);
+}
+
 function world_addEndRoom(startX, endX, startY, endY, startZ, endZ) {
   world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, false);
   endZone = startZ + 10;
@@ -309,7 +334,7 @@ function world_moveObject(object, xChange, yChange, zChange) {
   // y movement
   let yChangeAbs = Math.abs(yChange);
   let ySign = Math.sign(yChange);
-  let yOffset = yChange > 0 ? PLAYER_HEIGHT : 0;
+  let yOffset = yChange > 0 ? PLAYER_HEIGHT+1 : 0;
 
   // down movement
   

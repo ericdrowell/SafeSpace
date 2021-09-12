@@ -68,7 +68,7 @@ function title_render() {
     hudContext.save();
     hudContext.font = '100 38px arial';
     hudContext.scale(1, 1);
-    hudContext.fillStyle = '#d3ce83';
+    hudContext.fillStyle = '#9e978b';
     hudContext.globalAlpha = 0.7;
     hudContext.fillText('CLICK TO START', 0, 240);
     hudContext.restore();

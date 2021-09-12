@@ -120,6 +120,8 @@ function player_update() {
   player.upVelocity += GRAVITY * elapsedTime / 1000;
   let distEachFrame = player.upVelocity * elapsedTime / 1000;
   world_moveObject(player, 0, distEachFrame, 0);  
+
+  console.log(Math.round(player.x), Math.round(player.y), Math.round(player.z));
 };
 
 function player_jump() {
