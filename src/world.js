@@ -162,7 +162,7 @@ function world_addTransitionRoom(startX, endX, startY, endY, startZ, endZ, isSta
   world_addDoor((endX+startX)/2, startY+2, startZ, !isStartRoom);  
 }
 
-function world_addRoomWallsCeiling(startX, endX, startY, endY, startZ, endZ) {
+function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
   world_addWallXY(startX, endX, startY, endY, startZ, startZ);
   world_addWallXY(startX, endX, startY, endY, endZ, endZ);
   world_addWallYZ(startX, startY, endY, startZ, endZ);
@@ -170,19 +170,15 @@ function world_addRoomWallsCeiling(startX, endX, startY, endY, startZ, endZ) {
   world_addCeiling(startX, endX, endY, startZ, endZ);
   world_addPipes(endX-2, endY-2, startZ, endZ);
   world_addDuct(startX+3, endY-3, startZ, endZ);
-}
-
-function world_addRoom(startX, endX, startY, endY, startZ, endZ) {
-  world_addRoomWallsCeiling(startX, endX, startY, endY, startZ, endZ)
   world_addFloor(startX, endX, startY, startZ, endZ);
 }
 
 function world_addPoisonRoom(startX, endX, startY, endY, startZ, endZ) {
-  world_addRoomWallsCeiling(startX, endX, startY, endY, startZ, endZ);
+  world_addRoom(startX, endX, startY, endY, startZ, endZ);
 
   poisonPlanes.push({
     x: (startX + endX)/2,
-    y: startY+5,
+    y: startY+3,
     z: (startZ + endZ)/2,
     scaleX: startX-endX, 
     scaleZ: endZ-startZ

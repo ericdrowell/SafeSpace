@@ -104,7 +104,7 @@ function level_initLevel2() {
   world_addStairs(45, 50, -20, 160, 10, -1);
 
   // platforms
-  world_addPlatform(-25, 33, -30, 0, 72, 82);
+  world_addPlatform(-25, 23, -30, 0, 72, 82);
   world_addPlatform(-25, -17, -30, 0, 82, 110);
   world_addPlatform(-25, -18, 0, 10, 102, 110);
   world_addPlatform(-25, -18, -30, 5, 130, 140);

@@ -92,7 +92,7 @@ function game_setState(nextState) {
     terminal_hide();
     canvas2d_show();
     game_exitPointerLock();
-    level = 1;
+    level = 2;
   }
   // title/playing -> level intro
   else if (nextState === GAME_STATE_LEVEL_INTRO) {
